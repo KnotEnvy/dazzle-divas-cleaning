@@ -2,6 +2,7 @@
 
 'use client';
 
+import '../globals.css'
 
 import Head from 'next/head'
 import Header from './Header'

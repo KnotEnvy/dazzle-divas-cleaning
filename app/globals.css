@@ -6,13 +6,54 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --diva-pink: #FF69B4;
+  --diva-blue: #000080;
+  --diva-sky: #87CEEB;
+  --diva-yellow: #FFD700;
 }
+.text-diva-pink {
+  color: var(--diva-pink);
+}
+
+.bg-diva-blue {
+  background-color: var(--diva-blue);
+}
+
+/* Add more utility classes as needed */
+.text-diva-blue {
+  color: var(--diva-blue);
+}
+
+.bg-diva-pink {
+  background-color: var(--diva-pink);
+}
+
+.text-diva-sky {
+  color: var(--diva-sky);
+}
+
+.bg-diva-sky {
+  background-color: var(--diva-sky);
+}
+
+.text-diva-yellow {
+  color: var(--diva-yellow);
+}
+
+.bg-diva-yellow {
+  background-color: var(--diva-yellow);
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+    --diva-pink: #FF69B4;
+  --diva-blue: #000080;
+  --diva-sky: #87CEEB;
+  --diva-yellow: #FFD700;
   }
 }
 

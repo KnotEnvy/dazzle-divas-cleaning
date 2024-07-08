@@ -10,7 +10,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="text-diva-pink bg-white shadow-sm">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/">
           <Image src="/logo.png" alt="Dazzle Divas Cleaning" width={150} height={50} />
