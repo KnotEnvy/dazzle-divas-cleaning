@@ -9,6 +9,7 @@ export default function ServiceCard({ title, description, icon }) {
         </div>
         <h3 className="text-xl font-bold mb-2 text-diva-pink">{title}</h3>
         <p className="text-gray-600 ">{description}</p>
+        
       </div>
     )
   }

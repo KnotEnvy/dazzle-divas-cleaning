@@ -10,17 +10,17 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="text-diva-pink bg-white shadow-sm">
+    <header className="bg-diva-pink text-diva-blue shadow-sm">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/">
-          <Image src="/logo.png" alt="Dazzle Divas Cleaning" width={150} height={50} />
+          <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning" width={100} height={25} />
         </Link>
         <div className="hidden md:flex space-x-4">
-          <Link href="#services" className="text-gray-600 hover:text-diva-pink">Services</Link>
-          <Link href="#about" className="text-gray-600 hover:text-diva-pink">About</Link>
-          <Link href="#contact" className="text-gray-600 hover:text-diva-pink">Contact</Link>
+          <Link href="#services" className="hover:text-white transition duration-300">Services</Link>
+          <Link href="#about" className="hover:text-white transition duration-300">About</Link>
+          <Link href="#contact" className="hover:text-white transition duration-300">Contact</Link>
         </div>
-        <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           Menu
         </button>
       </nav>
