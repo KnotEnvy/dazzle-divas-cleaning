@@ -6,7 +6,7 @@ const QualityFeature = ({ icon: Icon, title, description }) => (
   <div className="flex items-start bg-white bg-opacity-90 p-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
     <Icon size={24} className="text-diva-pink" />
     <div className="ml-4">
-      <h3 className="text-lg font-semibold text-diva-blue">{title}</h3>
+      <h3 className="text-lg font-semibold text-diva-pink">{title}</h3>
       <p className="text-gray-600 mt-1">{description}</p>
     </div>
   </div>
@@ -14,7 +14,7 @@ const QualityFeature = ({ icon: Icon, title, description }) => (
 
 export default function QualityAssurance() {
   return (
-    <section className="py-16 relative">
+    <section className="py-96 relative">
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/master_divas.jpg"
@@ -25,7 +25,7 @@ export default function QualityAssurance() {
         />
       </div>
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-3xl font-bold text-center mb-12 text-white bg-diva-blue bg-opacity-80 py-2 rounded-lg">Our Commitment to Quality</h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-white bg-diva-pink bg-opacity-80 py-2 rounded-lg">Our Commitment to Quality</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
           <QualityFeature 
             icon={CheckCircle}

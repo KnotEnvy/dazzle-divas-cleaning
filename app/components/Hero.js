@@ -24,10 +24,10 @@ export default function Hero() {
         <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white animate-fade-in-down">
           Transform Your Space with Dazzle Divas Cleaning
         </h1>
-        <p className="text-xl mb-8 text-white animate-fade-in-up">
+        <p className="text-xl mb-8 text-white animate-fade-in-up delay-100">
           Let our cleaning magic make your home or office sparkle!
         </p>
-        <button className="bg-diva-pink text-white font-bold py-3 px-6 rounded-full hover:bg-pink-600 transition duration-300 flex items-center justify-center mx-auto animate-bounce">
+        <button className="bg-diva-pink text-white font-bold py-3 px-6 rounded-full hover:bg-pink-600 transition duration-300 flex items-center justify-center mx-auto animate-bounce ">
           <Sparkles className="mr-2" /> Get Your Free Estimate
         </button>
       </div>

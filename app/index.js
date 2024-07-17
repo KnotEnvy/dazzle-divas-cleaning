@@ -6,7 +6,7 @@ import CleaningProcess from './components/CleaningProcess';
 import ImageShowcase from './components/ImageShowcase';
 import About from './components/About';
 import QualityAssurance from './components/QualityAssurance';
-import ContactForm from './components/ContactForm';
+import ContactSection from './components/ContactUs';
 
 export default function Main() {
   return (
@@ -17,12 +17,8 @@ export default function Main() {
       <ImageShowcase />
       <About />
       <QualityAssurance />
-      <section id="contact" className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Let's Get Your Space Dazzling!</h2>
-          <ContactForm />
-        </div>
-      </section>
+      <ContactSection />
+
     </Layout>
   );
 }

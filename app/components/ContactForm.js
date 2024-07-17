@@ -23,7 +23,7 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
       <div className="mb-4">
-        <label htmlFor="name" className="block text-diva-pink mb-2">Name</label>
+        <label htmlFor="name" className="block text-diva-blue mb-2">Name</label>
         <input
           type="text"
           id="name"
@@ -31,11 +31,11 @@ export default function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-diva-pink"
+          className="text-diva-pink w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-diva-pink"
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="email" className="block text-diva-pink mb-2">Email</label>
+        <label htmlFor="email" className="block text-diva-blue mb-2">Email</label>
         <input
           type="email"
           id="email"
@@ -43,18 +43,18 @@ export default function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-diva-pink"
+          className="text-diva-pink w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-diva-pink"
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="message" className="block text-diva-pink mb-2">Message</label>
+        <label htmlFor="message" className="block text-diva-blue mb-2">Message</label>
         <textarea
           id="message"
           name="message"
           value={formData.message}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-diva-pink"
+          className="text-diva-pink w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-diva-pink"
           rows="4"
         ></textarea>
       </div>
