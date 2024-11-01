@@ -7,7 +7,9 @@ import '../globals.css'
 import Head from 'next/head'
 import Header from './Header'
 import Footer from './Footer'
-import { useSmoothScroll } from './useSmoothScroll';
+import CustomCursor from './CustomCursor'
+
+import { useSmoothScroll } from '../hooks/useSmoothScroll';
 
 export default function Layout({ children }) {
   useSmoothScroll();
@@ -19,6 +21,7 @@ export default function Layout({ children }) {
         <meta name="description" content="Professional cleaning services in Volusia County" />
         <link rel="icon" href="/images/Divas_logo-pink.jpg" />
       </Head>
+      <CustomCursor />
       <Header className="absolute top-0 left-0 right-0 z-30"/>
       <main className="flex-grow">{children}</main>
       <Footer />

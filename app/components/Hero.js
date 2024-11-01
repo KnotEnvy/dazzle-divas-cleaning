@@ -1,13 +1,18 @@
+"use client";
+
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { useInView } from '../hooks/useInView';
 
 export default function Hero() {
+  const [ref, isInView] = useInView({ threshold: 0.1 });
+
   return (
-    <section className="relative h-screen flex items-center justify-center">
-      {/* Full-page background image */}
+    <section ref={ref} className="relative h-screen flex items-center justify-center">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/swans2_divas.jpg"
+          src="/images/swans_divas.jpg"
           alt="Dazzle Divas Best Work - Swan Origami"
           layout="fill"
           objectFit="cover"
@@ -15,21 +20,32 @@ export default function Hero() {
           priority
         />
       </div>
-      
-      {/* Overlay to ensure text readability */}
       <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
-      
-      {/* Content */}
       <div className="relative z-20 text-center px-4 max-w-4xl">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white animate-fade-in-down">
+        <motion.h1 
+          className="text-4xl md:text-6xl font-bold mb-4 text-white"
+          initial={{ opacity: 0, y: -20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           Transform Your Space with Dazzle Divas Cleaning
-        </h1>
-        <p className="text-xl mb-8 text-white animate-fade-in-up delay-100">
+        </motion.h1>
+        <motion.p 
+          className="text-xl mb-8 text-white"
+          initial={{ opacity: 0, y: -20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           Let our cleaning magic make your home or office sparkle!
-        </p>
-        <button className="bg-diva-pink text-white font-bold py-3 px-6 rounded-full hover:bg-pink-600 transition duration-300 flex items-center justify-center mx-auto animate-bounce ">
-          <Sparkles className="mr-2" /> Get Your Free Estimate
-        </button>
+        </motion.p>
+        <motion.button 
+          className="bg-diva-pink text-white font-bold py-3 px-6 rounded-full hover:bg-pink-600 transition duration-300"
+          initial={{ opacity: 0, y: -20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <Sparkles className="inline-block mr-2" /> Get Your Free Estimate
+        </motion.button>
       </div>
     </section>
   );
