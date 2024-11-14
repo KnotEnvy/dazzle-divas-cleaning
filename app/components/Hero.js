@@ -10,6 +10,17 @@ import { useInView } from '../hooks/useInView';
 export default function Hero() {
   const [ref, isInView] = useInView({ threshold: 0.1 });
 
+  const scrollToContact = (e) => {
+    e.preventDefault();
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
     <section ref={ref} className="relative h-screen flex items-center justify-center">
       <div className="absolute inset-0 z-0">
@@ -41,6 +52,7 @@ export default function Hero() {
           Let our cleaning magic make your home or office sparkle!
         </motion.p>
         <motion.button 
+          onClick={scrollToContact}
           className="bg-diva-pink text-white font-bold py-3 px-6 rounded-full hover:bg-pink-600 transition duration-300"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}

@@ -1,5 +1,5 @@
 // app/components/ContactUs.js
-// Contact us main page
+// ContactSection main page
 
 
 'use client';
