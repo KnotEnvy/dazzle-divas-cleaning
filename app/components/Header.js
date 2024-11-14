@@ -1,4 +1,4 @@
-// components/Header.js
+// app/components/Header.js
 'use client';
 
 import { useState, useEffect } from 'react'

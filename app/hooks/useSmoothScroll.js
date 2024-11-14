@@ -1,3 +1,5 @@
+// hooks/useSmoothScroll.js
+
 import { useEffect } from 'react';
 
 export function useSmoothScroll() {

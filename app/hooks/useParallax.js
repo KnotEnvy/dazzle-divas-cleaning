@@ -1,4 +1,4 @@
-// components/useParallax.js
+// hooks/useParallax.js
 
 
 import { useEffect } from 'react';

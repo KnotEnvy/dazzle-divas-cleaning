@@ -1,3 +1,5 @@
+// app/page.js
+
 import Main from './index';
 
 export default function Page() {

@@ -1,4 +1,4 @@
-// pages/index.js
+// app/index.js
 import Layout from './components/Layout';
 import Hero from './components/Hero';
 import Services from './components/Services';

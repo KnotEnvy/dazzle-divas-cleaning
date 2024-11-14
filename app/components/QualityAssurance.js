@@ -1,3 +1,5 @@
+// app/components/QualityAssurance.js
+
 import { CheckCircle, Users, Zap, TrendingUp, Award, Shield, Sparkles, Clock } from 'lucide-react';
 import Image from 'next/image';
 

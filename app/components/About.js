@@ -1,3 +1,5 @@
+// app/components/About.js
+
 import { Star, Sparkles, Heart } from 'lucide-react';
 
 const FeatureCard = ({ icon: Icon, title, description }) => (

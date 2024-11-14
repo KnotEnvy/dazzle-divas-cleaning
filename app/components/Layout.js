@@ -1,4 +1,4 @@
-// components/Layout.js
+// app/components/Layout.js
 
 'use client';
 

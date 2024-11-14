@@ -1,3 +1,5 @@
+// app/components/CleaningProcess.js
+
 'use client';
 
 import { ClipboardCheck, Feather, Bed, Bath, CookingPot, Clock, Sparkles, Shield } from 'lucide-react';

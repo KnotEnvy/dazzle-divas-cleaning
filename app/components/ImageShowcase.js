@@ -1,4 +1,4 @@
-// components/ImageShowcase.js
+// app/components/ImageShowcase.js
 
 'use client';
 
