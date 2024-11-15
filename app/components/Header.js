@@ -28,7 +28,7 @@ export default function Header() {
   ]
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gray-900 bg-opacity-30`}>
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/">
           <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning" width={100} height={25} />

@@ -101,10 +101,10 @@ export default function ContactSection() {
                 </ContactInfo>
                 <ContactInfo 
                   icon={Mail} 
-                  link="mailto:info@dazzledivas.com"
+                  link="mailto:info@dazzledivascleaning.com"
                   delay={0.6}
                 >
-                  <p>info@dazzledivas.com</p>
+                  <p>info@DazzleDivasCleaning.com</p>
                 </ContactInfo>
                 <ContactInfo 
                   icon={Phone} 

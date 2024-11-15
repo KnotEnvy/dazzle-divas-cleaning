@@ -53,12 +53,13 @@ export default function Hero() {
         </motion.p>
         <motion.button 
           onClick={scrollToContact}
-          className="bg-diva-pink text-white font-bold py-3 px-6 rounded-full hover:bg-pink-600 transition duration-300"
+          className="bg-diva-pink text-white font-bold py-3 px-6 rounded-full hover:bg-pink-600 transition duration-300 transform hover:scale-105 hover:shadow-lg group"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <Sparkles className="inline-block mr-2" /> Get Your Free Estimate
+          <Sparkles className="inline-block mr-2 group-hover:animate-spin" /> 
+          Get Your Free Estimate
         </motion.button>
       </div>
     </section>
