@@ -1,11 +1,16 @@
 // next.config.js (at project root)
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'standalone',
     images: {
-      domains: ['dazzle-divas-cleaning.vercel.app'],
       unoptimized: true,
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'dazzle-divas-cleaning.vercel.app',
+        },
+      ],
     },
+    // Remove output: 'standalone' if you had it
   };
   
   module.exports = nextConfig;

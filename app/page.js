@@ -1,6 +1,6 @@
 // app/page.js
 
-import Main from './index';
+import Main from './components/Main';
 
 export default function Page() {
   return <Main />;
