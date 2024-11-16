@@ -41,7 +41,7 @@ const ContactInfo = ({ icon: Icon, children, link, delay }) => {
 };
 
 export default function ContactSection() {
-  const [sectionRef, isInView] = useInView({ threshold: 0.1 });
+  const [sectionRef, isInView] = useInView({ threshold: 0.2 });
 
   return (
     <section ref={sectionRef} id="contact" className="relative py-48 overflow-hidden">

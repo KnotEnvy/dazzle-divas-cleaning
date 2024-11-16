@@ -13,20 +13,60 @@ const ProcessStep = ({ icon: Icon, title, description, delay }) => {
   return (
     <motion.div 
       ref={ref}
-      className="flex flex-col items-center text-center p-6 bg-white bg-opacity-90 rounded-lg shadow-lg"
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={isInView ? 
+        { opacity: 1, y: 0, scale: 1 } : 
+        { opacity: 0, y: 20, scale: 0.95 }
+      }
       transition={{ duration: 0.5, delay }}
+      className="flex flex-col items-center text-center p-6 bg-white bg-opacity-90 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out"
     >
-      <Icon size={48} className="text-diva-pink mb-4" />
-      <h3 className="text-xl font-bold text-diva-blue mt-2">{title}</h3>
-      <p className="text-gray-600 mt-2">{description}</p>
+      <motion.div
+        initial={{ scale: 0, rotate: -180 }}
+        animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+        transition={{ 
+          duration: 0.6, 
+          delay: delay + 0.2,
+          type: "spring",
+          stiffness: 200
+        }}
+      >
+        <Icon size={48} className="text-diva-pink mb-4" />
+      </motion.div>
+
+      <motion.h3
+        initial={{ opacity: 0, y: 10 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+        transition={{ duration: 0.5, delay: delay + 0.3 }}
+        className="text-xl font-bold text-diva-blue mt-2"
+      >
+        {title}
+      </motion.h3>
+
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5, delay: delay + 0.4 }}
+        className="text-gray-600 mt-2"
+      >
+        {description}
+      </motion.p>
+
+      {/* Step number indicator */}
+      {/* <motion.div
+        initial={{ scale: 0 }}
+        animate={isInView ? { scale: 1 } : { scale: 0 }}
+        transition={{ duration: 0.5, delay: delay + 0.5 }}
+        className="absolute -top-3 -right-3 w-8 h-8 bg-diva-pink rounded-full flex items-center justify-center text-white font-bold"
+      >
+        {Math.floor(delay * 10) + 1}
+      </motion.div> */}
     </motion.div>
   );
 };
 
 export default function CleaningProcess() {
-  const [sectionRef, isSectionInView] = useInView({ threshold: 0.1 });
+  const [sectionRef, isInView] = useInView({ threshold: 0.1 });
 
   const steps = [
     { 
@@ -72,31 +112,101 @@ export default function CleaningProcess() {
   ];
 
   return (
-    <section ref={sectionRef} id="process" className="relative py-96 bg-fixed bg-cover bg-center" style={{backgroundImage: "url('/images/swans2_divas.jpg')"}}>
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+    <section 
+      ref={sectionRef} 
+      id="process" 
+      className="relative py-96 bg-fixed bg-cover bg-center" 
+      style={{backgroundImage: "url('/images/swans2_divas.jpg')"}}
+    >
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 0.5 } : { opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        className="absolute inset-0 bg-black"
+      />
+
       <div className="container mx-auto px-4 relative z-10">
-        <motion.h2 
-          className="text-4xl font-bold text-center mb-12 text-white"
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
-          animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
         >
-          Our Dazzling Cleaning Process
-        </motion.h2>
-        <motion.p
-          className="text-xl text-center max-w-3xl mx-auto mb-12 text-white"
-          initial={{ opacity: 0, y: -20 }}
-          animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          At Dazzle Divas Cleaning, we've perfected our cleaning process to ensure every nook and cranny of your space sparkles. Our systematic approach, combined with attention to detail, delivers consistent, outstanding results every time.
-        </motion.p>
+          <motion.h2 
+            className="text-4xl font-bold text-center mb-8 text-white"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5 }}
+          >
+            Our Dazzling Cleaning Process
+          </motion.h2>
+
+          <motion.p
+            className="text-xl text-center max-w-3xl mx-auto mb-12 text-white"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            At Dazzle Divas Cleaning, we've perfected our cleaning process to ensure every nook and cranny of your space sparkles. Our systematic approach, combined with attention to detail, delivers consistent, outstanding results every time.
+          </motion.p>
+          
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex justify-center mb-8"
+          >
+            <Sparkles className="text-diva-pink h-8 w-8" />
+          </motion.div>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (
-            <ProcessStep key={step.title} {...step} delay={index * 0.1} />
+            <ProcessStep 
+              key={step.title} 
+              {...step} 
+              delay={index * 0.1}
+            />
           ))}
         </div>
+
+        {/* Connecting lines between steps */}
+        {/* <div className="hidden lg:block absolute inset-0 z-0">
+          <motion.svg
+            className="w-full h-full"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={isInView ? { pathLength: 1, opacity: 0.2 } : { pathLength: 0, opacity: 0 }}
+            transition={{ duration: 1.5, delay: 0.5 }}
+          >
+            <path
+              d="M100 50 L300 50 L500 50 L700 50"
+              stroke="var(--diva-pink)"
+              strokeWidth="2"
+              fill="none"
+            />
+          </motion.svg>
+        </div> */}
       </div>
+
+      {/* Decorative elements */}
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={isInView ? { opacity: 0.2, y: 0 } : { opacity: 0, y: 100 }}
+        transition={{ duration: 1, delay: 0.8 }}
+        className="absolute bottom-10 left-10 text-diva-pink"
+      >
+        <Sparkles size={120} />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: -100 }}
+        animate={isInView ? { opacity: 0.2, y: 0 } : { opacity: 0, y: -100 }}
+        transition={{ duration: 1, delay: 1 }}
+        className="absolute top-10 right-10 text-diva-pink"
+      >
+        <Sparkles size={120} />
+      </motion.div>
     </section>
   );
 }

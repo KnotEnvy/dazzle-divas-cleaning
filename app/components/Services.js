@@ -12,20 +12,46 @@ const ServiceCard = ({ icon: Icon, title, description, delay }) => {
   return (
     <motion.div 
       ref={ref}
-      className="flex flex-col items-center text-center p-6 bg-white bg-opacity-90 rounded-lg shadow-lg"
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={isInView ? 
+        { opacity: 1, y: 0, scale: 1 } : 
+        { opacity: 0, y: 20, scale: 0.95 }
+      }
       transition={{ duration: 0.5, delay }}
+      className="flex flex-col items-center text-center p-6 bg-white bg-opacity-90 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out"
     >
-      <Icon size={48} className="text-diva-pink mb-4" />
-      <h3 className="text-xl font-bold text-diva-blue mt-2">{title}</h3>
-      <p className="text-gray-600 mt-2">{description}</p>
+      <motion.div
+        initial={{ rotate: -180, opacity: 0 }}
+        animate={isInView ? { rotate: 0, opacity: 1 } : { rotate: -180, opacity: 0 }}
+        transition={{ duration: 0.6, delay: delay + 0.2 }}
+        className="mb-4"
+      >
+        <Icon size={48} className="text-diva-pink" />
+      </motion.div>
+
+      <motion.h3 
+        initial={{ opacity: 0, y: 10 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+        transition={{ duration: 0.5, delay: delay + 0.3 }}
+        className="text-xl font-bold text-diva-blue mt-2"
+      >
+        {title}
+      </motion.h3>
+
+      <motion.p 
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5, delay: delay + 0.4 }}
+        className="text-gray-600 mt-2"
+      >
+        {description}
+      </motion.p>
     </motion.div>
   );
 };
 
 export default function Services() {
-  const [ref, isInView] = useInView({ threshold: 0.05 });
+  const [sectionRef, isInView] = useInView({ threshold: 0.1 });
 
   const services = [
     { 
@@ -61,22 +87,73 @@ export default function Services() {
   ];
 
   return (
-    <section ref={ref} id="services" className="relative py-96 bg-fixed bg-cover bg-center" style={{backgroundImage: "url('/images/master2_divas.jpg')"}}>
-      <div className="absolute inset-0 bg-diva-blue opacity-85"></div>
+    <section 
+      ref={sectionRef} 
+      id="services" 
+      className="relative py-96 bg-fixed bg-cover bg-center" 
+      style={{backgroundImage: "url('/images/master2_divas.jpg')"}}
+    >
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 0.85 } : { opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        className="absolute inset-0 bg-diva-blue"
+      />
+
       <div className="container mx-auto px-4 relative z-10">
-        <motion.h2 
-          className="text-4xl font-bold text-center mb-12 text-white"
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
         >
-          Our Dazzling Services
-        </motion.h2>
+          <motion.h2 
+            className="text-4xl font-bold text-center mb-8 text-white"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5 }}
+          >
+            Our Dazzling Services
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex justify-center mb-8"
+          >
+            <Sparkles className="text-diva-pink h-8 w-8" />
+          </motion.div>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <ServiceCard key={service.title} {...service} delay={index * 0.1} />
+            <ServiceCard 
+              key={service.title} 
+              {...service} 
+              delay={index * 0.1} 
+            />
           ))}
         </div>
+
+        {/* Decorative elements */}
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          animate={isInView ? { opacity: 0.2, x: 0 } : { opacity: 0, x: -100 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="absolute left-0 top-1/4 text-diva-pink"
+        >
+          <Sparkles size={100} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={isInView ? { opacity: 0.2, x: 0 } : { opacity: 0, x: 100 }}
+          transition={{ duration: 1, delay: 0.7 }}
+          className="absolute right-0 bottom-1/4 text-diva-pink"
+        >
+          <Sparkles size={100} />
+        </motion.div>
       </div>
     </section>
   );

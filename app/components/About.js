@@ -1,16 +1,52 @@
 // app/components/About.js
 
-import { Star, Sparkles, Heart } from 'lucide-react';
+'use client';
 
-const FeatureCard = ({ icon: Icon, title, description }) => (
-  <div className="flex flex-col items-center text-center p-6 bg-white bg-opacity-90 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
-    <Icon size={48} className="text-diva-pink mb-4" />
-    <h3 className="text-xl font-bold text-diva-blue mt-2">{title}</h3>
-    <p className="text-gray-600 mt-2">{description}</p>
-  </div>
-);
+import { Star, Sparkles, Heart } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useInView } from '../hooks/useInView';
+
+const FeatureCard = ({ icon: Icon, title, description, delay }) => {
+  const [ref, isInView] = useInView({ threshold: 0.1 });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay }}
+      className="flex flex-col items-center text-center p-6 bg-white bg-opacity-90 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out"
+    >
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={isInView ? { scale: 1 } : { scale: 0 }}
+        transition={{ duration: 0.5, delay: delay + 0.2 }}
+      >
+        <Icon size={48} className="text-diva-pink mb-4" />
+      </motion.div>
+      <motion.h3
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5, delay: delay + 0.3 }}
+        className="text-xl font-bold text-diva-blue mt-2"
+      >
+        {title}
+      </motion.h3>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5, delay: delay + 0.4 }}
+        className="text-gray-600 mt-2"
+      >
+        {description}
+      </motion.p>
+    </motion.div>
+  );
+};
 
 export default function About() {
+  const [sectionRef, isInView] = useInView({ threshold: 0.1 });
+
   const features = [
     { 
       icon: Star, 
@@ -30,18 +66,63 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="relative py-96 bg-fixed bg-cover bg-center text-white" style={{backgroundImage: "url('/images/master2_divas.jpg')"}}>
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+    <section 
+      ref={sectionRef} 
+      id="about" 
+      className="relative py-96 bg-fixed bg-cover bg-center text-white" 
+      style={{backgroundImage: "url('/images/master2_divas.jpg')"}}
+    >
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 0.5 } : { opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        className="absolute inset-0 bg-black"
+      />
+      
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-4xl font-bold text-center mb-12 text-white animate-fade-in-up">The Dazzle Divas Difference</h2>
-        <p className="text-xl text-center max-w-3xl mx-auto mb-12 text-white animate-fade-in-up delay-100">
-          For over two decades, Dazzle Divas Cleaning has been more than just a cleaning service – we've been your partners in creating healthier, brighter spaces. Our passion for perfection, commitment to sustainability, and dedication to customer satisfaction set us apart in the industry. We don't just clean; we transform spaces and elevate lifestyles.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.6 }}
+          className="text-center"
+        >
+          
+          <motion.h2 
+            className="text-4xl font-bold text-center mb-12 text-white"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5 }}
+          >
+            The Dazzle Divas Difference
+          </motion.h2>
+          
+          
+          <motion.p 
+            className="text-xl text-center max-w-3xl mx-auto mb-12 text-white"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            For over two decades, Dazzle Divas Cleaning has been more than just a cleaning service – we've been your partners in creating healthier, brighter spaces. Our passion for perfection, commitment to sustainability, and dedication to customer satisfaction set us apart in the industry. We don't just clean; we transform spaces and elevate lifestyles.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex justify-center mb-8"
+          >
+            <Sparkles className="text-diva-pink h-8 w-8" />
+          </motion.div>
+          
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div key={feature.title} className={`animate-fade-in-up delay-${(index + 2) * 100}`}>
-              <FeatureCard {...feature} />
-            </div>
+            <FeatureCard 
+              key={feature.title} 
+              {...feature} 
+              delay={index * 0.2}
+            />
           ))}
         </div>
       </div>
