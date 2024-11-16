@@ -103,7 +103,7 @@ export default function About() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            For over two decades, Dazzle Divas Cleaning has been more than just a cleaning service – we've been your partners in creating healthier, brighter spaces. Our passion for perfection, commitment to sustainability, and dedication to customer satisfaction set us apart in the industry. We don't just clean; we transform spaces and elevate lifestyles.
+            For over two decades, Dazzle Divas Cleaning has been more than just a cleaning service – we&apos;ve been your partners in creating healthier, brighter spaces. Our passion for perfection, commitment to sustainability, and dedication to customer satisfaction set us apart in the industry. We don&apos;t just clean; we transform spaces and elevate lifestyles.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
