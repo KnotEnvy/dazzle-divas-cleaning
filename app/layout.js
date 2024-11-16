@@ -9,6 +9,8 @@ export const metadata = {
   title: "Dazzle Divas Cleaning | Professional Cleaning Services in Volusia County",
   description: "Expert vacation rental & residential cleaning services in Volusia County. Licensed, insured, and trusted by homeowners and property managers since 2004.",
   keywords: "cleaning service, vacation rental cleaning, house cleaning, Volusia County, Daytona Beach",
+  metadataBase: new URL('https://dazzle-divas-cleaning.vercel.app'),
+
   openGraph: {
     title: "Dazzle Divas Cleaning LLC",
     description: "Transform your space with Volusia County's premier cleaning service",
