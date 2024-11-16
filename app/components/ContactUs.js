@@ -59,7 +59,7 @@ export default function ContactSection() {
         >
           <Sparkles className="text-diva-pink mr-3 h-8 w-8" />
           <h2 className="text-5xl font-bold text-center text-white">
-            Let's Get Your Space <span className="text-diva-pink">Dazzling!</span>
+          Let&apos;s Get Your Space <span className="text-diva-pink">Dazzling!</span>
           </h2>
           <Sparkles className="text-diva-pink ml-3 h-8 w-8" />
         </motion.div>

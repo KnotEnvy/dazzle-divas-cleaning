@@ -147,7 +147,7 @@ export default function CleaningProcess() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            At Dazzle Divas Cleaning, we've perfected our cleaning process to ensure every nook and cranny of your space sparkles. Our systematic approach, combined with attention to detail, delivers consistent, outstanding results every time.
+            At Dazzle Divas Cleaning, We&apos;ve perfected our cleaning process to ensure every nook and cranny of your space sparkles. Our systematic approach, combined with attention to detail, delivers consistent, outstanding results every time.
           </motion.p>
           
 

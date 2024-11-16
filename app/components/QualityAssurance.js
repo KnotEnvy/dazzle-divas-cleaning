@@ -127,7 +127,7 @@ export default function QualityAssurance() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            At Dazzle Divas Cleaning, quality isn't just a promise – it's our passion. Every clean is an opportunity to exceed expectations and redefine what clean truly means. Our rigorous quality assurance process ensures that your space doesn't just look clean, it feels clean, smells clean, and promotes a healthier environment for all who enter.
+            At Dazzle Divas Cleaning, quality isn&apos;t just a promise – it&apos;s our passion. Every clean is an opportunity to exceed expectations and redefine what clean truly means. Our rigorous quality assurance process ensures that your space doesn&apos;t just look clean, it feels clean, smells clean, and promotes a healthier environment for all who enter.
           </motion.p>
           
         </motion.div>

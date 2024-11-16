@@ -1,25 +1,30 @@
-// hooks/useInView.js
+// app/hooks/useInView.js
+
 import { useState, useEffect, useRef } from 'react';
 
-export function useInView(options = {}) {
+export function useInView({ threshold = 0 } = {}) {
   const [isInView, setIsInView] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsInView(entry.isIntersecting);
-    }, options);
+    const currentRef = ref.current; // Store ref.current in a variable
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold }
+    );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (currentRef) {
+        observer.unobserve(currentRef); // Use stored reference
       }
     };
-  }, [ref, options]);
+  }, [threshold]);
 
   return [ref, isInView];
 }

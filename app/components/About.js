@@ -51,7 +51,7 @@ export default function About() {
     { 
       icon: Star, 
       title: "Expert Team", 
-      description: "Our professional cleaners are more than just staff – they're cleaning artisans. Rigorously trained and passionate about their craft, each team member is committed to delivering excellence in every task, no matter how small." 
+      description: "Our professional cleaners are more than just staff – they&apos;re cleaning artisans. Rigorously trained and passionate about their craft, each team member is committed to delivering excellence in every task, no matter how small." 
     },
     { 
       icon: Sparkles, 
