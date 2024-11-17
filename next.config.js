@@ -6,7 +6,7 @@ const nextConfig = {
       remotePatterns: [
         {
           protocol: 'https',
-          hostname: 'dazzle-divas-cleaning.vercel.app',
+          hostname: 'dazzledivascleaning.vercel.app/',
         },
       ],
     },
