@@ -76,3 +76,32 @@ body {
 .delay-100 { animation-delay: 100ms; }
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
+
+
+/* 1. Prevent layout shifts during font loading */
+html {
+  font-display: optional;
+}
+
+/* 2. Ensure smooth animations */
+* {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3. Prevent unwanted margin collapse */
+.prevent-collapse {
+  display: flow-root;
+}
+
+/* 4. Optimize for GPU */
+.gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* 5. Force height calculations */
+.force-height {
+  contain: size layout;
+  content-visibility: auto;
+}
