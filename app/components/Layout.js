@@ -1,14 +1,11 @@
 // app/components/Layout.js
-
 'use client';
 
 import '../globals.css'
-
 import Head from 'next/head'
 import Header from './Header'
 import Footer from './Footer'
 import CustomCursor from './CustomCursor'
-
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
 
 export default function Layout({ children }) {

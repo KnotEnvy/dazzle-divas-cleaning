@@ -3,7 +3,7 @@
 'use client';
 
 import { CheckCircle, Users, Zap, TrendingUp, Award, Shield, Sparkles, Clock } from 'lucide-react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { motion } from 'framer-motion';
 import { useInView } from '../hooks/useInView';
 
@@ -94,7 +94,10 @@ export default function QualityAssurance() {
           layout="fill"
           objectFit="cover"
           quality={100}
-          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        priority={true} // For above-the-fold images
+        className="transition-opacity duration-300"
+        style={{ transform: 'translateZ(0)' }} // Force GPU acceleration
         />
       </div>
       

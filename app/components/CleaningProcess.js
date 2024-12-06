@@ -3,7 +3,7 @@
 'use client';
 
 import { ClipboardCheck, Feather, Bed, Bath, CookingPot, Clock, Sparkles, Shield } from 'lucide-react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { motion } from 'framer-motion';
 import { useInView } from '../hooks/useInView';
 

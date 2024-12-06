@@ -3,7 +3,7 @@
 'use client';
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react';
 
@@ -31,7 +31,7 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gray-900 bg-opacity-30`}>
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/">
-          <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning" width={100} height={25} />
+          <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning" width={75} height={75} />
         </Link>
         <div className="hidden md:flex space-x-6">
           {navLinks.map((link) => (

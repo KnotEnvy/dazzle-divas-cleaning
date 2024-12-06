@@ -3,7 +3,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
@@ -44,6 +44,8 @@ const ImageItem = ({ src, alt, onClick, index, isVisible, delay }) => {
           objectFit="cover"
           className="transition-opacity duration-500"
           priority={index < 4}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          style={{ transform: 'translateZ(0)' }} // Force GPU acceleration
         />
       </motion.div>
 
