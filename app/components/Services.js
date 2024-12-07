@@ -92,6 +92,8 @@ export default function Services() {
       id="services" 
       className="relative py-96 bg-fixed bg-cover bg-center" 
       style={{backgroundImage: "url('/images/master2_divas.jpg')"}}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
     >
       <motion.div 
         initial={{ opacity: 0 }}
