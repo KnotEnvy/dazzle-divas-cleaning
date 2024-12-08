@@ -11,13 +11,29 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    // Throttle scroll event
+    let timeout;
+    const throttledScroll = () => {
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          handleScroll();
+          timeout = null;
+        }, 100);
+      }
+    };
+
+    window.addEventListener('scroll', throttledScroll);
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+      if (timeout) clearTimeout(timeout);
+    };
+  }, []);
 
   const navLinks = [
     { href: "#services", label: "Services" },
@@ -25,7 +41,7 @@ export default function Header() {
     { href: "#about", label: "About Us" },
     { href: "#quality", label: "Quality Assurance" },
     { href: "#contact", label: "Contact" },
-  ]
+  ];
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gray-900 bg-opacity-30`}>

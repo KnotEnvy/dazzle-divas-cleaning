@@ -197,7 +197,7 @@ export default function ContactForm() {
         email: '',
         phone: '',
         message: '',
-        serviceType: 'residential'
+        serviceType: 'vacation'
       });
       setErrors({});
 

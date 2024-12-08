@@ -60,6 +60,11 @@ export default function Services() {
       description: "Experience the Dazzle Divas difference in your home. Our thorough and reliable home cleaning services are tailored to your specific needs. From daily touch-ups to deep cleans, we ensure your living space is always a sparkling sanctuary."
     },
     { 
+      icon: Flower2, 
+      title: "Vacation Rental Turnover", 
+      description: "Maximize your rental property's potential with our specialized turnover cleaning. We ensure every inch is spotless and welcoming for your next guests, helping you maintain top ratings and repeat bookings."
+    },
+    { 
       icon: Building, 
       title: "Office Cleaning", 
       description: "Boost productivity with a pristine workplace. Our professional office cleaning services cover everything from desk areas to conference rooms. We work around your schedule to minimize disruptions and maximize cleanliness."
@@ -73,11 +78,6 @@ export default function Services() {
       icon: Recycle, 
       title: "Green Cleaning", 
       description: "Clean conscientiously with our eco-friendly options. We use environmentally safe products and sustainable practices to give you a spotless space without harming the planet. Choose green for a healthier home and office."
-    },
-    { 
-      icon: Flower2, 
-      title: "Vacation Rental Turnover", 
-      description: "Maximize your rental property's potential with our specialized turnover cleaning. We ensure every inch is spotless and welcoming for your next guests, helping you maintain top ratings and repeat bookings."
     },
     { 
       icon: Wrench, 
