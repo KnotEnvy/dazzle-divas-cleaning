@@ -40,6 +40,7 @@ export default function Header() {
     { href: "#process", label: "Our Process" },
     { href: "#about", label: "About Us" },
     { href: "#quality", label: "Quality Assurance" },
+    { href: "#testimonials", label: "Testimonials" },
     { href: "#contact", label: "Contact" },
   ];
 

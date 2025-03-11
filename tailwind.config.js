@@ -1,5 +1,3 @@
-// tailwind.config.js
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -17,6 +15,7 @@ module.exports = {
       animation: {
         'fade-in-down': 'fadeInDown 1s ease-out',
         'fade-in-up': 'fadeInUp 1s ease-out',
+        'float': 'float 2s ease-in-out infinite', // New floating animation
       },
       keyframes: {
         fadeInDown: {
@@ -27,9 +26,12 @@ module.exports = {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        float: { // New keyframe for floating animation
+          '0%, 100%': { transform: 'translateY(-10px)' },
+          '50%': { transform: 'translateY(10px)' },
+        },
       },
     },
   },
   plugins: [],
-}
-
+};
