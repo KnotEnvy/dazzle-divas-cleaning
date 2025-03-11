@@ -1,15 +1,14 @@
 // app/components/QualityAssurance.js
 
-'use client';
+"use client";
 
-import { CheckCircle, Users, Zap, TrendingUp, Award, Shield, Sparkles, Clock } from 'lucide-react';
-import Image from "next/legacy/image";
-import { motion } from 'framer-motion';
-import { useInView } from '../hooks/useInView';
+import { CheckCircle, Users, Zap, TrendingUp, Award, Shield, Sparkles, Clock } from "lucide-react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { useInView } from "../hooks/useInView";
 
 const QualityFeature = ({ icon: Icon, title, description, delay }) => {
   const [ref, isInView] = useInView({ threshold: 0.1 });
-
   return (
     <motion.div
       ref={ref}
@@ -25,8 +24,7 @@ const QualityFeature = ({ icon: Icon, title, description, delay }) => {
       >
         <Icon size={48} className="text-diva-pink mb-4" />
       </motion.div>
-      
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.5, delay: delay + 0.3 }}
@@ -41,48 +39,47 @@ const QualityFeature = ({ icon: Icon, title, description, delay }) => {
 
 export default function QualityAssurance() {
   const [sectionRef, isInView] = useInView({ threshold: 0.1 });
-
   const qualityFeatures = [
     {
       icon: CheckCircle,
       title: "Comprehensive Checklists",
-      description: "Our detailed, room-specific checklists ensure consistent, thorough cleaning every time. From baseboards to light fixtures, nothing is overlooked."
+      description: "Every guest space is prepared with detailed checklists ensuring cleanliness, comfort, and a welcoming atmosphere.",
     },
     {
       icon: Users,
-      title: "Continuous Training",
-      description: "Our team undergoes regular training on the latest cleaning techniques, safety protocols, and customer service best practices to stay at the forefront of the industry."
+      title: "Specialized Training",
+      description: "Our team receives ongoing training in hospitality standards, ensuring every guest experience exceeds expectations.",
     },
     {
       icon: Zap,
       title: "Quality Control Inspections",
-      description: "Regular, unannounced quality control checks by our management team ensure our high standards are consistently met and exceeded."
+      description: "Regular inspections guarantee that each rental is guest-ready, maintaining high standards with every visit.",
     },
     {
       icon: TrendingUp,
-      title: "Customer Feedback Integration",
-      description: "We actively seek and incorporate client feedback into our processes, constantly evolving to meet and exceed expectations."
+      title: "Guest Feedback Integration",
+      description: "We actively incorporate host and guest feedback to continually enhance our services and guest satisfaction.",
     },
     {
       icon: Award,
-      title: "Industry-Leading Expertise",
-      description: "With over 20 years of combined experience, our cleaning specialists bring unparalleled knowledge and skill to every job, big or small."
+      title: "Hospitality Expertise",
+      description: "With years of experience in the hospitality industry, our experts know how to create a memorable guest experience.",
     },
     {
       icon: Shield,
-      title: "Fully Insured and Bonded",
-      description: "Your peace of mind is our priority. We're fully insured and bonded, providing complete protection for your property and possessions."
+      title: "Fully Insured & Bonded",
+      description: "Rest easy knowing your property is protected by our comprehensive insurance, designed for high-turnover rental environments.",
     },
     {
       icon: Sparkles,
-      title: "Eco-Friendly Products",
-      description: "We use environmentally friendly, non-toxic cleaning products that are tough on dirt but gentle on your family, pets, and the planet."
+      title: "Eco-Friendly Solutions",
+      description: "We use green cleaning products that are safe for guests, families, and the environment.",
     },
     {
       icon: Clock,
-      title: "Timely and Reliable Service",
-      description: "We respect your time and schedule. Our team arrives promptly and completes tasks efficiently without compromising on quality."
-    }
+      title: "Timely Service",
+      description: "Our prompt and reliable service ensures your rental is always ready for guest check-in.",
+    },
   ];
 
   return (
@@ -91,23 +88,21 @@ export default function QualityAssurance() {
         <Image
           src="/images/master_divas.jpg"
           alt="Quality background"
-          layout="fill"
+          fill
           objectFit="cover"
           quality={100}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        priority={true} // For above-the-fold images
-        className="transition-opacity duration-300"
-        style={{ transform: 'translateZ(0)' }} // Force GPU acceleration
+          priority={true}
+          className="transition-opacity duration-300"
+          style={{ transform: "translateZ(0)" }}
         />
       </div>
-      
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 0.5 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
         className="absolute inset-0 bg-black z-5"
       />
-
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -115,46 +110,37 @@ export default function QualityAssurance() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-bold text-center mb-8 text-white"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5 }}
           >
-            Our Unwavering Commitment to Quality
+            Our Commitment to Guest-Ready Quality
           </motion.h2>
-          
-          <motion.p 
+          <motion.p
             className="text-xl text-center max-w-3xl mx-auto text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            At Dazzle Divas Cleaning, quality isn&apos;t just a promise – it&apos;s our passion. Every clean is an opportunity to exceed expectations and redefine what clean truly means. Our rigorous quality assurance process ensures that your space doesn&apos;t just look clean, it feels clean, smells clean, and promotes a healthier environment for all who enter.
+            At Dazzle Divas, we understand that every detail matters. Our rigorous quality checks ensure your rental is always guest-ready.
           </motion.p>
-          
         </motion.div>
         <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-center mb-8"
-          >
-            <Sparkles className="text-diva-pink h-8 w-8" />
-          </motion.div>
-
+          initial={{ opacity: 0, scale: 0 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex justify-center mb-8"
+        >
+          <Sparkles className="text-diva-pink h-8 w-8" />
+        </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {qualityFeatures.map((feature, index) => (
-            <QualityFeature 
-              key={feature.title} 
-              {...feature} 
-              delay={index * 0.1} 
-            />
+            <QualityFeature key={feature.title} {...feature} delay={index * 0.1} />
           ))}
         </div>
       </div>
-
-      {/* Add decorative elements */}
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
@@ -163,7 +149,6 @@ export default function QualityAssurance() {
       >
         <Sparkles size={120} />
       </motion.div>
-      
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}

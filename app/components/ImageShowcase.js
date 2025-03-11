@@ -1,19 +1,17 @@
-// app/components/ImageShowcase.js
+"use client";
 
-'use client';
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, ZoomIn, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { useInView } from "../hooks/useInView";
 
-import { useState, useEffect } from 'react';
-import Image from "next/legacy/image";
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ZoomIn, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
-import { useInView } from '../hooks/useInView';
-
-const ImageItem = ({ src, alt, onClick, index, isVisible, delay }) => {
+const ImageItem = ({ src, alt, onClick, index, delay }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [ref, inView] = useInView({ threshold: 0.2 });
 
   return (
-    <motion.div 
+    <motion.div
       ref={ref}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
@@ -30,27 +28,24 @@ const ImageItem = ({ src, alt, onClick, index, isVisible, delay }) => {
         transition={{ duration: 0.3 }}
       />
 
-      <motion.div 
+      <motion.div
         className="absolute inset-0 z-0"
-        animate={{
-          scale: isHovered ? 1.1 : 1,
-        }}
+        animate={{ scale: isHovered ? 1.1 : 1 }}
         transition={{ duration: 0.4 }}
       >
         <Image
           src={src}
           alt={alt}
-          layout="fill"
+          fill
           objectFit="cover"
           className="transition-opacity duration-500"
           priority={index < 4}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{ transform: 'translateZ(0)' }} // Force GPU acceleration
+          style={{ transform: "translateZ(0)" }}
         />
       </motion.div>
 
-      {/* Hover overlay content */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 text-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: isHovered ? 1 : 0 }}
@@ -73,7 +68,6 @@ const ImageItem = ({ src, alt, onClick, index, isVisible, delay }) => {
         </motion.h3>
       </motion.div>
 
-      {/* Corner decorations */}
       <motion.div
         className="absolute top-0 left-0 w-16 h-16 pointer-events-none"
         initial={{ opacity: 0 }}
@@ -100,23 +94,23 @@ const ImageItem = ({ src, alt, onClick, index, isVisible, delay }) => {
 const Modal = ({ image, onClose, onPrev, onNext, hasNext, hasPrev }) => {
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowLeft' && hasPrev) onPrev();
-      if (e.key === 'ArrowRight' && hasNext) onNext();
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft" && hasPrev) onPrev();
+      if (e.key === "ArrowRight" && hasNext) onNext();
     };
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
   }, [onClose, onPrev, onNext, hasNext, hasPrev]);
 
   return (
-    <motion.div 
+    <motion.div
       className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
-      <motion.div 
+      <motion.div
         className="relative max-w-7xl max-h-[90vh] w-full mx-4"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -124,25 +118,23 @@ const Modal = ({ image, onClose, onPrev, onNext, hasNext, hasPrev }) => {
         transition={{ type: "spring", damping: 25 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image container with animation */}
-        <motion.div 
+        <motion.div
           className="relative aspect-video rounded-lg overflow-hidden"
           layoutId={`image-${image.src}`}
         >
           <Image
             src={image.src}
             alt={image.alt}
-            layout="fill"
+            fill
             objectFit="cover"
             className="rounded-lg"
           />
         </motion.div>
-
-        {/* Navigation buttons */}
         <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4">
           {hasPrev && (
             <motion.button
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              className="p-2 rounded-full bg-diva-pink/10 hover:bg-diva-pink/20 transition-colors"
+              aria-label="Previous image"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={(e) => {
@@ -150,12 +142,13 @@ const Modal = ({ image, onClose, onPrev, onNext, hasNext, hasPrev }) => {
                 onPrev();
               }}
             >
-              <ChevronLeft className="w-8 h-8 text-white" />
+              <ChevronLeft className="w-8 h-8 text-diva-pink" />
             </motion.button>
           )}
           {hasNext && (
             <motion.button
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              className="p-2 rounded-full bg-diva-pink/10 hover:bg-diva-pink/20 transition-colors"
+              aria-label="Next image"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={(e) => {
@@ -163,22 +156,18 @@ const Modal = ({ image, onClose, onPrev, onNext, hasNext, hasPrev }) => {
                 onNext();
               }}
             >
-              <ChevronRight className="w-8 h-8 text-white" />
+              <ChevronRight className="w-8 h-8 text-diva-pink" />
             </motion.button>
           )}
         </div>
-
-        {/* Close button */}
         <motion.button
-          className="absolute -top-12 right-0 p-2 text-white hover:text-diva-pink transition-colors"
+          className="absolute -top-12 right-0 p-2 text-diva-pink hover:text-diva-pink transition-colors"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={onClose}
         >
           <X className="w-8 h-8" />
         </motion.button>
-
-        {/* Image caption */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -197,21 +186,23 @@ export default function ImageShowcase() {
   const [ref, isInView] = useInView({ threshold: 0.1 });
 
   const images = [
-    { src: "/images/livingroom_divas.jpg", alt: "Clean living room" },
-    { src: "/images/diningRoom_divas.jpg", alt: "Tidy dining room" },
-    { src: "/images/bath2_divas.jpg", alt: "Sparkling bathroom" },
-    { src: "/images/swans2_divas.jpg", alt: "Origami swan special" },
-    { src: "/images/crabs_divas.jpg", alt: "Spotless kitchen" },
-    { src: "/images/elep_divas.jpg", alt: "Origami elephant special" },
-    { src: "/images/livingroom2_divas.jpg", alt: "Beautiful living room" },
-    { src: "/images/smCrab_divas.jpg", alt: "Origami crab special" },
-    { src: "/images/blueCrab_divas.jpg", alt: "Origami blue crab special" },
-    { src: "/images/backtard_divas.jpg", alt: "Backyard touchup" },
-    { src: "/images/stairsOcean_divas.jpg", alt: "Great ocean view" },
-    { src: "/images/swansAngle_divas.jpg", alt: "Origami swans special" },
+    { src: "/images/livingroom_divas.jpg", alt: "Pristine guest living room" },
+    { src: "/images/diningRoom_divas.jpg", alt: "Inviting dining area for guests" },
+    { src: "/images/bath2_divas.jpg", alt: "Sparkling guest bathroom" },
+    { src: "/images/swans2_divas.jpg", alt: "Elegant guest welcome area" },
+    { src: "/images/crabs_divas.jpg", alt: "Spotless kitchen for vacation rentals" },
+    { src: "/images/elep_divas.jpg", alt: "Unique decor detail to impress guests" },
+    { src: "/images/livingroom2_divas.jpg", alt: "Spacious guest lounge" },
+    { src: "/images/smCrab_divas.jpg", alt: "Immaculate guest preparation" },
+    { src: "/images/blueCrab_divas.jpg", alt: "Modern guest-friendly ambiance" },
+    { src: "/images/backtard_divas.jpg", alt: "Beautifully maintained outdoor space" },
+    { src: "/images/stairsOcean_divas.jpg", alt: "Scenic view from guest space" },
+    { src: "/images/swansAngle_divas.jpg", alt: "Stylish guest interior details" },
   ];
 
-  const currentIndex = selectedImage ? images.findIndex(img => img.src === selectedImage.src) : -1;
+  const currentIndex = selectedImage
+    ? images.findIndex((img) => img.src === selectedImage.src)
+    : -1;
 
   const handlePrev = () => {
     if (currentIndex > 0) {
@@ -226,8 +217,10 @@ export default function ImageShowcase() {
   };
 
   return (
-    <section ref={ref} className="relative py-24 bg-gradient-to-br from-diva-sky to-gray-400 overflow-hidden">
-      {/* Background decorative elements */}
+    <section
+      ref={ref}
+      className="relative py-24 bg-gradient-to-br from-diva-sky to-gray-400 overflow-hidden"
+    >
       <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 0.1 } : { opacity: 0 }}
@@ -237,7 +230,6 @@ export default function ImageShowcase() {
         <div className="absolute top-0 left-0 w-64 h-64 bg-diva-pink rounded-full filter blur-3xl" />
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-diva-blue rounded-full filter blur-3xl" />
       </motion.div>
-
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -253,8 +245,7 @@ export default function ImageShowcase() {
           >
             <Sparkles className="text-diva-pink w-12 h-12" />
           </motion.div>
-          
-          <motion.h2 
+          <motion.h2
             className="text-5xl font-bold text-center mb-6 text-diva-blue"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -262,7 +253,6 @@ export default function ImageShowcase() {
           >
             Our Dazzling Results
           </motion.h2>
-          
           <motion.div
             initial={{ width: 0 }}
             animate={isInView ? { width: "100%" } : { width: 0 }}
@@ -270,7 +260,6 @@ export default function ImageShowcase() {
             className="h-px bg-gradient-to-r from-transparent via-diva-pink to-transparent max-w-md mx-auto mb-8"
           />
         </motion.div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {images.map((image, index) => (
             <ImageItem
@@ -283,7 +272,6 @@ export default function ImageShowcase() {
           ))}
         </div>
       </div>
-
       <AnimatePresence>
         {selectedImage && (
           <Modal

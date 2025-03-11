@@ -1,14 +1,13 @@
 // app/components/About.js
 
-'use client';
+"use client";
 
-import { Star, Sparkles, Heart } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useInView } from '../hooks/useInView';
+import { Star, Sparkles, Heart } from "lucide-react";
+import { motion } from "framer-motion";
+import { useInView } from "../hooks/useInView";
 
 const FeatureCard = ({ icon: Icon, title, description, delay }) => {
   const [ref, isInView] = useInView({ threshold: 0.1 });
-
   return (
     <motion.div
       ref={ref}
@@ -46,39 +45,40 @@ const FeatureCard = ({ icon: Icon, title, description, delay }) => {
 
 export default function About() {
   const [sectionRef, isInView] = useInView({ threshold: 0.1 });
-
   const features = [
-    { 
-      icon: Star, 
-      title: "Expert Team", 
-      description: "Our professional cleaners are more than just staff – they're cleaning artisans. Rigorously trained and passionate about their craft, each team member is committed to delivering excellence in every task, no matter how small." 
+    {
+      icon: Star,
+      title: "Expert Team",
+      description:
+        "Our professional cleaners are experts in hospitality, dedicated to creating exceptional guest experiences in every rental.",
     },
-    { 
-      icon: Sparkles, 
-      title: "Attention to Detail", 
-      description: "At Dazzle Divas, we believe that true cleanliness lies in the details. Our meticulous approach ensures that every surface shines, every corner is dust-free, and every space is refreshed to perfection. Your satisfaction is in the details, and we never overlook them." 
+    {
+      icon: Sparkles,
+      title: "Unmatched Attention to Detail",
+      description:
+        "Every corner, surface, and amenity is meticulously cared for, ensuring your guests feel right at home from the moment they arrive.",
     },
-    { 
-      icon: Heart, 
-      title: "Customer-Centric Approach", 
-      description: "Your happiness is our mission. We listen to your needs, adapt to your preferences, and go above and beyond to exceed your expectations. Our success is measured by your smile when you step into your freshly cleaned space." 
-    }
+    {
+      icon: Heart,
+      title: "Guest-Centric Approach",
+      description:
+        "We prioritize your guests' comfort and satisfaction, tailoring our services to meet the unique needs of rental properties.",
+    },
   ];
 
   return (
-    <section 
-      ref={sectionRef} 
-      id="about" 
-      className="relative py-96 bg-fixed bg-cover bg-center text-white" 
-      style={{backgroundImage: "url('/images/master2_divas.jpg')"}}
+    <section
+      ref={sectionRef}
+      id="about"
+      className="relative py-96 bg-fixed bg-cover bg-center text-white"
+      style={{ backgroundImage: "url('/images/master2_divas.jpg')" }}
     >
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 0.5 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
         className="absolute inset-0 bg-black"
       />
-      
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -86,8 +86,7 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-bold text-center mb-12 text-white"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
@@ -95,15 +94,13 @@ export default function About() {
           >
             The Dazzle Divas Difference
           </motion.h2>
-          
-          
-          <motion.p 
+          <motion.p
             className="text-xl text-center max-w-3xl mx-auto mb-12 text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            For over two decades, Dazzle Divas Cleaning has been more than just a cleaning service – we&apos;ve been your partners in creating healthier, brighter spaces. Our passion for perfection, commitment to sustainability, and dedication to customer satisfaction set us apart in the industry. We don&apos;t just clean; we transform spaces and elevate lifestyles.
+            With decades of experience in hospitality cleaning, we transform rental properties into inviting, guest-ready spaces that leave a lasting impression.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
@@ -113,16 +110,10 @@ export default function About() {
           >
             <Sparkles className="text-diva-pink h-8 w-8" />
           </motion.div>
-          
         </motion.div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <FeatureCard 
-              key={feature.title} 
-              {...feature} 
-              delay={index * 0.2}
-            />
+            <FeatureCard key={feature.title} {...feature} delay={index * 0.2} />
           ))}
         </div>
       </div>
