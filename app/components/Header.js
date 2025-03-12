@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
@@ -60,19 +61,26 @@ export default function Header() {
         </button>
       </nav>
       {isMenuOpen && (
-        <div className="md:hidden bg-diva-pink">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="block py-2 px-4 text-gray-800 hover:bg-gray-100"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
+  <motion.div 
+    initial={{ height: 0, opacity: 0 }}
+    animate={{ height: 'auto', opacity: 1 }}
+    exit={{ height: 0, opacity: 0 }}
+    className="md:hidden bg-diva-blue bg-opacity-95 absolute left-0 right-0 z-50 shadow-xl"
+  >
+    <div className="py-4 px-2">
+      {navLinks.map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          className="block py-3 px-4 text-white hover:text-diva-pink border-b border-gray-700 transition-colors"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          {link.label}
+        </Link>
+      ))}
+    </div>
+  </motion.div>
+)}
     </header>
   );
 }
