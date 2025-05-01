@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "../hooks/useInView";
 import { Star } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -56,17 +57,17 @@ export default function Testimonials() {
   const direction = useState(1);
   const autoSlideInterval = useRef(null);
 
+  const handleNext = () => {
+    setCurrent((prev) => (prev + 1) % testimonials.length);
+    direction.current = 1;
+  };
+
   useEffect(() => {
     autoSlideInterval.current = setInterval(() => {
       handleNext();
     }, 4000);
     return () => clearInterval(autoSlideInterval.current);
-  }, []);
-
-  const handleNext = () => {
-    setCurrent((prev) => (prev + 1) % testimonials.length);
-    direction.current = 1;
-  };
+  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePrev = () => {
     setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
@@ -123,11 +124,15 @@ export default function Testimonials() {
                   }}
                   className="absolute w-full h-full flex flex-col items-center justify-center bg-white rounded-lg shadow-lg p-6 text-center"
                 >
-                  <img
-                    src={testimonials[current].image}
-                    alt={testimonials[current].name}
-                    className="w-16 h-16 rounded-full mb-4 shadow-md"
-                  />
+                  <div className="relative w-16 h-16 rounded-full mb-4 shadow-md overflow-hidden">
+                    <Image
+                      src={testimonials[current].image}
+                      alt={testimonials[current].name}
+                      fill
+                      sizes="64px"
+                      className="object-cover"
+                    />
+                  </div>
                   <StarRating rating={testimonials[current].rating} />
                   <p className="text-gray-600 italic mb-4">
                     {testimonials[current].feedback}
@@ -156,11 +161,15 @@ export default function Testimonials() {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="p-6 bg-white rounded-lg shadow-lg text-center transform hover:scale-105 transition-transform"
             >
-              <img
-                src={testimonial.image}
-                alt={testimonial.name}
-                className="w-16 h-16 rounded-full mb-4 shadow-md"
-              />
+              <div className="relative w-16 h-16 rounded-full mb-4 shadow-md mx-auto overflow-hidden">
+                <Image
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </div>
               <StarRating rating={testimonial.rating} />
               <p className="text-gray-600 italic mb-4">{testimonial.feedback}</p>
               <h3 className="text-lg font-bold text-diva-blue">{testimonial.name}</h3>
