@@ -54,7 +54,7 @@ export default function ContactSection() {
         >
           <Sparkles className="text-diva-pink mr-3 h-8 w-8" />
           <h2 className="text-5xl font-bold text-center text-white">
-            Let’s Get Your Rental <span className="text-diva-pink">Guest-Ready!</span>
+            Let&apos;s Get Your Rental <span className="text-diva-pink">Guest-Ready!</span>
           </h2>
           <Sparkles className="text-diva-pink ml-3 h-8 w-8" />
         </motion.div>
@@ -71,7 +71,7 @@ export default function ContactSection() {
                 Contact Us
               </h3>
               <p className="mb-6 text-gray-600">
-                Whether you're a vacation rental owner or property manager, we're here to help you create a guest-ready space that delights and impresses.
+                Whether you&apos;re a vacation rental owner or property manager, we&apos;re here to help you create a guest-ready space that delights and impresses.
               </p>
               <ContactForm />
             </div>
