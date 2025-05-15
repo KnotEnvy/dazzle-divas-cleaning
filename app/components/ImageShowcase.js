@@ -37,11 +37,10 @@ const ImageItem = ({ src, alt, onClick, index, delay }) => {
           src={src}
           alt={alt}
           fill
-          objectFit="cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
           className="transition-opacity duration-500"
           priority={index < 4}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{ transform: "translateZ(0)" }}
+          style={{ objectFit: "cover" }}
         />
       </motion.div>
 
@@ -98,8 +97,15 @@ const Modal = ({ image, onClose, onPrev, onNext, hasNext, hasPrev }) => {
       if (e.key === "ArrowLeft" && hasPrev) onPrev();
       if (e.key === "ArrowRight" && hasNext) onNext();
     };
+    
+    // Prevent scrolling when modal is open
+    document.body.style.overflow = "hidden";
+    
     window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+      document.body.style.overflow = "auto";
+    };
   }, [onClose, onPrev, onNext, hasNext, hasPrev]);
 
   return (
@@ -126,8 +132,10 @@ const Modal = ({ image, onClose, onPrev, onNext, hasNext, hasPrev }) => {
             src={image.src}
             alt={image.alt}
             fill
-            objectFit="cover"
+            sizes="(max-width: 768px) 100vw, 80vw"
+            style={{ objectFit: "contain" }}
             className="rounded-lg"
+            priority
           />
         </motion.div>
         <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4">
@@ -216,6 +224,33 @@ export default function ImageShowcase() {
     }
   };
 
+  // Touch handling for mobile swipes in modal
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 100 && hasNext) {
+      // Swipe left
+      handleNext();
+    }
+    
+    if (touchStart - touchEnd < -100 && hasPrev) {
+      // Swipe right
+      handlePrev();
+    }
+  };
+
+  const hasNext = currentIndex < images.length - 1;
+  const hasPrev = currentIndex > 0;
+
   return (
     <section
       ref={ref}
@@ -259,19 +294,38 @@ export default function ImageShowcase() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="h-px bg-gradient-to-r from-transparent via-diva-pink to-transparent max-w-md mx-auto mb-8"
           />
+          <motion.p
+            className="text-xl text-center max-w-3xl mx-auto mb-8 text-diva-blue"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            See the exceptional quality of our cleaning services in these beautiful vacation rentals
+          </motion.p>
         </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        {/* Masonry-style grid with different layouts for mobile/desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {images.map((image, index) => (
-            <ImageItem
-              key={image.src}
-              {...image}
-              index={index}
-              delay={index * 0.1}
-              onClick={() => setSelectedImage(image)}
-            />
+            <div 
+              key={image.src} 
+              className={`${
+                // Create visual interest with different tile sizes on larger screens
+                index % 5 === 0 ? 'md:col-span-2 md:row-span-2' : 
+                index % 7 === 0 ? 'lg:col-span-2' : ''
+              }`}
+            >
+              <ImageItem
+                {...image}
+                index={index}
+                delay={index * 0.1}
+                onClick={() => setSelectedImage(image)}
+              />
+            </div>
           ))}
         </div>
       </div>
+      
       <AnimatePresence>
         {selectedImage && (
           <Modal
@@ -279,8 +333,8 @@ export default function ImageShowcase() {
             onClose={() => setSelectedImage(null)}
             onPrev={handlePrev}
             onNext={handleNext}
-            hasPrev={currentIndex > 0}
-            hasNext={currentIndex < images.length - 1}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
           />
         )}
       </AnimatePresence>

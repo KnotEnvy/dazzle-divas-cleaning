@@ -65,7 +65,7 @@ export default function Testimonials() {
   useEffect(() => {
     autoSlideInterval.current = setInterval(() => {
       handleNext();
-    }, 4000);
+    }, 8000);
     return () => clearInterval(autoSlideInterval.current);
   }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 

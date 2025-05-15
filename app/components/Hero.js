@@ -35,7 +35,7 @@ export default function Hero() {
       <motion.div className="absolute inset-0 z-0">
         <Image
           src="/images/swans_divas.jpg"
-          alt="Elevate your rental with Dazzle Divas"
+          alt="Elevate your rental with Dazzle Divas Cleaning"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={true}
@@ -81,7 +81,7 @@ export default function Hero() {
           Elevate Your Rental Experience with{" "}
           <span className="relative">
             <span className="relative z-10 text-diva-pink">
-              Dazzle Divas
+              Dazzle Divas Cleaning
             </span>
             <motion.span
               className="absolute inset-0 bg-white/10 rounded-lg -z-0"
