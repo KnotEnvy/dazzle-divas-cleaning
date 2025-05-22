@@ -39,7 +39,7 @@ export default function Hero() {
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={true}
-          className="object-cover transform-gpu transition-opacity duration-300"
+          className="object-cover transform-gpu transition-opacity duration-300 scale-110 -translate-x-8"
         />
       </motion.div>
 
