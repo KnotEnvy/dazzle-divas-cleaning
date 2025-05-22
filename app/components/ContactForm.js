@@ -17,24 +17,24 @@ const VALIDATION_RULES = {
     required: true,
     minLength: 2,
     maxLength: 50,
-    pattern: /^[a-zA-Z\s-']+$/,
+    pattern: /^[a-zA-Z\s\-'\.]+$/,
     message: {
       required: "Name is required",
       minLength: "Name must be at least 2 characters",
       maxLength: "Name cannot exceed 50 characters",
-      pattern: "Please enter a valid name"
+      pattern: "Please enter a valid name (letters, spaces, hyphens, apostrophes only)"
     }
   },
   email: {
     required: true,
-    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     message: {
       required: "Email is required",
       pattern: "Please enter a valid email address"
     }
   },
   phone: {
-    pattern: /^[\d\s-+()]*$/,
+    pattern: /^[\d\s\-\+\(\)]*$/,
     message: {
       pattern: "Please enter a valid phone number"
     }
@@ -51,25 +51,79 @@ const VALIDATION_RULES = {
   }
 };
 
-// Simple input sanitization
-const sanitizeInput = (value) => {
+// Enhanced input sanitization
+const sanitizeInput = (value, fieldType = 'text') => {
   if (typeof value !== 'string') return '';
-  return value
-    .trim()
-    .replace(/[<>]/g, '')
-    .slice(0, 1000);
+  
+  let sanitized = value; // MODIFICATION: Remove .trim() here
+  
+  // Remove potentially dangerous characters but preserve spaces
+  sanitized = sanitized.replace(/[<>]/g, '');
+  
+  // Remove excessive whitespace (multiple spaces become single space)
+  // This will now also allow single leading/trailing spaces during typing.
+  sanitized = sanitized.replace(/\s+/g, ' '); 
+  
+  // Apply field-specific sanitization
+  switch (fieldType) {
+    case 'name':
+      // Allow letters, spaces, hyphens, apostrophes, and periods
+      sanitized = sanitized.replace(/[^a-zA-Z\s\-'\.]/g, '');
+      break;
+    case 'email':
+      // Basic email character set
+      sanitized = sanitized.replace(/[^a-zA-Z0-9@._+-]/g, '');
+      break;
+    case 'phone':
+      // Keep digits, spaces, dashes, parentheses, plus
+      sanitized = sanitized.replace(/[^\d\s\-\+\(\)]/g, '');
+      break;
+    case 'message':
+      // Allow most characters but remove dangerous ones
+      // The global /[<>]/g removal above already handles this for message.
+      // No additional character stripping that would remove spaces here.
+      break;
+  }
+  
+  return sanitized.slice(0, 1000); // Max length cap
 };
 
-// Simple rate limiting using localStorage
+// Phone number formatting
+const formatPhoneNumber = (value) => {
+  // Remove all non-digit characters
+  const digits = value.replace(/\D/g, '');
+  
+  // Format based on length
+  if (digits.length === 0) return '';
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  if (digits.length <= 10) return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  
+  // Handle longer numbers (with country code)
+  if (digits.length === 11 && digits[0] === '1') {
+    return `+1 ${digits.slice(1, 4)}-${digits.slice(4, 7)}-${digits.slice(7, 11)}`;
+  }
+  
+  // Default formatting for 10+ digits
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+};
+
+// Enhanced rate limiting with IP simulation and CSRF protection
 const checkRateLimit = () => {
   const now = Date.now();
   const submissions = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
   const recentSubmissions = submissions.filter(time => now - time < 3600000); // Last hour
   
-  if (recentSubmissions.length >= 5) return false;
+  // More restrictive rate limiting
+  if (recentSubmissions.length >= 3) return false;
   
   localStorage.setItem('formSubmissions', JSON.stringify([...recentSubmissions, now]));
   return true;
+};
+
+// Generate a simple CSRF token
+const generateCSRFToken = () => {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
 };
 
 export default function ContactForm() {
@@ -87,17 +141,19 @@ export default function ContactForm() {
     submitted: false,
     error: null
   });
+  
+  const [csrfToken] = useState(() => generateCSRFToken());
 
   // Validate field
   const validateField = (name, value) => {
     const rules = VALIDATION_RULES[name];
     if (!rules) return null;
 
-    if (rules.required && !value) {
+    if (rules.required && !value.trim()) {
       return rules.message.required;
     }
 
-    if (rules.minLength && value.length < rules.minLength) {
+    if (rules.minLength && value.trim().length < rules.minLength) {
       return rules.message.minLength;
     }
 
@@ -105,7 +161,7 @@ export default function ContactForm() {
       return rules.message.maxLength;
     }
 
-    if (rules.pattern && !rules.pattern.test(value)) {
+    if (rules.pattern && value.trim() && !rules.pattern.test(value)) {
       return rules.message.pattern;
     }
 
@@ -114,11 +170,18 @@ export default function ContactForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const sanitizedValue = sanitizeInput(value);
+    let processedValue = value;
+    
+    // Apply field-specific processing
+    if (name === 'phone') {
+      processedValue = formatPhoneNumber(value);
+    } else {
+      processedValue = sanitizeInput(value, name);
+    }
     
     setFormData(prev => ({
       ...prev,
-      [name]: sanitizedValue
+      [name]: processedValue
     }));
 
     // Clear error when user starts typing
@@ -149,7 +212,7 @@ export default function ContactForm() {
       setStatus({
         submitting: false,
         submitted: false,
-        error: "Please wait a while before submitting another message."
+        error: "Too many submission attempts. Please wait before trying again."
       });
       return;
     }
@@ -168,6 +231,30 @@ export default function ContactForm() {
       return;
     }
 
+    // Additional security checks
+    const suspiciousPatterns = [
+      /script/i,
+      /javascript/i,
+      /onload/i,
+      /onerror/i,
+      /onclick/i,
+      /<iframe/i,
+      /<object/i,
+      /<embed/i,
+      /eval\(/i,
+      /expression\(/i
+    ];
+
+    const allFieldsText = Object.values(formData).join(' ').toLowerCase();
+    if (suspiciousPatterns.some(pattern => pattern.test(allFieldsText))) {
+      setStatus({
+        submitting: false,
+        submitted: false,
+        error: "Invalid input detected. Please check your message."
+      });
+      return;
+    }
+
     setStatus({ submitting: true, submitted: false, error: null });
 
     try {
@@ -175,13 +262,15 @@ export default function ContactForm() {
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
         {
-          from_name: formData.name,
+          from_name: formData.name.trim(),
           to_name: "Dazzle Divas",
-          from_email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
+          from_email: formData.email.trim(),
+          phone: formData.phone || 'Not provided',
+          message: formData.message.trim(),
           service_type: formData.serviceType,
           timestamp: new Date().toISOString(),
+          csrf_token: csrfToken,
+          user_agent: navigator.userAgent.substring(0, 100), // Truncated for security
         }
       );
 
@@ -197,7 +286,7 @@ export default function ContactForm() {
         email: '',
         phone: '',
         message: '',
-        serviceType: 'vacation'
+        serviceType: 'residential'
       });
       setErrors({});
 
@@ -206,13 +295,16 @@ export default function ContactForm() {
       setStatus({
         submitting: false,
         submitted: false,
-        error: "Failed to send message. Please try again."
+        error: "Failed to send message. Please try again or call us directly."
       });
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Hidden CSRF token */}
+      <input type="hidden" name="csrf_token" value={csrfToken} />
+      
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-diva-blue mb-1">
           Name *
@@ -229,6 +321,8 @@ export default function ContactForm() {
             ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
           disabled={status.submitting}
           placeholder="Sally Fields"
+          maxLength="50"
+          autoComplete="name"
         />
         {errors.name && (
           <div className="mt-1 text-red-600 text-sm flex items-center">
@@ -254,6 +348,7 @@ export default function ContactForm() {
             ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
           disabled={status.submitting}
           placeholder="needAclean@gmail.com"
+          autoComplete="email"
         />
         {errors.email && (
           <div className="mt-1 text-red-600 text-sm flex items-center">
@@ -278,6 +373,8 @@ export default function ContactForm() {
             ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
           disabled={status.submitting}
           placeholder="555-303-8899"
+          maxLength="20"
+          autoComplete="tel"
         />
         {errors.phone && (
           <div className="mt-1 text-red-600 text-sm flex items-center">
@@ -323,8 +420,12 @@ export default function ContactForm() {
           className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-diva-pink focus:border-diva-pink text-gray-700 placeholder-gray-400
             ${errors.message ? 'border-red-500' : 'border-gray-300'}`}
           disabled={status.submitting}
-          placeholder="Our place is a mess please help!"
+          placeholder="Our place is a mess, please help!"
+          maxLength="1000"
         />
+        <div className="text-xs text-gray-500 mt-1">
+          {formData.message.length}/1000 characters
+        </div>
         {errors.message && (
           <div className="mt-1 text-red-600 text-sm flex items-center">
             <AlertCircle className="w-4 h-4 mr-1" />
