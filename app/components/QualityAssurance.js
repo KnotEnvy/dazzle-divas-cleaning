@@ -83,18 +83,17 @@ export default function QualityAssurance() {
   ];
 
   return (
-    <section ref={sectionRef} id="quality" className="relative py-96">
+    <section ref={sectionRef} id="quality" className="relative py-16 md:py-24 lg:py-32">
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/master_divas.jpg"
           alt="Quality background"
           fill
-          objectFit="cover"
           quality={100}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="100vw"
           priority={true}
           className="transition-opacity duration-300"
-          style={{ transform: "translateZ(0)" }}
+          style={{ objectFit: "cover" }}
         />
       </div>
       <motion.div

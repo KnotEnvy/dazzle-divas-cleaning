@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { 
   MapPin, 
   Phone, 
-  Mail, 
+  // Mail, 
   Clock, 
   Facebook, 
   Instagram, 
