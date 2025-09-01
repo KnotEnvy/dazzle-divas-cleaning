@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { 
   ArrowRight, Star, Shield, Clock, CheckCircle, Phone, Award, Users, 
   TrendingUp, MapPin, Calendar, Sparkles, Home, Building, Zap, X,
@@ -361,7 +362,7 @@ const CompetitiveServicesPage = ({ onClose }) => {
           <div className="container mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <img src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas" className="h-10 w-10 rounded-full" />
+                <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas" width={40} height={40} className="h-10 w-10 rounded-full" />
                 <div>
                   <h1 className="text-lg font-bold text-slate-900">Our Services</h1>
                   <p className="text-xs text-slate-600">Vacation Rental Cleaning Specialists</p>
@@ -717,7 +718,7 @@ const CompetitiveServicesPage = ({ onClose }) => {
 
                     {/* Detailed features */}
                     <div className="space-y-6 mb-8">
-                      <h4 className="text-lg font-bold text-slate-900">What's Included</h4>
+                      <h4 className="text-lg font-bold text-slate-900">What&apos;s Included</h4>
                       {selectedService.detailedFeatures.map((category, index) => (
                         <div key={index} className="border border-slate-200 rounded-lg p-4">
                           <h5 className="font-semibold text-slate-900 mb-3">{category.category}</h5>
@@ -777,9 +778,9 @@ const CompetitiveServicesPage = ({ onClose }) => {
                     Every Other Service
                   </span>
                 </h2>
-                <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                  We're not just cleaners - we're vacation rental success partners who understand the hospitality business.
-                </p>
+                  <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                    We&apos;re not just cleaners - we&apos;re vacation rental success partners who understand the hospitality business.
+                  </p>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -810,7 +811,7 @@ const CompetitiveServicesPage = ({ onClose }) => {
                     Experience the Dazzle Divas Difference
                   </h3>
                   <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                    Join 500+ vacation rental owners who've transformed their properties and increased their revenue with our specialized services.
+                    Join 500+ vacation rental owners who&apos;ve transformed their properties and increased their revenue with our specialized services.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button 

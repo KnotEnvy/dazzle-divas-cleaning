@@ -33,11 +33,12 @@ const ModernDazzleDivasWebsite = () => {
     { src: "/images/livingroom_divas.jpg", title: "Luxury Living Spaces", category: "Living Areas" },
     { src: "/images/diningRoom_divas.jpg", title: "Elegant Dining Areas", category: "Dining" },
     { src: "/images/bath2_divas.jpg", title: "Spa-Like Bathrooms", category: "Bathrooms" },
+    { src: "/images/bath_divas.jpg", title: "Bathroom Style", category: "Bathrooms" },
     { src: "/images/crabs_divas.jpg", title: "Beautiful Bedrooms", category: "Bedrooms" },
     { src: "/images/swans2_divas.jpg", title: "Stunning Details", category: "Decor" },
     { src: "/images/backtard_divas.jpg", title: "Outdoor Spaces", category: "Exterior" },
     { src: "/images/stairsOcean_divas.jpg", title: "Ocean Views", category: "Views" },
-    { src: "/images/elep_divas.jpg", title: "Unique Touches", category: "Details" }
+    { src: "/images/elep_divas.jpg", title: "Unique Touches", category: "Details" },
   ];
 
   const services = [
@@ -232,7 +233,7 @@ const ModernDazzleDivasWebsite = () => {
               className="mb-8"
             >
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-                Volusia County's
+                Volusia County&apos;s
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
                   #1 Vacation Rental
                 </span>
@@ -241,7 +242,7 @@ const ModernDazzleDivasWebsite = () => {
               
               <div className="space-y-4">
                 <p className="text-xl md:text-2xl text-white/90 leading-relaxed max-w-3xl">
-                  <strong>Guaranteed guest-ready properties in 2-4 hours.</strong> We don't just clean - we create 5-star guest experiences that protect your reviews and increase your bookings.
+                  <strong>Guaranteed guest-ready properties in 2-4 hours.</strong> We don&apos;t just clean - we create 5-star guest experiences that protect your reviews and increase your bookings.
                 </p>
                 
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 max-w-2xl">
@@ -254,7 +255,7 @@ const ModernDazzleDivasWebsite = () => {
                     <span className="text-white font-semibold">500+ Properties Served</span>
                   </div>
                   <p className="text-white/90 text-sm">
-                    "The only cleaning service that truly understands vacation rentals. My guest reviews improved dramatically!" - Sarah M., Airbnb Superhost
+                    &ldquo;The only cleaning service that truly understands vacation rentals. My guest reviews improved dramatically!&rdquo; - Sarah M., Airbnb Superhost
                   </p>
                 </div>
               </div>
@@ -440,7 +441,7 @@ const ModernDazzleDivasWebsite = () => {
               Your Guest Reviews Are Guaranteed
             </h3>
             <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-              If a guest mentions cleanliness in a negative review, we'll re-clean for free and work with you to address their concerns.
+              If a guest mentions cleanliness in a negative review, we&apos;ll re-clean for free and work with you to address their concerns.
             </p>
             <button onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
             className="bg-white text-pink-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition-colors duration-300 shadow-lg">
@@ -552,7 +553,7 @@ const ModernDazzleDivasWebsite = () => {
               </span>
             </h2>
             <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              We're not just cleaners - we're vacation rental success partners who understand the hospitality business.
+              We&apos;re not just cleaners - we&apos;re vacation rental success partners who understand the hospitality business.
             </p>
           </motion.div>
 
@@ -660,7 +661,7 @@ const ModernDazzleDivasWebsite = () => {
                       ))}
                     </div>
                     <blockquote className="text-xl md:text-2xl text-slate-700 leading-relaxed mb-6">
-                      "{testimonials[activeTestimonial].text}"
+                      &ldquo;{testimonials[activeTestimonial].text}&rdquo;
                     </blockquote>
                   </div>
 
@@ -820,7 +821,7 @@ const ModernDazzleDivasWebsite = () => {
                 <h4 className="text-xl font-bold">100% Satisfaction Guarantee</h4>
               </div>
               <p className="text-white/90">
-                If you're not completely satisfied with our service, we'll return the next day and re-clean for free. 
+                If you&apos;re not completely satisfied with our service, we&apos;ll return the next day and re-clean for free. 
                 Your guest reviews are our priority.
               </p>
             </motion.div>

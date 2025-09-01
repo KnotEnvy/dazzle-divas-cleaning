@@ -37,8 +37,6 @@ function ProgressBar({ progress = 0 }) {
 
 function FloatingSparkles() {
   const prefersReduced = useReducedMotion();
-  if (prefersReduced) return null;
-
   const dots = useMemo(
     () =>
       new Array(14).fill(0).map((_, i) => ({
@@ -51,6 +49,8 @@ function FloatingSparkles() {
       })),
     []
   );
+
+  if (prefersReduced) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -574,7 +574,7 @@ export default function TermsOfService() {
               <div className="bg-gradient-to-r from-diva-pink to-blue-300/60 rounded-lg p-6">
                 <h4 className="font-semibold text-gray-800 mb-3">24-Hour Satisfaction Guarantee</h4>
                 <p className="text-gray-700 mb-4">
-                  If you're not completely satisfied with our service, contact us within 24 hours and we'll return to
+                  If you&apos;re not completely satisfied with our service, contact us within 24 hours and we&apos;ll return to
                   address any concerns at no additional charge.
                 </p>
                 <div className="text-sm text-gray-600">

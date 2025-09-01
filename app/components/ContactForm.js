@@ -438,7 +438,7 @@ export default function ContactForm() {
 
         {status.submitted && (
           <div className="mt-4 p-4 rounded-md border border-green-400/30 bg-green-500/10 text-green-200">
-            Thank you for your message! We'll get back to you soon.
+            Thank you for your message! We&apos;ll get back to you soon.
           </div>
         )}
 

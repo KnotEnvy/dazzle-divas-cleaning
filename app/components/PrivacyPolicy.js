@@ -35,8 +35,6 @@ function ProgressBar({ progress = 0 }) {
 
 function FloatingSparkles() {
   const prefersReduced = useReducedMotion();
-  if (prefersReduced) return null;
-
   const dots = useMemo(
     () =>
       new Array(14).fill(0).map((_, i) => ({
@@ -49,6 +47,8 @@ function FloatingSparkles() {
       })),
     []
   );
+
+  if (prefersReduced) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
