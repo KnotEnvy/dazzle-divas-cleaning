@@ -135,21 +135,21 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const navigationLinks = [
-    { href: "#services", label: "Services" },
-    { href: "#process", label: "Our Process" },
-    { href: "#about", label: "About Us" },
-    { href: "#quality", label: "Quality Assurance" },
-    { href: "#testimonials", label: "Testimonials" },
-    { href: "#contact", label: "Contact" },
+    { label: 'Services', href: '#services' },
+    { label: 'Portfolio', href: '#portfolio' },
+    { label: 'Why Us', href: '#why-choose-us' },
+    { label: 'Testimonials', href: '#testimonials' },
+    { label: 'Contact', href: '#contact' },
   ];
+  
 
   const serviceAreas = [
     "Daytona Beach",
     "Ormond Beach", 
     "Ormond-by-the-Sea",
     "New Smyrna Beach",
-    "Ponce Inlet",
-    "Daytona Shores"
+    "Port Orange",
+    "+ All Volusia County",
   ];
 
   return (
@@ -353,10 +353,10 @@ export default function Footer() {
                 © {currentYear} Dazzle Divas Cleaning LLC. All rights reserved.
               </div>
               <div className="flex items-center space-x-6 text-sm text-gray-400">
-                <Link href="/privacy" className="hover:text-diva-pink transition-colors duration-300">
+                <Link href="/privacy-policy" className="hover:text-diva-pink transition-colors duration-300">
                   Privacy Policy
                 </Link>
-                <Link href="/terms" className="hover:text-diva-pink transition-colors duration-300">
+                <Link href="/terms-of-service" className="hover:text-diva-pink transition-colors duration-300">
                   Terms of Service
                 </Link>
                 <span className="flex items-center">
@@ -370,7 +370,7 @@ export default function Footer() {
       </footer>
       
       {/* Scroll to Top Button */}
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
     </>
   );
 }

@@ -1,6 +1,8 @@
 // next.config.mjs
+const isGhPages = process.env.NEXT_PUBLIC_GH_PAGES === 'true';
+
 export default {
-    assetPrefix: process.env.NODE_ENV === 'production' ? '/dazzle-divas-cleaning/' : '',
-    basePath: process.env.NODE_ENV === 'production' ? '/dazzle-divas-cleaning' : '',
-  }
+  assetPrefix: isGhPages ? '/dazzle-divas-cleaning/' : '',
+  basePath: isGhPages ? '/dazzle-divas-cleaning' : '',
+};
   

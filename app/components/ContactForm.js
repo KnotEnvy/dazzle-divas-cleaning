@@ -301,166 +301,156 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Hidden CSRF token */}
-      <input type="hidden" name="csrf_token" value={csrfToken} />
-      
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-diva-blue mb-1">
-          Name *
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          value={formData.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-diva-pink focus:border-diva-pink text-gray-700 placeholder-gray-400 
-            ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
-          disabled={status.submitting}
-          placeholder="Sally Fields"
-          maxLength="50"
-          autoComplete="name"
-        />
-        {errors.name && (
-          <div className="mt-1 text-red-600 text-sm flex items-center">
-            <AlertCircle className="w-4 h-4 mr-1" />
-            {errors.name}
-          </div>
-        )}
-      </div>
+    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+      <h3 className="text-2xl font-bold mb-6 text-white">Get Free Quote</h3>
+      <form onSubmit={handleSubmit} className="space-y-4" aria-live="polite">
+        {/* Hidden CSRF token */}
+        <input type="hidden" name="csrf_token" value={csrfToken} />
+        
+        <div>
+          <label htmlFor="name" className="sr-only">Name *</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            value={formData.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.name ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            disabled={status.submitting}
+            placeholder="Sally Fields"
+            maxLength="50"
+            autoComplete="name"
+          />
+          {errors.name && (
+            <div className="mt-1 text-red-200 text-sm flex items-center">
+              <AlertCircle className="w-4 h-4 mr-1" />
+              {errors.name}
+            </div>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-diva-blue mb-1">
-          Email *
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          value={formData.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-diva-pink focus:border-diva-pink text-gray-700 placeholder-gray-400
-            ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
-          disabled={status.submitting}
-          placeholder="needAclean@gmail.com"
-          autoComplete="email"
-        />
-        {errors.email && (
-          <div className="mt-1 text-red-600 text-sm flex items-center">
-            <AlertCircle className="w-4 h-4 mr-1" />
-            {errors.email}
-          </div>
-        )}
-      </div>
+        <div>
+          <label htmlFor="email" className="sr-only">Email *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            value={formData.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.email ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            disabled={status.submitting}
+            placeholder="needAclean@gmail.com"
+            autoComplete="email"
+          />
+          {errors.email && (
+            <div className="mt-1 text-red-200 text-sm flex items-center">
+              <AlertCircle className="w-4 h-4 mr-1" />
+              {errors.email}
+            </div>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-diva-blue mb-1">
-          Phone Number
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-diva-pink focus:border-diva-pink text-gray-700 placeholder-gray-400
-            ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
-          disabled={status.submitting}
-          placeholder="555-303-8899"
-          maxLength="20"
-          autoComplete="tel"
-        />
-        {errors.phone && (
-          <div className="mt-1 text-red-600 text-sm flex items-center">
-            <AlertCircle className="w-4 h-4 mr-1" />
-            {errors.phone}
-          </div>
-        )}
-      </div>
+        <div>
+          <label htmlFor="phone" className="sr-only">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.phone ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            disabled={status.submitting}
+            placeholder="555-303-8899"
+            maxLength="20"
+            autoComplete="tel"
+          />
+          {errors.phone && (
+            <div className="mt-1 text-red-200 text-sm flex items-center">
+              <AlertCircle className="w-4 h-4 mr-1" />
+              {errors.phone}
+            </div>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="serviceType" className="block text-sm font-medium text-diva-blue mb-1">
-          Service Type *
-        </label>
-        <select
-          id="serviceType"
-          name="serviceType"
-          required
-          value={formData.serviceType}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-diva-pink focus:border-diva-pink text-gray-700 bg-white"
+        <div>
+          <label htmlFor="serviceType" className="sr-only">Service Type *</label>
+          <select
+            id="serviceType"
+            name="serviceType"
+            required
+            value={formData.serviceType}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-pink-400"
+            disabled={status.submitting}
+          >
+            <option value="vacationTurnover">Vacation rental turnover</option>
+            <option value="residential">Residential Clean</option>
+            <option value="commercial">Commercial Clean</option>
+            <option value="joinTeam">Join the Team</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="message" className="sr-only">Message *</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            value={formData.message}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            rows="4"
+            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.message ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            disabled={status.submitting}
+            placeholder="Property details, special requests..."
+            maxLength="1000"
+          />
+          <div className="text-xs text-white/80 mt-1">
+            {formData.message.length}/1000 characters
+          </div>
+          {errors.message && (
+            <div className="mt-1 text-red-200 text-sm flex items-center">
+              <AlertCircle className="w-4 h-4 mr-1" />
+              {errors.message}
+            </div>
+          )}
+        </div>
+
+        <button
+          type="submit"
           disabled={status.submitting}
+          className="w-full bg-gradient-to-r from-pink-600 to-pink-700 text-white py-3 rounded-lg font-bold hover:shadow-lg transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <option value="residential">Residential Cleaning</option>
-          <option value="commercial">Commercial Cleaning</option>
-          <option value="deepClean">Deep Cleaning</option>
-          <option value="movein">Move In/Out Cleaning</option>
-          <option value="vacation">Vacation Rental</option>
-        </select>
-      </div>
+          {status.submitting ? (
+            <>
+              <Loader2 className="animate-spin mr-2" size={20} />
+              Sending...
+            </>
+          ) : (
+            'Get My Free Quote'
+          )}
+        </button>
 
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-diva-blue mb-1">
-          Message *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          value={formData.message}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          rows="4"
-          className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-diva-pink focus:border-diva-pink text-gray-700 placeholder-gray-400
-            ${errors.message ? 'border-red-500' : 'border-gray-300'}`}
-          disabled={status.submitting}
-          placeholder="Our place is a mess, please help!"
-          maxLength="1000"
-        />
-        <div className="text-xs text-gray-500 mt-1">
-          {formData.message.length}/1000 characters
-        </div>
-        {errors.message && (
-          <div className="mt-1 text-red-600 text-sm flex items-center">
-            <AlertCircle className="w-4 h-4 mr-1" />
-            {errors.message}
+        {status.submitted && (
+          <div className="mt-4 p-4 rounded-md border border-green-400/30 bg-green-500/10 text-green-200">
+            Thank you for your message! We'll get back to you soon.
           </div>
         )}
-      </div>
 
-      <button
-        type="submit"
-        disabled={status.submitting}
-        className="w-full bg-diva-pink text-white py-2 px-4 rounded-md hover:bg-pink-600 transition duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {status.submitting ? (
-          <>
-            <Loader2 className="animate-spin mr-2" size={20} />
-            Sending...
-          </>
-        ) : (
-          'Send Message'
+        {status.error && (
+          <div className="mt-4 p-4 rounded-md border border-red-400/30 bg-red-500/10 text-red-200 flex items-center">
+            <AlertCircle className="w-5 h-5 mr-2" />
+            {status.error}
+          </div>
         )}
-      </button>
 
-      {status.submitted && (
-        <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-md">
-          Thank you for your message! We&apos;ll get back to you soon.
-        </div>
-      )}
-
-      {status.error && (
-        <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md flex items-center">
-          <AlertCircle className="w-5 h-5 mr-2" />
-          {status.error}
-        </div>
-      )}
-    </form>
+        <p className="text-xs text-white/70 mt-4 text-center">Will respond within 24 hours</p>
+      </form>
+    </div>
   );
 }

@@ -8,18 +8,20 @@ import About from './About';
 import QualityAssurance from './QualityAssurance';
 import ContactSection from './ContactUs';
 import Testimonials from './Testimonials';
+import ModernDazzleDivasWebsite from './testSite.js';
 
 export default function Main() {
   return (
     <Layout>
-      <Hero />
+      {/* <Hero />
       <Services />
       <CleaningProcess />
       <ImageShowcase />
       <About />
       <QualityAssurance />
       <Testimonials />
-      <ContactSection />
+      <ContactSection /> */}
+      <ModernDazzleDivasWebsite />
 
     </Layout>
   );
