@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from 'react';
 import '../globals.css'
-import Header from './Header'
 import Footer from './Footer'
 import CustomCursor from './CustomCursor'
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
