@@ -1,10 +1,31 @@
+// app/sitemap.js
+// Declares known routes with priorities and change frequencies
+// so search engines crawl the homepage most often.
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.dazzledivascleaning.com";
+
 export default async function sitemap() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.dazzledivascleaning.com';
   const now = new Date();
+
   return [
-    { url: `${base}/`, lastModified: now },
-    { url: `${base}/privacy-policy`, lastModified: now },
-    { url: `${base}/terms-of-service`, lastModified: now },
+    {
+      url: `${SITE_URL}/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/privacy-policy`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/terms-of-service`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 }
-

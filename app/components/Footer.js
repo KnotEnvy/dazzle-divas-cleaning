@@ -3,13 +3,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { 
-  MapPin, 
-  Phone, 
-  // Mail, 
-  Clock, 
-  Facebook, 
-  Instagram, 
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Facebook,
+  Instagram,
   Star,
   Sparkles,
   Home,
@@ -281,20 +281,20 @@ export default function Footer() {
 
             {/* Contact Info */}
             <FooterSection title="Get In Touch" delay={0.6}>
-              <ContactItem 
-                icon={Phone} 
+              <ContactItem
+                icon={Phone}
                 href="tel:+13863015775"
                 delay={0.7}
               >
                 (386) 301-5775
               </ContactItem>
-              {/* <ContactItem 
-                icon={Mail} 
+              <ContactItem
+                icon={Mail}
                 href="mailto:info@dazzledivascleaning.com"
                 delay={0.8}
               >
                 info@dazzledivascleaning.com
-              </ContactItem> */}
+              </ContactItem>
               <ContactItem 
                 icon={MapPin} 
                 delay={0.9}
