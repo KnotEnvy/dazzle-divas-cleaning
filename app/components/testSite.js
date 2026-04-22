@@ -12,6 +12,7 @@ import {
 import { init, send } from '@emailjs/browser';
 import SecureModernContactForm from './ContactForm';
 import CompetitiveServicesPage from './CompetitiveServices';
+import FAQ from './FAQ';
 
 
 const ModernDazzleDivasWebsite = () => {
@@ -30,15 +31,15 @@ const ModernDazzleDivasWebsite = () => {
 
   // Your existing images repurposed strategically
   const portfolioImages = [
-    { src: "/images/livingroom_divas.jpg", title: "Luxury Living Spaces", category: "Living Areas" },
-    { src: "/images/diningRoom_divas.jpg", title: "Elegant Dining Areas", category: "Dining" },
-    { src: "/images/bath2_divas.jpg", title: "Spa-Like Bathrooms", category: "Bathrooms" },
-    { src: "/images/bath_divas.jpg", title: "Bathroom Style", category: "Bathrooms" },
-    { src: "/images/crabs_divas.jpg", title: "Beautiful Bedrooms", category: "Bedrooms" },
-    { src: "/images/swans2_divas.jpg", title: "Stunning Details", category: "Decor" },
-    { src: "/images/backtard_divas.jpg", title: "Outdoor Spaces", category: "Exterior" },
-    { src: "/images/stairsOcean_divas.jpg", title: "Ocean Views", category: "Views" },
-    { src: "/images/elep_divas.jpg", title: "Unique Touches", category: "Details" },
+    { src: "/images/livingroom_divas.jpg", title: "Luxury Living Spaces", category: "Living Areas", alt: "Spotless luxury living room after a Dazzle Divas vacation rental turnover in Volusia County" },
+    { src: "/images/diningRoom_divas.jpg", title: "Elegant Dining Areas", category: "Dining", alt: "Elegant dining room cleaned and staged for guest arrival by Dazzle Divas Cleaning" },
+    { src: "/images/bath2_divas.jpg", title: "Spa-Like Bathrooms", category: "Bathrooms", alt: "Sparkling spa-like bathroom deep cleaned by Dazzle Divas Cleaning in Daytona Beach" },
+    { src: "/images/bath_divas.jpg", title: "Pristine Bathrooms", category: "Bathrooms", alt: "Pristine vacation rental bathroom with polished fixtures after professional cleaning" },
+    { src: "/images/crabs_divas.jpg", title: "Coastal Bedrooms", category: "Bedrooms", alt: "Freshly made coastal-themed bedroom ready for Airbnb guests" },
+    { src: "/images/swans2_divas.jpg", title: "Detail-Perfect Decor", category: "Decor", alt: "Hand-dusted decor and styled accents in a guest-ready vacation rental" },
+    { src: "/images/backtard_divas.jpg", title: "Outdoor Spaces", category: "Exterior", alt: "Tidy outdoor patio and backyard of a Volusia County vacation rental" },
+    { src: "/images/stairsOcean_divas.jpg", title: "Ocean Views", category: "Views", alt: "Clean oceanfront stairway with an Atlantic coast view in a Volusia County rental" },
+    { src: "/images/elep_divas.jpg", title: "Styled Bedrooms", category: "Details", alt: "Styled guest bedroom with crisp linens, cleaned and staged for check-in" },
   ];
 
   const services = [
@@ -127,7 +128,7 @@ const ModernDazzleDivasWebsite = () => {
         <nav className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas" width={48} height={48} className="h-12 w-12 square-full" />
+              <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning logo" width={48} height={48} className="h-12 w-12 square-full" />
               <div>
                 <h1 className="text-lg font-bold text-diva-pink-400">Dazzle Divas Cleaning</h1>
                 <p className="text-xs text-diva-pink-600">Vacation Rental Specialists</p>
@@ -190,7 +191,7 @@ const ModernDazzleDivasWebsite = () => {
         <div className="absolute inset-0">
           <Image
                     src="/images/swans_divas.jpg"
-                    alt="Elevate your rental with Dazzle Divas Cleaning"
+                    alt="Oceanfront vacation rental in Volusia County, cleaned and ready for guests by Dazzle Divas Cleaning"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={true}
@@ -487,7 +488,7 @@ const ModernDazzleDivasWebsite = () => {
                 <div className="relative aspect-[4/3]">
                   <Image
                     src={image.src}
-                    alt={image.title}
+                    alt={image.alt || image.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -529,7 +530,7 @@ const ModernDazzleDivasWebsite = () => {
         <div className="absolute inset-0">
           <Image
             src="/images/master2_divas.jpg"
-            alt="Luxury vacation rental space"
+            alt="Luxury vacation rental master bedroom cleaned by Dazzle Divas in Volusia County"
             fill
             sizes="100vw"
             className="object-cover"
@@ -708,7 +709,7 @@ const ModernDazzleDivasWebsite = () => {
             className="text-center mt-12"
           >
             <p className="text-slate-600 mb-6">Ready to join 500+ satisfied vacation rental owners?</p>
-            <button 
+            <button
               onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
               className="bg-gradient-to-r from-pink-600 to-pink-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-lg transition-all duration-300"
             >
@@ -718,12 +719,15 @@ const ModernDazzleDivasWebsite = () => {
         </div>
       </section>
 
+      {/* FAQ Section - FAQPage schema inside component */}
+      <FAQ />
+
       {/* Contact Section - Using master_divas.jpg background */}
       <section id="contact" className="relative py-20">
         <div className="absolute inset-0">
           <Image
             src="/images/master_divas.jpg"
-            alt="Contact Dazzle Divas"
+            alt="Contact Dazzle Divas Cleaning — serving Volusia County, Florida"
             fill
             sizes="100vw"
             className="object-cover"
@@ -835,7 +839,7 @@ const ModernDazzleDivasWebsite = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas" width={40} height={40} className="h-10 w-10 rounded-full" />
+                <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning logo" width={40} height={40} className="h-10 w-10 rounded-full" />
                 <div>
                   <h3 className="font-bold">Dazzle Divas Cleaning</h3>
                   <p className="text-sm text-slate-400">Vacation Rental Specialists</p>
@@ -928,7 +932,7 @@ const ModernDazzleDivasWebsite = () => {
                 <div className="relative w-[90vw] max-w-4xl h-[60vh]">
                   <Image
                     src={selectedImage.src}
-                    alt={selectedImage.title}
+                    alt={selectedImage.alt || selectedImage.title}
                     fill
                     sizes="(max-width: 768px) 90vw, 70vw"
                     className="object-cover"

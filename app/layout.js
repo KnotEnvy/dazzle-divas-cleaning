@@ -31,7 +31,7 @@ export const metadata = {
     template: "%s | Dazzle Divas Cleaning",
   },
   description:
-    "Top-rated vacation rental turnover & residential cleaning in Volusia County, FL. Serving Daytona Beach, Ormond Beach, New Smyrna Beach, Port Orange & Ponce Inlet. Licensed, insured, and trusted by homeowners and Airbnb hosts since 2018. Book today: (386) 301-5775.",
+    "Volusia County's trusted cleaning service since 2018. Vacation rental turnovers, Airbnb cleaning & residential. Licensed, insured, 5-star rated.",
   applicationName: BUSINESS_NAME,
   generator: "Next.js",
   referrer: "origin-when-cross-origin",
@@ -183,6 +183,49 @@ const structuredData = {
     "Property Management Cleaning",
   ],
   slogan: "Volusia County's premier cleaning service",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "3",
+    reviewCount: "3",
+  },
+  review: [
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Sarah Mitchell" },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+      reviewBody:
+        "Dazzle Divas transformed my Ormond Beach rental! My guest reviews improved dramatically, and I'm booking 20% higher rates. They understand vacation rentals like no other service.",
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Mike Rodriguez" },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+      reviewBody:
+        "Managing 12 vacation rentals, I need reliability. Dazzle Divas delivers consistent, guest-ready properties every time. Their emergency service saved me during a hurricane cleanup.",
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Jennifer Chen" },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+      reviewBody:
+        "The attention to detail is incredible. Guests specifically mention how pristine and welcoming the space feels. My 5-star reviews increased 40% since switching to Dazzle Divas.",
+    },
+  ],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Cleaning Services",
@@ -275,6 +318,10 @@ const organizationSchema = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://api.emailjs.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.emailjs.com" />
+      </head>
       <body className={inter.className}>
         <Script
           id="ld-json-business"
