@@ -9,6 +9,14 @@ export const alt =
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+const SITE_URL = "https://www.dazzledivascleaning.com";
+const LOGO_URL = `${SITE_URL}/images/Divas_logo-pink.jpg`;
+
+// Brand colors (from tailwind.config.js)
+const NAVY = "#082f49"; // diva-blue
+const SKY = "#06b6d4"; // diva-sky
+const SLATE = "#334155";
+
 export default async function OpengraphImage() {
   return new ImageResponse(
     (
@@ -20,25 +28,49 @@ export default async function OpengraphImage() {
           justifyContent: "center",
           width: "100%",
           height: "100%",
-          background:
-            "linear-gradient(135deg, #ec4899 0%, #f472b6 45%, #fbcfe8 100%)",
+          background: "#ffffff",
           fontFamily: "sans-serif",
-          padding: "60px 80px",
-          color: "white",
+          padding: "50px 80px",
+          color: NAVY,
           position: "relative",
           textAlign: "center",
         }}
       >
+        {/* Top accent bar */}
         <div
           style={{
             position: "absolute",
-            top: 40,
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 10,
+            background: `linear-gradient(90deg, ${NAVY} 0%, ${SKY} 100%)`,
+          }}
+        />
+
+        {/* Bottom accent bar */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 10,
+            background: `linear-gradient(90deg, ${SKY} 0%, ${NAVY} 100%)`,
+          }}
+        />
+
+        {/* Top corner badges */}
+        <div
+          style={{
+            position: "absolute",
+            top: 32,
             left: 60,
-            fontSize: 26,
+            fontSize: 20,
             fontWeight: 700,
-            letterSpacing: 4,
+            letterSpacing: 3,
             textTransform: "uppercase",
-            opacity: 0.92,
+            color: SKY,
           }}
         >
           Licensed &amp; Insured
@@ -47,75 +79,67 @@ export default async function OpengraphImage() {
         <div
           style={{
             position: "absolute",
-            top: 40,
+            top: 32,
             right: 60,
-            fontSize: 26,
+            fontSize: 20,
             fontWeight: 700,
             letterSpacing: 2,
-            opacity: 0.92,
+            color: SKY,
           }}
         >
           Since 2018
         </div>
 
+        {/* Logo */}
+        <img
+          src={LOGO_URL}
+          alt=""
+          width={220}
+          height={220}
+          style={{
+            width: 220,
+            height: 220,
+            borderRadius: "50%",
+            objectFit: "cover",
+            border: `6px solid ${NAVY}`,
+            boxShadow: "0 10px 40px rgba(8, 47, 73, 0.25)",
+            marginBottom: 28,
+          }}
+        />
+
+        {/* Company name */}
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 24,
-            marginBottom: 8,
+            fontSize: 88,
+            fontWeight: 900,
+            letterSpacing: "-2px",
+            lineHeight: 1,
+            color: NAVY,
+            marginBottom: 6,
           }}
         >
-          <svg
-            width="64"
-            height="64"
-            viewBox="0 0 24 24"
-            fill="white"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M12 0l2.39 7.36L22 9.27l-5.61 5.47L17.78 22 12 17.77 6.22 22l1.39-7.26L2 9.27l7.61-1.91L12 0z" />
-          </svg>
-          <div
-            style={{
-              fontSize: 104,
-              fontWeight: 900,
-              letterSpacing: "-3px",
-              lineHeight: 1,
-              textShadow: "0 4px 24px rgba(0,0,0,0.18)",
-            }}
-          >
-            Dazzle Divas
-          </div>
-          <svg
-            width="64"
-            height="64"
-            viewBox="0 0 24 24"
-            fill="white"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M12 0l2.39 7.36L22 9.27l-5.61 5.47L17.78 22 12 17.77 6.22 22l1.39-7.26L2 9.27l7.61-1.91L12 0z" />
-          </svg>
+          Dazzle Divas
         </div>
 
         <div
           style={{
-            fontSize: 56,
-            fontWeight: 700,
-            marginBottom: 38,
-            letterSpacing: "-1px",
-            opacity: 0.98,
+            fontSize: 44,
+            fontWeight: 600,
+            letterSpacing: "0px",
+            color: SLATE,
+            marginBottom: 26,
           }}
         >
           Cleaning LLC
         </div>
 
+        {/* Tagline */}
         <div
           style={{
-            fontSize: 36,
-            fontWeight: 600,
-            maxWidth: 960,
-            lineHeight: 1.25,
-            marginBottom: 18,
+            fontSize: 28,
+            fontWeight: 500,
+            color: SLATE,
+            marginBottom: 14,
           }}
         >
           Vacation Rental &amp; Residential Cleaning
@@ -123,31 +147,33 @@ export default async function OpengraphImage() {
 
         <div
           style={{
-            fontSize: 28,
+            fontSize: 24,
             fontWeight: 500,
-            opacity: 0.95,
-            marginBottom: 40,
+            color: SLATE,
+            marginBottom: 22,
+            opacity: 0.85,
           }}
         >
-          Daytona Beach · Ormond Beach · New Smyrna Beach · All of Volusia County
+          Daytona Beach · Ormond Beach · New Smyrna Beach · Volusia County, FL
         </div>
 
+        {/* Contact pill */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 28,
-            padding: "18px 40px",
-            background: "rgba(255,255,255,0.22)",
+            gap: 20,
+            padding: "14px 34px",
+            background: NAVY,
             borderRadius: 999,
-            fontSize: 30,
+            fontSize: 26,
             fontWeight: 700,
             letterSpacing: 1,
-            backdropFilter: "blur(4px)",
+            color: "#ffffff",
           }}
         >
           <span>(386) 301-5775</span>
-          <span style={{ opacity: 0.6 }}>·</span>
+          <span style={{ opacity: 0.5 }}>·</span>
           <span>dazzledivascleaning.com</span>
         </div>
       </div>
