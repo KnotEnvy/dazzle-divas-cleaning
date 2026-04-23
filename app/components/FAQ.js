@@ -34,7 +34,7 @@ export const faqs = [
   },
   {
     q: "How do I book a cleaning?",
-    a: "The fastest way is to call or text (386) 301-5775. You can also email info@dazzledivascleaning.com or use the contact form on our website — we respond within 24 hours with a custom quote.",
+    a: "The fastest way is to call (386) 301-5775. You can also email info@dazzledivascleaning.com or use the contact form on our website — we respond within 24 hours with a custom quote.",
   },
   {
     q: "What payment methods do you accept?",

@@ -273,7 +273,7 @@ const ModernDazzleDivasWebsite = () => {
                 onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
                 className="group bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                Get Free Quote (2 Min)
+                Get Free Quote (24 Hours)
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
               
