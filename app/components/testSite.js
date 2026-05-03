@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, Star, Shield, Clock, CheckCircle, Phone, Award, Users, 
@@ -50,7 +51,8 @@ const ModernDazzleDivasWebsite = () => {
       price: "From $100",
       features: ["Same-day availability", "Photo verification", "Guest amenity check", "Review protection"],
       badge: "Most Popular",
-      color: "pink"
+      color: "pink",
+      href: "/services/vacation-rental-turnover"
     },
     {
       icon: Zap,
@@ -59,7 +61,8 @@ const ModernDazzleDivasWebsite = () => {
       price: "Standard rates",
       features: ["2-hour response", "No rush fees", "Weekend available", "Text updates"],
       badge: "24/7 Ready",
-      color: "red"
+      color: "red",
+      href: "/services/emergency-cleaning"
     },
     {
       icon: Building,
@@ -68,7 +71,26 @@ const ModernDazzleDivasWebsite = () => {
       price: "Custom packages",
       features: ["Volume discounts", "Dedicated manager", "Priority booking", "Monthly reports"],
       badge: "Pro Service",
-      color: "blue"
+      color: "blue",
+      href: "/services/property-management"
+    }
+  ];
+
+  const serviceAreas = [
+    {
+      name: "Ormond Beach",
+      tagline: "Snowbird-season specialty, oceanfront condos, Ormond-by-the-Sea coverage.",
+      href: "/cleaning/ormond-beach"
+    },
+    {
+      name: "Daytona Beach",
+      tagline: "Race-week capacity reserved. Beachside, Shores, and South Peninsula.",
+      href: "/cleaning/daytona-beach"
+    },
+    {
+      name: "New Smyrna Beach",
+      tagline: "Boutique vacation rentals, Flagler Avenue, Coronado Island, Bethune Beach.",
+      href: "/cleaning/new-smyrna-beach"
     }
   ];
 
@@ -113,6 +135,7 @@ const ModernDazzleDivasWebsite = () => {
     { name: 'Portfolio', href: '#portfolio' },
     { name: 'Why Us', href: '#why-choose-us' },
     { name: 'Testimonials', href: '#testimonials' },
+    { name: 'FAQ', href: '/faq' },
     { name: 'Contact', href: '#contact' }
 
   ];
@@ -351,6 +374,61 @@ const ModernDazzleDivasWebsite = () => {
         </div>
       </section>
 
+      {/* Areas We Serve Section */}
+      <section id="areas" className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-10"
+          >
+            <div className="inline-flex items-center px-4 py-2 bg-cyan-50 text-cyan-700 rounded-full text-sm font-semibold border border-cyan-200 mb-4">
+              <MapPin className="w-4 h-4 mr-2" />
+              Service Areas
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              Vacation rental cleaning across Volusia County
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Local crews dispatched across our most-served cities. Click through for area-specific details, neighborhoods, and FAQs.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {serviceAreas.map((area, index) => (
+              <motion.div
+                key={area.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Link
+                  href={area.href}
+                  className="group block h-full p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-slate-200 hover:border-pink-300 hover:shadow-lg transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">{area.name}</h3>
+                  </div>
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    {area.tagline}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-pink-600 font-semibold text-sm group-hover:gap-2 transition-all">
+                    View {area.name} cleaning details
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section id="services" className="py-20 bg-white">
         <div className="container mx-auto px-6">
@@ -423,9 +501,19 @@ const ModernDazzleDivasWebsite = () => {
                 <button
                   onClick={() => setIsCompetitiveOpen(true)}
                   className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-lg font-semibold transition-colors duration-200">
-                  Learn More
+                  Compare Services
                 </button>
-                
+
+                {service.href && (
+                  <Link
+                    href={service.href}
+                    className="mt-3 inline-flex w-full items-center justify-center gap-1 text-pink-600 hover:text-pink-700 font-semibold text-sm transition-colors"
+                  >
+                    View full service page
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                )}
+
               </motion.div>
             ))}
           </div>

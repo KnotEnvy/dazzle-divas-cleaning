@@ -67,7 +67,7 @@ const ContactItem = ({ icon: Icon, children, href, delay = 0 }) => {
   );
 };
 
-const ServiceLink = ({ icon: Icon, children, href = "#services", delay = 0 }) => {
+const ServiceLink = ({ icon: Icon, children, href = "/#services", delay = 0 }) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -135,21 +135,23 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const navigationLinks = [
-    { label: 'Services', href: '#services' },
-    { label: 'Portfolio', href: '#portfolio' },
-    { label: 'Why Us', href: '#why-choose-us' },
-    { label: 'Testimonials', href: '#testimonials' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Services', href: '/#services' },
+    { label: 'Service Areas', href: '/#areas' },
+    { label: 'Portfolio', href: '/#portfolio' },
+    { label: 'Why Us', href: '/#why-choose-us' },
+    { label: 'Testimonials', href: '/#testimonials' },
+    { label: 'FAQ', href: '/faq' },
+    { label: 'Contact', href: '/#contact' },
   ];
-  
+
 
   const serviceAreas = [
-    "Daytona Beach",
-    "Ormond Beach", 
-    "Ormond-by-the-Sea",
-    "New Smyrna Beach",
-    "Port Orange",
-    "+ All Volusia County",
+    { name: "Daytona Beach", href: "/cleaning/daytona-beach" },
+    { name: "Ormond Beach", href: "/cleaning/ormond-beach" },
+    { name: "Ormond-by-the-Sea", href: null },
+    { name: "New Smyrna Beach", href: "/cleaning/new-smyrna-beach" },
+    { name: "Port Orange", href: null },
+    { name: "+ All Volusia County", href: null },
   ];
 
   return (
@@ -265,17 +267,17 @@ export default function Footer() {
 
             {/* Services */}
             <FooterSection title="Our Services" delay={0.4}>
-              <ServiceLink icon={Home} delay={0.5}>
-                Vacation Rental Cleaning
+              <ServiceLink icon={Home} delay={0.5} href="/services/vacation-rental-turnover">
+                Vacation Rental Turnover
               </ServiceLink>
-              <ServiceLink icon={Building} delay={0.6}>
+              <ServiceLink icon={Sparkles} delay={0.6} href="/services/emergency-cleaning">
+                Emergency &amp; Same-Day
+              </ServiceLink>
+              <ServiceLink icon={Building} delay={0.7} href="/services/property-management">
                 Property Management
               </ServiceLink>
-              <ServiceLink icon={Sparkles} delay={0.7}>
-                Deep Cleaning Services
-              </ServiceLink>
-              <ServiceLink icon={Recycle} delay={0.8}>
-                Eco-Friendly Options
+              <ServiceLink icon={Recycle} delay={0.8} href="/faq">
+                FAQ &amp; Info
               </ServiceLink>
             </FooterSection>
 
@@ -325,18 +327,28 @@ export default function Footer() {
               Proudly Serving Volusia County
             </h4>
             <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-300">
-              {serviceAreas.map((area, index) => (
-                <motion.span
-                  key={area}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="px-3 py-1 bg-white bg-opacity-10 rounded-full hover:bg-diva-pink hover:bg-opacity-20 transition-colors duration-300 cursor-default"
-                >
-                  {area}
-                </motion.span>
-              ))}
+              {serviceAreas.map((area, index) => {
+                const baseClass = "px-3 py-1 bg-white bg-opacity-10 rounded-full transition-colors duration-300";
+                const linkClass = `${baseClass} hover:bg-diva-pink hover:bg-opacity-20 hover:text-white`;
+                const staticClass = `${baseClass} cursor-default`;
+                return (
+                  <motion.span
+                    key={area.name}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    {area.href ? (
+                      <Link href={area.href} className={linkClass}>
+                        {area.name}
+                      </Link>
+                    ) : (
+                      <span className={staticClass}>{area.name}</span>
+                    )}
+                  </motion.span>
+                );
+              })}
             </div>
           </motion.div>
 
