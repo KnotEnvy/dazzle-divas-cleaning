@@ -11,17 +11,19 @@ Purpose: Give LLM agents enough context to safely modify and extend this Next.js
 
 ## Active Entry Points
 - Home route: `app/page.js` → `app/components/Main.js` → renders `testSite.js` inside `Layout`.
-- Layout (client): `app/components/Layout.js` wraps pages, injects `Footer`, smooth-scroll hook, optional `CustomCursor` on large screens.
-- Marketing pages route group: `app/(marketing)/layout.jsx` wraps Phase 1 pages in `PageShell` (SiteHeader + Footer + StickyQuotePill + MotionConfig). Home does NOT use this group — it keeps its own header/layout inside `testSite.js`.
-- Global App metadata: `app/layout.js` (App Router metadata API). JSON-LD injected via `<Script>`.
+- Layout (client): `app/components/Layout.js` wraps pages with `Footer` and the smooth-scroll hook. Slim by design — no header (each top-level page owns its own header).
+- Marketing pages route group: `app/(marketing)/layout.jsx` wraps Phase 1 pages in `PageShell` (SiteHeader + Footer + StickyQuotePill + MotionConfig). Home does NOT use this group — it keeps its own header inside `testSite.js`.
+- Global App metadata: `app/layout.js` (App Router metadata API). LocalBusiness JSON-LD with `aggregateRating` + 3 Review objects injected via `<Script>`. Preconnect/dns-prefetch hints for EmailJS.
+- Dynamic OG cards: `app/opengraph-image.js` (1200×630) and `app/twitter-image.js` are file-based image conventions that auto-apply to all routes — do NOT set `openGraph.images` in per-page metadata or you'll override them.
 
 ## Key Components (active)
-- `app/components/testSite.js` — main landing page (hero, services, portfolio, testimonials, contact, modals).
+- `app/components/testSite.js` — main landing page. Sections in order: hero, stats, **Areas We Serve** (3 cards linking to `/cleaning/*`), services (3 cards each linking to `/services/*` via "View full service page →"), why-choose-us, portfolio, testimonials, FAQ (`<FAQ />`), contact (with `ContactForm`). Header nav includes FAQ link to `/faq`.
+- `app/components/FAQ.js` — home-page FAQ accordion (8 questions) with FAQPage JSON-LD. Inserted between testimonials and contact in `testSite.js`. Distinct from the dedicated `/faq` page (which has 20 categorized Qs and search/filter).
 - `app/components/ContactForm.js` — validated + sanitized EmailJS form (glass style).
-- `app/components/CompetitiveServices.js` — modal overlay with service details/comparison.
+- `app/components/CompetitiveServices.js` — modal overlay with service details/comparison. Triggered by "Compare Services" button on each home service card.
 - `app/components/PrivacyPolicy.js` — policy page (App route at `/privacy-policy`).
 - `app/components/TermsOfService.js` — terms page (App route at `/terms-of-service`).
-- `app/components/Footer.js`, `app/components/Layout.js` — shell.
+- `app/components/Footer.js`, `app/components/Layout.js` — shell. Footer service-area chips link to `/cleaning/*` for cities with detail pages; "Our Services" rows link to `/services/*` and `/faq`.
 
 ### Phase 1 marketing components
 - `app/components/shell/` — `SiteHeader.js` (solid sticky header w/ scroll progress + dropdown nav), `PageShell.js` (wraps marketing pages), `Breadcrumbs.js` (visual + JSON-LD).
@@ -64,9 +66,15 @@ Routes:
 - Security hygiene: client-side sanitization, simple CSRF token, localStorage rate limiting. No server-side verification is implemented.
 
 ## SEO & Metadata
-- App Router metadata in `app/layout.js` (title/description/OG icons).
-- JSON-LD is injected via `next/script` (LocalBusiness schema).
-- `app/robots.js` and `app/sitemap.js` are configured; set `NEXT_PUBLIC_SITE_URL` for accurate sitemap URLs.
+- Root metadata in `app/layout.js` (title/description, LocalBusiness JSON-LD with `aggregateRating` + 3 Review objects, preconnect/dns-prefetch hints).
+- Per-route metadata via `export const metadata` in each `page.jsx` (title, description, canonical, OG title/description/url — DO NOT set `openGraph.images`; the dynamic generators handle that).
+- Per-page schemas inlined as `<script type="application/ld+json">` in page JSX:
+  - Service pages: `Service` (with `provider`, `areaServed`, `hasOfferCatalog`) + `FAQPage` (via `ServiceFAQ` component) + `BreadcrumbList` (via `Breadcrumbs` component)
+  - City pages: `LocalBusiness` (with `areaServed`, `geo` coordinates, `serviceArea` GeoCircle) + `BreadcrumbList`
+  - `/faq`: `FAQPage` (via `FAQAccordion`) + `BreadcrumbList`
+- `app/robots.js` explicitly allows AI/LLM crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended, etc.) and points to sitemap.
+- `app/sitemap.js` enumerates all routes (home, 3 services, 3 cities, FAQ, privacy, terms) with priority/changeFrequency. Set `NEXT_PUBLIC_SITE_URL` for accurate URLs.
+- `public/llms.txt` is the AI-agent discoverability file. It cross-links to all service and city detail pages — keep URLs in sync when routes are added or removed.
 
 ## Deployment
 - Vercel auto-build on push to GitHub.
@@ -110,9 +118,27 @@ Routes:
 - Build locally: `npm run build`
 
 ## File Map (high value)
-- Home flow: `app/page.js` → `app/components/Main.js` → `app/components/testSite.js`
+- Home flow: `app/page.js` → `app/components/Main.js` → `app/components/testSite.js` (with `<FAQ />` section)
+- Marketing route group: `app/(marketing)/layout.jsx` → `PageShell` → SiteHeader + Footer + StickyQuotePill
+- Service pages: `app/(marketing)/services/{vacation-rental-turnover,emergency-cleaning,property-management}/page.jsx`
+- City pages: `app/(marketing)/cleaning/{ormond-beach,daytona-beach,new-smyrna-beach}/page.jsx`
+- FAQ page: `app/(marketing)/faq/page.jsx`
 - Layout shell: `app/layout.js`, `app/components/Layout.js`, `app/components/Footer.js`
 - Policies: `app/privacy-policy/page.jsx` → `app/components/PrivacyPolicy.js` | `app/terms-of-service/page.jsx` → `app/components/TermsOfService.js`
-- SEO: `app/robots.js`, `app/sitemap.js`
+- SEO/discoverability: `app/robots.js`, `app/sitemap.js`, `app/opengraph-image.js`, `app/twitter-image.js`, `public/llms.txt`
 - Legacy: `legacy/v1/components/*`
+
+## Navigation & Discovery (post-Phase-1)
+- Home page is the only ungated entry point — visitors arrive here and must be funneled to detail pages through:
+  - Header nav: includes "FAQ" link to `/faq`
+  - "Areas We Serve" section (between stats and services): 3 city cards
+  - Service cards: each has "Compare Services" (modal) + "View full service page →" (Link to `/services/*`)
+  - Footer: service-area chips link to `/cleaning/*` (for cities with pages); Quick Links includes Service Areas + FAQ; "Our Services" rows link to detail pages
+- Phase 1 pages use `SiteHeader.js` with dropdowns linking among themselves and back to home (`/#contact`, `/#services`, etc.).
+- When adding a new service or city page: update sitemap, llms.txt Key Pages list, the relevant home-page array (`services` or `serviceAreas` in `testSite.js`), the Footer dropdown lists in `SiteHeader.js`, and the Footer chip array.
+
+## Authoritative Copy Decisions
+- **Office line is voice-only for incoming.** Phone (386) 301-5775 does NOT accept incoming SMS. Never write "call or text" anywhere on the site. Origin commit `28ce2e0` enforces this.
+- **Quote turnaround is 24 hours**, not "2 minutes." Origin commit `28ce2e0` enforces this in the home hero CTA.
+- **Founded 2018** — used in Footer copy, llms.txt, layout.js metadata description (which still says "since 2004" — pre-existing factual mismatch on home metadata, not yet corrected).
 
