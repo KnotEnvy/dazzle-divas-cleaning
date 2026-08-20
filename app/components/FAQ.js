@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown, HelpCircle } from "lucide-react";
 
 // Q&A pairs used for BOTH the visible accordion and the FAQPage JSON-LD.
@@ -108,6 +108,7 @@ export default function FAQ() {
               >
                 <button
                   type="button"
+                  id={`faq-question-${index}`}
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
                   aria-expanded={isOpen}
                   aria-controls={`faq-panel-${index}`}
@@ -123,23 +124,23 @@ export default function FAQ() {
                   />
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      id={`faq-panel-${index}`}
-                      key="content"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 pb-6 text-slate-700 leading-relaxed">
-                        {item.a}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* Answer stays mounted in the DOM at all times so search
+                    engines and AI crawlers can read it without a click.
+                    The open/closed state is a pure CSS grid-row transition. */}
+                <div
+                  id={`faq-panel-${index}`}
+                  role="region"
+                  aria-labelledby={`faq-question-${index}`}
+                  className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
+                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-6 pb-6 text-slate-700 leading-relaxed">
+                      {item.a}
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             );
           })}

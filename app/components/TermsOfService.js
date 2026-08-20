@@ -157,22 +157,25 @@ function WhatThisMeans({ show, children }) {
 
 /* ---------- Main component ---------- */
 
+// Static table of contents. Module scope so the IntersectionObserver
+// effect below has a stable reference and does not re-attach on every render.
+const sections = [
+  { id: 'intro', label: 'Introduction' },
+  { id: 'payment', label: 'Payment Terms' },
+  { id: 'scheduling', label: 'Scheduling & Cancellations' },
+  { id: 'scope', label: 'Service Scope & Standards' },
+  { id: 'vacation', label: 'Vacation Rental Terms' },
+  { id: 'liability', label: 'Liability & Insurance' },
+  { id: 'confidentiality', label: 'Privacy & Confidentiality' },
+  { id: 'guarantee', label: 'Quality Guarantee' },
+  { id: 'dispute', label: 'Termination & Disputes' },
+  { id: 'contact', label: 'Contact' },
+];
+
 export default function TermsOfService() {
   const effectiveDate = 'May 22, 2025';
   const lastUpdated = 'May 22, 2025';
 
-  const sections = [
-    { id: 'intro', label: 'Introduction' },
-    { id: 'payment', label: 'Payment Terms' },
-    { id: 'scheduling', label: 'Scheduling & Cancellations' },
-    { id: 'scope', label: 'Service Scope & Standards' },
-    { id: 'vacation', label: 'Vacation Rental Terms' },
-    { id: 'liability', label: 'Liability & Insurance' },
-    { id: 'confidentiality', label: 'Privacy & Confidentiality' },
-    { id: 'guarantee', label: 'Quality Guarantee' },
-    { id: 'dispute', label: 'Termination & Disputes' },
-    { id: 'contact', label: 'Contact' },
-  ];
 
   const [simpleMode, setSimpleMode] = useState(false);
   const [activeId, setActiveId] = useState('intro');

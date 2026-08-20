@@ -7,9 +7,9 @@ const SITE_URL =
 const PATH = '/faq';
 
 export const metadata = {
-  title: 'Frequently Asked Questions | Dazzle Divas Cleaning',
+  title: 'Vacation Rental Cleaning FAQ',
   description:
-    'Answers to the most common questions about vacation rental cleaning in Volusia County: booking, service scope, pricing, response times, race-week capacity, and more.',
+    'Answers on vacation rental cleaning in Volusia County: booking, service scope, pricing, response times, and race-week capacity.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'FAQ — Dazzle Divas Cleaning',
@@ -149,22 +149,9 @@ const items = [
   },
 ];
 
-const breadcrumbLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-    { '@type': 'ListItem', position: 2, name: 'FAQ' },
-  ],
-};
-
 export default function FAQPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
       <ServiceHero
         eyebrow="Help Center"
         title="Frequently Asked Questions"

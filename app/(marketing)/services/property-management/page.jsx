@@ -27,9 +27,9 @@ const SITE_URL =
 const PATH = '/services/property-management';
 
 export const metadata = {
-  title: 'Property Management Cleaning Service | Dazzle Divas Cleaning',
+  title: 'Property Management Cleaning Service',
   description:
-    'Multi-property cleaning service for Volusia County hosts. Volume pricing, dedicated manager, calendar sync, monthly reporting, and reserved peak-season capacity for portfolios of 3 to 50+ vacation rentals.',
+    'Multi-property cleaning for Volusia County hosts. Volume pricing, dedicated manager, calendar sync, and monthly reporting for 3 to 50+ rentals.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Property Management Cleaning Service',
@@ -46,7 +46,7 @@ const breadcrumbs = [
 ];
 
 const stats = [
-  { icon: Building, value: '500+', label: 'Properties served' },
+  { icon: Building, value: '550+', label: 'Properties cleaned a year' },
   { icon: User, value: '1', label: 'Dedicated manager' },
   { icon: CalendarClock, value: 'Auto', label: 'Calendar sync' },
   { icon: Tag, value: '20%', label: 'Volume discount up to' },

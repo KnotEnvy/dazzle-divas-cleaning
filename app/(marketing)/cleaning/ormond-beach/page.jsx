@@ -21,9 +21,9 @@ const PATH = '/cleaning/ormond-beach';
 const CITY = 'Ormond Beach';
 
 export const metadata = {
-  title: 'Vacation Rental Cleaning in Ormond Beach, FL | Dazzle Divas',
+  title: 'Vacation Rental Cleaning in Ormond Beach, FL',
   description:
-    'Vacation rental cleaning in Ormond Beach — from oceanfront condos along Ocean Shore Boulevard to mainland homes in Halifax Plantation and The Trails. Snowbird-season specialty, same-day available, since 2018.',
+    'Vacation rental cleaning in Ormond Beach — oceanfront condos on Ocean Shore Blvd to mainland homes in Halifax Plantation. Same-day available.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Vacation Rental Cleaning in Ormond Beach, FL',

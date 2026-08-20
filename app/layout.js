@@ -1,7 +1,7 @@
 // app/layout.js
 
 import { Inter } from "next/font/google";
-import Script from "next/script";
+import Analytics from "./components/Analytics";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,7 +27,7 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "Dazzle Divas Cleaning | Vacation Rental & House Cleaning in Volusia County, FL",
+      "Vacation Rental & House Cleaning in Volusia County, FL | Dazzle Divas",
     template: "%s | Dazzle Divas Cleaning",
   },
   description:
@@ -90,13 +90,9 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: [
-      { url: "/images/Divas_logo-pink.jpg", type: "image/jpeg" },
-    ],
-    shortcut: "/images/Divas_logo-pink.jpg",
-    apple: "/images/Divas_logo-pink.jpg",
-  },
+  // Icons come from the app/ file conventions: favicon.ico, icon.png,
+  // apple-icon.png. Do not re-declare them here or they get overridden.
+  manifest: "/manifest.webmanifest",
   other: {
     "geo.region": "US-FL",
     "geo.placename": "Volusia County",
@@ -323,25 +319,29 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://api.emailjs.com" />
       </head>
       <body className={inter.className}>
-        <Script
-          id="ld-json-business"
+        {/*
+          Plain <script> tags, NOT next/script.
+          next/script with strategy="beforeInteractive" queues the tag through
+          self.__next_s and injects it client-side, so the markup is absent
+          from the served HTML. Google executes JS and usually still sees it,
+          but AI/LLM crawlers read raw HTML and got nothing at all. Rendering
+          them directly from this server component puts the schema in the
+          document for every crawler, with no hydration cost.
+        */}
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <Script
-          id="ld-json-website"
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
-        <Script
-          id="ld-json-organization"
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );

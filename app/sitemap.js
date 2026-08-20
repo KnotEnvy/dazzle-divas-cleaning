@@ -22,7 +22,8 @@ export default async function sitemap() {
 
   return [
     {
-      url: `${SITE_URL}/`,
+      // No trailing slash — matches the canonical emitted by app/layout.js
+      url: SITE_URL,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 1.0,

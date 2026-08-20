@@ -24,7 +24,7 @@
 Each service has a dedicated detail page with pricing, process, FAQ, and full schema:
 
 - **Vacation Rental Turnover Cleaning** — https://www.dazzledivascleaning.com/services/vacation-rental-turnover
-  Fast, reliable turnover cleaning for Airbnb, VRBO, and short-term rental hosts. 2–4 hour average turnover. 30-point photo verification. 500+ properties served. Pricing by bedroom count: $100–140 (studio/1BR), $140–200 (2BR), $200–280 (3BR+).
+  Fast, reliable turnover cleaning for Airbnb, VRBO, and short-term rental hosts. 2–4 hour average turnover. 30-point photo verification. 550+ properties cleaned a year. Pricing by bedroom count: $100–140 (studio/1BR), $140–200 (2BR), $200–280 (3BR+).
 
 - **Emergency / Same-Day Cleaning** — https://www.dazzledivascleaning.com/services/emergency-cleaning
   24/7 emergency response for vacation rentals. 2-hour dispatch goal during business hours. No rush fees, no weekend or holiday surcharge on standard tiers. Handles surprise bookings, no-show cleaners, post-storm recovery, inspection prep.
@@ -56,7 +56,7 @@ Additional Volusia County cities served (no dedicated page yet): Port Orange, Po
 - Licensed and insured
 - Locally owned and operated in Volusia County, FL
 - Serving the community since 2018
-- 500+ vacation rental properties cleaned
+- 550+ vacation rental properties cleaned every year, three years running
 - 98% guest satisfaction rating reported by hosts
 - 2–4 hour average turnover window for short-term rentals
 - 24/7 emergency dispatch with no rush fees on standard tiers

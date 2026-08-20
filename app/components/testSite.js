@@ -1,32 +1,35 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowRight, Star, Shield, Clock, CheckCircle, Phone, Award, Users, 
+import {
+  ArrowRight, Star, Shield, Clock, CheckCircle, Phone, Award, Users,
   TrendingUp, MapPin, Calendar, Sparkles, Home, Building, Zap, Menu, X,
-  ChevronRight, Play, ExternalLink, MessageCircle, Mail, ChevronDown,
-  Facebook, Instagram, ArrowUp, Camera, Quote, Loader2, AlertCircle 
+  ArrowUp, Camera, Quote
 } from 'lucide-react';
-import { init, send } from '@emailjs/browser';
 import SecureModernContactForm from './ContactForm';
 import CompetitiveServicesPage from './CompetitiveServices';
 import FAQ from './FAQ';
 
 
-const ModernDazzleDivasWebsite = () => {
+const ModernDazzleDivasWebsite = ({ lastYear }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCompetitiveOpen, setIsCompetitiveOpen] = useState(false);
-
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      const y = window.scrollY;
+      setIsScrolled(y > 10);
+      setShowBackToTop(y > 800);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -123,7 +126,7 @@ const ModernDazzleDivasWebsite = () => {
   ];
 
   const stats = [
-    { number: "500+", label: "Properties Served", icon: Home },
+    { number: "550+", label: "Properties Cleaned a Year", icon: Home },
     { number: "98%", label: "Guest Satisfaction", icon: Star },
     { number: "2-4hr", label: "Average Turnover", icon: Clock },
     { number: "15+", label: "Cities Covered", icon: MapPin }
@@ -140,27 +143,34 @@ const ModernDazzleDivasWebsite = () => {
 
   ];
 
-  //current year
-  const currentYear = new Date().getFullYear();
-
   return (
     <div className="min-h-screen bg-white">
       
       {/* Modern Header */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-slate/85 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
         <nav className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning logo" width={48} height={48} className="h-12 w-12 square-full" />
+            <Link href="/" className="flex items-center space-x-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600 focus-visible:ring-offset-2">
+              <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning logo" width={48} height={48} className="h-12 w-12 rounded-full" />
               <div>
-                <h1 className="text-lg font-bold text-diva-pink-400">Dazzle Divas Cleaning</h1>
-                <p className="text-xs text-diva-pink-600">Vacation Rental Specialists</p>
+                <span className={`block text-lg font-bold transition-colors ${isScrolled ? 'text-diva-navy-950' : 'text-white'}`}>
+                  Dazzle Divas Cleaning
+                </span>
+                <span className={`block text-xs transition-colors ${isScrolled ? 'text-diva-pink-700' : 'text-white/85'}`}>
+                  Vacation Rental Specialists
+                </span>
               </div>
-            </div>
-            
+            </Link>
+
             <div className="hidden md:flex items-center space-x-8">
               {navigation.map((item) => (
-                <a key={item.name} href={item.href} className="text-diva-pink-400 hover:text-pink-600 font-medium transition-colors">
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={`font-medium transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600 focus-visible:ring-offset-2 ${
+                    isScrolled ? 'text-diva-navy-950 hover:text-diva-pink-700' : 'text-white hover:text-diva-pink-200'
+                  }`}
+                >
                   {item.name}
                 </a>
               ))}
@@ -169,11 +179,12 @@ const ModernDazzleDivasWebsite = () => {
               </a>
             </div>
 
-            <button 
-              className="md:hidden text-slate-700"
+            <button
+              className={`md:hidden -mr-2 p-3 rounded-lg transition-colors ${isScrolled ? 'text-diva-navy-950' : 'text-white'}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -187,20 +198,21 @@ const ModernDazzleDivasWebsite = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-diva-blue border-t border-slate-200"
+              id="mobile-menu"
+              className="md:hidden bg-diva-navy-950 border-t border-white/10 overflow-hidden"
             >
-              <div className="container mx-auto px-6 py-4 space-y-4">
+              <div className="container mx-auto px-6 py-4 space-y-1">
                 {navigation.map((item) => (
-                  <a 
-                    key={item.name} 
-                    href={item.href} 
-                    className="block text-white-700 hover:text-pink-600 font-medium py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="block text-white hover:text-diva-pink-300 font-medium py-3 min-h-[44px]"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
                 ))}
-                <a href="tel:+13863015775" className="block bg-pink-600 text-white px-6 py-3 rounded-full font-semibold text-center">
+                <a href="tel:+13863015775" className="!mt-4 block bg-pink-600 text-white px-6 py-3 rounded-full font-semibold text-center min-h-[44px]">
                   Call (386) 301-5775
                 </a>
               </div>
@@ -216,7 +228,7 @@ const ModernDazzleDivasWebsite = () => {
                     src="/images/swans_divas.jpg"
                     alt="Oceanfront vacation rental in Volusia County, cleaned and ready for guests by Dazzle Divas Cleaning"
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="100vw"
                     priority={true}
                     className="object-cover"
                   />
@@ -257,9 +269,9 @@ const ModernDazzleDivasWebsite = () => {
               className="mb-8"
             >
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-                Volusia County&apos;s
+                Volusia County&apos;s{' '}
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
-                  #1 Vacation Rental
+                  #1 Vacation Rental{' '}
                 </span>
                 <span className="block">Cleaning Service</span>
               </h1>
@@ -276,7 +288,7 @@ const ModernDazzleDivasWebsite = () => {
                         <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                       ))}
                     </div>
-                    <span className="text-white font-semibold">500+ Properties Served</span>
+                    <span className="text-white font-semibold">550+ Properties Cleaned a Year</span>
                   </div>
                   <p className="text-white/90 text-sm">
                     &ldquo;The only cleaning service that truly understands vacation rentals. My guest reviews improved dramatically!&rdquo; - Sarah M., Airbnb Superhost
@@ -445,7 +457,7 @@ const ModernDazzleDivasWebsite = () => {
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Services Designed for
+              Services Designed for{' '}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-cyan-500">
                 Vacation Rental Success
               </span>
@@ -507,7 +519,7 @@ const ModernDazzleDivasWebsite = () => {
                 {service.href && (
                   <Link
                     href={service.href}
-                    className="mt-3 inline-flex w-full items-center justify-center gap-1 text-pink-600 hover:text-pink-700 font-semibold text-sm transition-colors"
+                    className="mt-2 inline-flex min-h-[44px] w-full items-center justify-center gap-1 rounded-lg text-pink-600 hover:text-pink-700 font-semibold text-sm transition-colors"
                   >
                     View full service page
                     <ArrowRight className="w-4 h-4" />
@@ -560,7 +572,9 @@ const ModernDazzleDivasWebsite = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {portfolioImages.map((image, index) => (
+            {portfolioImages.map((image, index) => {
+              const isWide = index % 7 === 0 || index % 5 === 0;
+              return (
               <motion.div
                 key={image.src}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -568,7 +582,7 @@ const ModernDazzleDivasWebsite = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 className={`relative group cursor-pointer rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ${
-                  index % 7 === 0 ? 'md:col-span-2 md:row-span-2' : 
+                  index % 7 === 0 ? 'md:col-span-2 md:row-span-2' :
                   index % 5 === 0 ? 'lg:col-span-2' : ''
                 }`}
                 onClick={() => setSelectedImage(image)}
@@ -578,7 +592,9 @@ const ModernDazzleDivasWebsite = () => {
                     src={image.src}
                     alt={image.alt || image.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    sizes={isWide
+                      ? '(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 50vw'
+                      : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw'}
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -591,7 +607,8 @@ const ModernDazzleDivasWebsite = () => {
                   <Camera className="w-6 h-6 text-white" />
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Portfolio CTA */}
@@ -636,7 +653,7 @@ const ModernDazzleDivasWebsite = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Why Dazzle Divas Beats
+              Why Dazzle Divas Beats{' '}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
                 Every Other Cleaning Service
               </span>
@@ -664,7 +681,7 @@ const ModernDazzleDivasWebsite = () => {
                 icon: Shield,
                 title: "Review Protection Guarantee",
                 description: "Your guest reviews are guaranteed. If cleanliness affects a review, we'll re-clean for free.",
-                stat: "Zero negative cleanliness reviews in 2024"
+                stat: `Zero negative cleanliness reviews in ${lastYear}`
               },
               {
                 icon: Zap,
@@ -676,7 +693,7 @@ const ModernDazzleDivasWebsite = () => {
                 icon: TrendingUp,
                 title: "Higher Property Value",
                 description: "Clean, well-maintained properties book for 15-20% higher rates and get more bookings.",
-                stat: "$2,400 average annual revenue increase"
+                stat: "~20% average revenue increase reported by hosts"
               },
               {
                 icon: Users,
@@ -718,7 +735,7 @@ const ModernDazzleDivasWebsite = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              What Vacation Rental Owners
+              What Vacation Rental Owners{' '}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-cyan-500">
                 Say About Us
               </span>
@@ -772,17 +789,24 @@ const ModernDazzleDivasWebsite = () => {
               </AnimatePresence>
 
               {/* Navigation dots */}
-              <div className="flex justify-center space-x-2 mt-8">
-                {testimonials.map((_, index) => (
+              <div className="flex justify-center mt-8">
+                {testimonials.map((item, index) => (
                   <button
-                    key={index}
+                    key={item.name}
+                    type="button"
                     onClick={() => setActiveTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === activeTestimonial 
-                        ? 'bg-pink-500 w-8' 
-                        : 'bg-slate-300 hover:bg-slate-400'
-                    }`}
-                  />
+                    aria-label={`Show the review from ${item.name}`}
+                    aria-current={index === activeTestimonial}
+                    className="group flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600"
+                  >
+                    <span
+                      className={`block h-3 rounded-full transition-all duration-300 ${
+                        index === activeTestimonial
+                          ? 'w-8 bg-pink-500'
+                          : 'w-3 bg-slate-300 group-hover:bg-slate-400'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
@@ -796,7 +820,7 @@ const ModernDazzleDivasWebsite = () => {
             viewport={{ once: true }}
             className="text-center mt-12"
           >
-            <p className="text-slate-600 mb-6">Ready to join 500+ satisfied vacation rental owners?</p>
+            <p className="text-slate-600 mb-6">Ready to join the hosts we clean for across Volusia County?</p>
             <button
               onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
               className="bg-gradient-to-r from-pink-600 to-pink-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-lg transition-all duration-300"
@@ -834,7 +858,7 @@ const ModernDazzleDivasWebsite = () => {
               className="mb-12"
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Ready to Transform Your
+                Ready to Transform Your{' '}
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-cyan-300">
                   Vacation Rental?
                 </span>
@@ -921,74 +945,37 @@ const ModernDazzleDivasWebsite = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      {/* <footer className="bg-slate-900 text-white py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning logo" width={40} height={40} className="h-10 w-10 rounded-full" />
-                <div>
-                  <h3 className="font-bold">Dazzle Divas Cleaning</h3>
-                  <p className="text-sm text-slate-400">Vacation Rental Specialists</p>
-                </div>
-              </div>
-              <p className="text-slate-400 mb-4">
-                Elevating vacation rentals across Volusia County with professional, guest-ready cleaning services since 2018.
-              </p>
-              <div className="flex space-x-4">
-                <Facebook className="w-5 h-5 text-slate-400 hover:text-white cursor-pointer" />
-                <Instagram className="w-5 h-5 text-slate-400 hover:text-white cursor-pointer" />
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-4">Services</h4>
-              <ul className="space-y-2 text-slate-400">
-                <li>Vacation Rental Turnover</li>
-                <li>Emergency Cleaning</li>
-                <li>Property Management</li>
-                <li>Deep Clean & Reset</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-4">Service Areas</h4>
-              <ul className="space-y-2 text-slate-400">
-                <li>Daytona Beach</li>
-                <li>Ormond Beach</li>
-                <li>New Smyrna Beach</li>
-                <li>Port Orange</li>
-                <li>+ All Volusia County</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-4">Contact</h4>
-              <div className="space-y-3 text-slate-400">
-                <p>(386) 301-5775</p>
-                <p>Available 7 Days a Week</p>
-                <p>Same-Day Service Available</p>
-                <div className="mt-4">
-                  <span className="bg-green-600 text-white px-2 py-1 rounded text-xs">Licensed & Insured</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-400">
-            <p>&copy; {currentYear} Dazzle Divas Cleaning LLC. All rights reserved.</p>
-          </div>
+      {/* Mobile sticky CTA — the home page's primary conversion path on phones */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden border-t border-white/10 bg-diva-navy-950/95 backdrop-blur-md">
+        <div className="flex items-stretch gap-2 px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
+          <a
+            href="tel:+13863015775"
+            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-white/10 px-4 font-semibold text-white active:bg-white/20"
+          >
+            <Phone className="w-4 h-4" aria-hidden="true" />
+            Call now
+          </a>
+          <a
+            href="#contact"
+            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-pink-700 px-4 font-semibold text-white"
+          >
+            Free quote
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </a>
         </div>
-      </footer> */}
+      </div>
 
       {/* Scroll to top button */}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 bg-pink-600 text-white p-3 rounded-full shadow-lg hover:bg-pink-700 transition-colors duration-300 z-50"
-      >
-        <ArrowUp className="w-5 h-5" />
-      </button>
+      {showBackToTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Back to top"
+          className="fixed bottom-24 right-4 md:bottom-6 md:right-6 flex h-12 w-12 items-center justify-center bg-pink-600 text-white rounded-full shadow-lg hover:bg-pink-700 transition-colors duration-300 z-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        >
+          <ArrowUp className="w-5 h-5" aria-hidden="true" />
+        </button>
+      )}
 
       {/* Image modal */}
       <AnimatePresence>
