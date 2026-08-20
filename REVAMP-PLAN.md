@@ -211,6 +211,7 @@ Mostly not code. Longest lead time of anything here, so it starts regardless of 
 |---|---|---|
 | Hero srcset candidate selected @1600px | `w=640` (528×396 delivered) | `w=3840` (2560×1920 AVIF, 247 KB) |
 | Hero `sizes` | `33vw` on a 100vw image | `100vw` |
+| Nav contrast on white | 2.65:1 (FAIL AA) | 13.88:1 (PASS AA/AAA) |
 | FAQ answers in crawlable HTML | 0 of 20 | 20 of 20 |
 | `/faq` visible words | 355 | 1,117 (+215%) |
 | Home visible words | 964 | 1,208 (+25%) |
