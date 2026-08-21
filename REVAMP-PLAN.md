@@ -1,190 +1,158 @@
 # Dazzle Divas — Revamp Plan
 
-Working checklist for the 2026 revamp. Audit performed 19 Aug 2026 against the live site
-(`https://www.dazzledivascleaning.com`) and the repo at commit `2eb8154`.
+**Status as of 21 Aug 2026:** Phase 1 complete and merged to `master`. Phase 0 complete in code,
+waiting on account setup and a baseline. Phases 2–4 not started.
 
-Read this together with `AGENTS.md` (architecture + conventions). This file is the *what and when*;
-AGENTS.md is the *how*.
+Read alongside `AGENTS.md`. This file is the **what and when**; AGENTS.md is the **how**
+(architecture, conventions, and the decisions you must not undo).
+
+---
+
+## Start here (new to this project?)
+
+1. Next.js 14 App Router on Vercel. `master` auto-deploys to production.
+2. On-page SEO is already strong — schema on every page, `llms.txt`, an AI-crawler robots policy,
+   and 7 purpose-built landing pages. **Don't rebuild it. Extend it.**
+3. The single biggest lever on traffic is *not* the website. See "Strategic framing".
+4. Before changing anything visual or copy-related, read **Guardrails** below and the
+   **Header treatment** section of AGENTS.md. Several things that look like bugs are decisions.
 
 ---
 
 ## Strategic framing
 
-On-page SEO here is already above average for the vertical (schema, `llms.txt`, AI-crawler robots policy,
-7 landing pages). The gap between "good scaffolding" and "gets traffic" is:
+The gap between "good scaffolding" and "gets traffic", in priority order:
 
-1. **No measurement.** Nothing is instrumented, so nothing is provable.
-2. **Local SEO is untouched.** Map-pack ranking is won on Google Business Profile signals and review
-   volume, not site design. For this business that is likely the largest single traffic gap.
-3. **Content depth.** 10 pages, 355–964 words each. No blog. Schema promises 5 services (3 have pages);
-   copy claims 7+ cities (3 have pages).
-4. **Bugs that undo the good work** — see Phase 1.
-
-A redesign multiplies conversion on traffic you already have. It does not create traffic. Sequence accordingly.
-
----
-
-## ⚠ NOTHING IS DEPLOYED YET — this blocks Phase 0
-
-Checked production 21 Aug 2026: `https://www.dazzledivascleaning.com` is still running the old
-`master`. Old page title, 1 JSON-LD block, no analytics, no manifest, no `550+`. All Phase 1 work
-sits on the unpushed branch `revamp/phase-1-fixes`.
-
-This is why Google says "install the Google tag" and Vercel says "install the package" — the
-measurement ID is set in Vercel, but the code that reads it has never shipped. Setting env vars and
-redeploying `master` cannot help; `master` has no Analytics component.
-
-```
-git push -u origin revamp/phase-1-fixes     # preview deploy, verify, then merge to master
-```
-
-Verified locally against a production build with a test measurement ID — the whole stack works the
-moment it ships:
-
-- `gtag` loads, `config` fires with the measurement ID
-- `/_vercel/insights/script.js` and `/_vercel/speed-insights/script.js` both inject
-- Clicking a `tel:` link emits `call_click {destination, location}`
+1. **Measurement.** Instrumented in code but not yet producing data. Until a baseline exists,
+   nothing below is provable.
+2. **Local SEO.** Map-pack ranking is won on Google Business Profile signals and review volume, not
+   site design. Very likely the largest single traffic gap. Phase 2.
+3. **Content depth.** 10 pages, no blog. Schema promises 5 services but only 3 have pages; copy
+   claims 7+ cities but only 3 have pages. Phase 3.
+4. **Visual revamp.** Phase 4. It multiplies conversion on traffic you already have — it does not
+   create traffic. Sequenced last on purpose.
 
 ---
 
-## Phase 0 — Instrument first
+## Phase 0 — Instrumentation · code complete, needs accounts
 
-- [x] Vercel Analytics + Speed Insights installed and wired (`app/components/Analytics.js`),
-      importing from `@vercel/analytics/next` and `@vercel/speed-insights/next` — the `/next`
-      entrypoints hook `next/navigation` so client-side route changes count as pageviews
-- [x] `track()` helper + delegated call/email click tracking (`app/lib/analytics.js`)
-- [x] GA4 wired; activates on `NEXT_PUBLIC_GA_MEASUREMENT_ID`
-- [x] Measurement ID created and set in Vercel (owner, 21 Aug 2026)
-- [x] Conversion events: `call_click`, `email_click`, `quote_submit`, `quote_submit_failed`
-- [ ] **Deploy the branch** — everything above is inert until this happens  ← BLOCKING
-- [ ] Confirm GA4 Realtime shows traffic after deploy  ← NEEDS YOU
-- [ ] Enable Analytics + Speed Insights in the Vercel project's Analytics tab  ← NEEDS YOU
-- [ ] Google Search Console verified, sitemap submitted  ← NEEDS YOU
-- [ ] Bing Webmaster Tools verified  ← NEEDS YOU
-- [ ] Baseline snapshot recorded: Lighthouse (home / service / city / faq), GSC impressions + avg
-      position, current rank for ~12 target terms
+Everything in code is done and verified against a production build. What remains is account setup
+only the owner can do.
 
-**Note on the "Google tag" prompt:** GA4's setup wizard offers CMS installers or a manual snippet.
-Neither is needed — `app/components/Analytics.js` already loads `gtag.js` and calls `config`. Take
-the Measurement ID (`G-XXXXXXXXXX`) only; skip the install step and use "Test" / Realtime to confirm
-once deployed.
+- [x] Vercel Analytics + Speed Insights wired in `app/components/Analytics.js`, importing from
+      `@vercel/analytics/next` and `@vercel/speed-insights/next`. The `/next` entrypoints hook
+      `next/navigation` so client-side route changes register as pageviews; `/react` does not.
+- [x] `track()` helper and `EVENTS` map in `app/lib/analytics.js`. No-ops when no provider is
+      present, so it is safe to call from anywhere.
+- [x] GA4 loads only when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set — local and preview stay clean.
+- [x] Measurement ID created and set in Vercel (owner, 21 Aug 2026).
+- [x] Conversion events: `call_click`, `email_click`, `quote_submit`, `quote_submit_failed`.
+      Phone/email clicks use one delegated listener in `Analytics.js` — **do not add per-link
+      handlers.**
+- [x] Merged to `master` and deployed (21 Aug 2026).
+- [ ] Confirm GA4 Realtime shows traffic  ← **owner**
+- [ ] Enable Analytics + Speed Insights in the Vercel project's Analytics tab (the npm package is
+      only half of it)  ← **owner**
+- [ ] Google Search Console verified, sitemap submitted  ← **owner**
+- [ ] Bing Webmaster Tools verified  ← **owner**
+- [ ] Record the baseline: Lighthouse on the four templates, GSC impressions and average position,
+      current rank for ~12 target terms. **Do this before Phase 4 or the revamp is unmeasurable.**
 
----
+**On GA4's "install the Google tag" prompt:** skip it. `Analytics.js` already loads `gtag.js` and
+calls `config`. Take the Measurement ID (`G-XXXXXXXXXX`) only, then confirm via Realtime.
 
-## Phase 1 — Fix what's actively costing us · ✅ COMPLETE (19 Aug 2026)
+**Optional:** set `LEAD_WEBHOOK_URL` in Vercel to forward quote submissions somewhere durable
+(Zapier / Make / Sheets / CRM). Without it, leads live only in the Vercel runtime logs.
 
-### Critical
-
-- [x] **Hero renders at 4.5× upscale.** `app/components/testSite.js:219` —
-      `sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"` on a full-bleed `fill` image.
-      Measured at 1600×900 DPR 1.5: displayed 1585×900 CSS px, downloaded 528×396. Change to `sizes="100vw"`.
-      Also fixes the `<link rel=preload>` which inherits the same value.
-- [x] **FAQ answers are not in the DOM.** `app/components/faq/FAQAccordion.js` and `app/components/FAQ.js`
-      render answers only behind `{isOpen && …}`. `/faq` = 20 questions, 20 `acceptedAnswer` in JSON-LD,
-      **0 answers in visible HTML**, 355 visible words. Keep answers mounted (animate height) or use
-      `<details>/<summary>`. Highest-leverage single edit for agentic search.
-- [x] **Header background never applies.** `testSite.js:150` uses `bg-slate/85` — not a valid Tailwind class,
-      0 matches in the compiled CSS. Nav renders `rgb(244,114,182)` on white = **2.65:1** (WCAG AA needs 4.5:1).
-      Use a real token and darken the link colour.
-- [x] **Doubled brand suffix in titles.** Root template is `%s | Dazzle Divas Cleaning` but all 7 Phase-1 pages
-      already end with the brand → 81–89 char titles, e.g.
-      `Vacation Rental Turnover Cleaning | Dazzle Divas Cleaning | Dazzle Divas Cleaning`.
-      Drop the brand from each page's own `metadata.title`.
-- [x] **Meta descriptions 185–208 chars** on the same 7 pages. Trim to ≤155.
-
-### High
-
-- [x] **Two `<h1>` on home** — logo wordmark (`testSite.js:157`) + hero. Demote the wordmark to `<span>`.
-- [x] **Headings concatenate without spaces** (`<span className="block">` with no whitespace). Actual text content:
-      - `Volusia County's#1 Vacation RentalCleaning Service`
-      - `Services Designed forVacation Rental Success`
-      - `What Vacation Rental OwnersSay About Us`
-      - `Ready to Transform YourVacation Rental?`
-      - `Why Dazzle Divas BeatsEvery Other Cleaning Service`
-      - `Cleaning Questions,Answered`
-- [x] **Re-encode `public/images`** — 85 MB total, 22 JPEGs at 3–6.5 MB. Max 2560 px, q82. Expect ~85 MB → ~6 MB.
-- [x] **Mobile sticky call/quote bar on home.** `StickyQuotePill` is in the marketing route group only; home
-      (all the traffic) has no persistent CTA below the hero.
-- [x] **Contact form has no server route.** Client-only EmailJS: no server-side spam filtering, no lead
-      persistence, no conversion event. A failed send loses the lead silently. Move behind a route handler,
-      persist, add honeypot/Turnstile.
-
-### Medium
-
-- [x] **25 tap targets < 44×44 px** on mobile; testimonial dots are 12×12 (below WCAG 2.2 AA 24×24 floor).
-- [x] **4 buttons with no accessible name**, incl. scroll-to-top — which is also visible at scroll 0.
-      Add `aria-label`s + a scroll threshold.
-- [x] **Icon set.** Favicon is a 147 KB JPEG served as `/favicon.ico`. No PNG set, no apple-touch-icon,
-      no manifest (`/manifest.json` → 404).
-- [x] **404 page** is a bare centred sentence — no header, footer, or links back in.
-- [x] **Dead Tailwind classes:** `square-full` (`testSite.js:154`, meant `rounded-full`), `text-white-700`
-      (mobile menu — currently white only via inheritance, fragile).
-- [x] **`bg-diva-blue` defined twice:** `#082f49` in `tailwind.config.js`, `#000080` in `globals.css`
-      (globals wins by source order). Pick one.
-- [x] **Dead modules** — imported nowhere: `app/components/CustomCursor.js`, `app/hooks/useInView.js`,
-      `app/hooks/useParallax.js`, `app/hooks/useRateLimit.js`. Plus ~100 lines of commented-out footer in
-      `testSite.js`.
-- [x] **Canonical inconsistency:** home canonical is `https://www.dazzledivascleaning.com` (no trailing slash),
-      sitemap emits `.../`. Normalise. (Apex → www 308 redirect is correct and working.)
-
-**Done when:** Lighthouse mobile ≥ 90 on Performance / Accessibility / Best Practices / SEO across all four templates.
+**Done when:** 7 consecutive days of clean GA4 data, GSC reporting, baseline written down.
 
 ---
 
-## ✅ Resolved — Cloudflare robots.txt override removed (owner, 20 Aug 2026)
+## Phase 1 — Defect fixes · ✅ COMPLETE (merged 21 Aug 2026)
 
-Cloudflare's Managed robots.txt was prepending `Disallow: /` for ClaudeBot, GPTBot, CCBot,
-Google-Extended, Applebot-Extended, Amazonbot, Bytespider and meta-externalagent, plus
-`Content-Signal: ai-train=no` — directly contradicting `app/robots.js`.
+Five issues were quietly cancelling out the existing SEO work, plus a total absence of analytics.
+All fixed and verified — see the before/after table at the bottom.
 
-Turned off in the Cloudflare dashboard. Verified: the live file is now 53 lines with **zero**
-`Disallow` rules and **zero** `Content-Signal` directives. `app/robots.js` is the sole authority.
+**Critical**
+- [x] Hero rendered at 4.5× upscale — `sizes="33vw"` on a full-bleed `fill` image
+- [x] Root LocalBusiness/Organization/WebSite JSON-LD was injected by JS, absent from served HTML
+- [x] Every FAQ answer was gated behind `{isOpen && …}` — crawlable questions, invisible answers
+- [x] Scrolled header applied `bg-slate/85`, not a real Tailwind class, so it compiled to nothing
+- [x] Seven pages shipped a doubled brand suffix in the title at 81–89 chars
 
-## Phase 2 — Local SEO (start week 1, runs continuously)
+**High**
+- [x] Two `<h1>` on home; six headings concatenated without word spaces
+- [x] `public/images` 85 MB → 14 MB (originals archived at `../_image_backup_20260819/`)
+- [x] Mobile sticky call/quote bar on home, which had no persistent CTA
+- [x] Contact form had no server route — a failed EmailJS send lost the lead silently
+- [x] Copy: 550+/year sitewide, computed "last year", "~20%" instead of a dollar figure
 
-Mostly not code. Longest lead time of anything here, so it starts regardless of build progress.
+**Medium**
+- [x] 25 mobile tap targets under 44×44; 4 buttons with no accessible name
+- [x] Real multi-size `favicon.ico` (was a 147 KB JPEG renamed `.ico`), PNG set, web manifest
+- [x] Real 404 page with navigation
+- [x] Dead Tailwind classes, duplicate `bg-diva-blue`, 4 dead modules, duplicate BreadcrumbList
+- [x] ESLint clean
 
-- [~] Google Business Profile created — **verification pending with Google as of 19 Aug 2026**. Once live: full categories, services, service area, hours, 20+ photos, seeded Q&A
-- [ ] Review engine: automated post-job follow-up with a direct review link. Steady trickle, not a burst
+---
+
+## Phase 2 — Local SEO · START HERE NEXT
+
+Mostly not code. Longest lead time of anything in this plan, so it starts regardless of build
+progress. This is where the traffic actually is.
+
+- [~] Google Business Profile created — **verification pending with Google** as of 19 Aug 2026.
+      Once verified: full categories, services, service area, hours, 20+ photos, seeded Q&A
+- [ ] Review engine: automated post-job follow-up with a direct review link. Steady trickle, not a
+      burst
 - [ ] Citations with identical NAP: Bing Places, Apple Business Connect, Yelp, Nextdoor, Thumbtack
-- [ ] **Add a street/mailing address to the LocalBusiness schema.** `app/layout.js` currently has locality only,
-      which limits local eligibility
-- [ ] **Migrate the review markup to Google reviews.** The 3 `Review` objects in `app/layout.js` are real
-      client reviews (owner-confirmed; photos are stock for client privacy), so they stay on the page. But
-      Google does not surface review rich results for a business marking up reviews about *itself*, so the
-      markup earns nothing where it is. Once the GBP has real reviews, source them from there instead.
-- [ ] Airbnb/VRBO host Facebook groups for Volusia County
+- [ ] **Add a street/mailing address to the LocalBusiness schema.** `app/layout.js` has locality
+      only, which limits local-pack eligibility
+- [ ] **Migrate review markup to Google reviews.** The 3 `Review` objects in `app/layout.js` are
+      real client reviews (owner-confirmed; photos are stock for client privacy) so they stay on the
+      page. But Google does not surface review rich results for a business marking up reviews about
+      *itself*, so the markup earns nothing where it sits. Re-source from GBP once reviews land.
+- [ ] Airbnb/VRBO host Facebook groups for Volusia County — where the actual buyers are
 
-**Done when:** profile verified and complete; reviews arriving at a predictable weekly rate unprompted.
+**Done when:** profile verified and complete; reviews arriving at a predictable weekly rate without
+anyone having to remember to ask.
 
 ---
 
 ## Phase 3 — Content & GEO expansion (3–4 weeks)
 
-- [ ] City pages: Port Orange, Ponce Inlet, Daytona Beach Shores, Ormond-by-the-Sea
-      (real local detail — current 3 share ~25% of phrasing, which is fine; keep it that way)
-- [ ] Service pages the schema already promises: Residential House Cleaning, Deep Cleaning, Eco-Friendly Cleaning
-- [ ] Transparent pricing page — LLMs cite specific numbers; competitors mostly hide theirs
-- [ ] About page: real names, faces, 2018 founding story (E-E-A-T for a local business)
-- [ ] 6–8 guides on how hosts actually phrase things: turnover checklists, what cleaning fee to charge,
-      Volusia short-term rental rules, race-week prep, hurricane prep
-- [ ] Answer-first structure throughout: lead with the answer in one sentence, then support it
-- [ ] Keep `sitemap.js`, `llms.txt`, home arrays, `SiteHeader`, footer in sync
+- [ ] City pages: Port Orange, Ponce Inlet, Daytona Beach Shores, Ormond-by-the-Sea. Real local
+      detail, not swapped nouns — the existing three share ~25% of phrasing; keep new ones at or
+      below that
+- [ ] The three service pages the schema already promises: Residential House Cleaning, Deep
+      Cleaning, Eco-Friendly Cleaning
+- [ ] Transparent pricing page — LLMs cite specific numbers and competitors mostly hide theirs
+- [ ] About page: real names, faces, the 2018 founding story. This is what E-E-A-T means for a local
+      business
+- [ ] 6–8 guides phrased the way hosts actually search: turnover checklists, what cleaning fee to
+      charge, Volusia short-term rental rules, race-week prep, hurricane prep
+- [ ] Answer-first structure throughout: lead each section with the answer in one sentence, then
+      support it
+- [ ] Every new route updates 5 places — see Guardrails
 
-**Done when:** 20+ pages, every schema claim has a page behind it, GSC shows impressions on unplanned terms.
+**Done when:** 20+ pages, every schema claim has a page behind it, GSC shows impressions on terms we
+never explicitly targeted.
 
 ---
 
-## Phase 4 — Visual revamp (2–3 weeks; design exploration can start immediately)
+## Phase 4 — Visual revamp (2–3 weeks; design exploration can start any time)
 
-- [ ] Consolidate the design system — one colour source of truth, one type scale; retire the legacy CSS vars
-      in `globals.css` and the duplicate `diva-blue`
-- [ ] Decompose `testSite.js` (1,049 lines, one client component) into section components
-- [ ] Convert static sections to server components — currently ~203 KB compressed JS for a brochure page
-- [ ] Real photography: before/after pairs from actual turnovers, plus the team. Current portfolio is 2024
-      decor shots, not evidence of cleaning
+- [ ] Consolidate the design system — one colour source of truth, one type scale; retire the legacy
+      CSS variables in `globals.css`
+- [ ] Decompose `testSite.js` (~1,040 lines, one client component) into section components
+- [ ] Convert static sections to server components — currently ~200 KB compressed JS to render what
+      is mostly a brochure
+- [ ] Real photography: before/after pairs from actual turnovers, plus the team. Current portfolio
+      is 2024 decor shots, not evidence of cleaning
 - [ ] Motion discipline; honour `prefers-reduced-motion` throughout
-- [ ] Rebuild home around one question: does a host understand in 5 seconds what we do and how to book
+- [ ] Rebuild home around one question: does a host understand in 5 seconds what we do and how to
+      book it
+- [ ] **Do not** restyle the home header without reading AGENTS.md → Header treatment first
 
 **Done when:** live, and GA4 shows a higher call+form conversion rate than the Phase 0 baseline.
 
@@ -196,38 +164,49 @@ Mostly not code. Longest lead time of anything here, so it starts regardless of 
 |---|---|
 | Phone | Office line is voice-only. Never write "call or text" anywhere. |
 | Turnaround | Quote turnaround is **24 hours**, not 2 minutes. |
-| Founded | **2018.** (AGENTS.md's "since 2004" note is stale — `layout.js` already says 2018. Prune it.) |
-| Claims | Every stat needs a source we could show someone, or it comes off. Includes 500+, 98%, $2,400. |
-| Stale copy | "Zero negative cleanliness reviews in 2024" is two years old. Date-stamped claims need an owner. |
+| Founded | **2018.** |
+| Claims | Owner-confirmed defensible (21 Aug 2026): 550+/year, 98% guest satisfaction, 78% industry average, "#1", 15+ cities, ~20% revenue lift. Any **new** stat needs a source before it ships. |
+| Date-stamped copy | Never hardcode a year. "Zero negative cleanliness reviews in {lastYear}" takes `lastYear` from `app/page.js` (server) with `revalidate = 86400`. |
+| Header | Untinted glass, pink-400 links, 2.65:1 — a tested owner decision, not a bug. See AGENTS.md. |
 | Structure | One `<h1>` per page, describing the page — not the company. |
 | Content | Answers live in the DOM. Never behind a click, never only in JSON-LD. |
-| RSC boundary | Server page passing a lucide icon as a prop → receiving component must stay a server component. |
-| New routes | Update 5 places: `sitemap.js`, `llms.txt`, home page array, `SiteHeader`, footer. |
-| Images | `next/image` only; `sizes` must describe the **rendered** width. |
+| JSON-LD | Plain `<script>` from a server component. Never `next/script` — it injects client-side and the schema vanishes from the served HTML. |
+| Titles | Page `metadata.title` must **not** include the brand; the root template appends it. ≤70 chars title, ≤160 chars description, measured after the template. |
+| RSC boundary | A server page passing a lucide icon as a prop needs the receiving component to stay a server component. |
+| New routes | Update 5 places: `sitemap.js`, `llms.txt`, the home page array, `SiteHeader`, the footer. |
+| Images | `next/image` only; `sizes` must describe the **rendered** width. Source images capped at 2560px. |
 
 ---
 
 ## Open questions
 
-1. ~~Is there a Google Business Profile?~~ **Answered:** yes, in verification with Google as of 19 Aug 2026.
-2. ~~Are the testimonials real?~~ **Answered:** yes, real clients; photos are stock for privacy.
-3. ~~Substantiate the stats?~~ **Answered:** 550+/year for 3 years (now sitewide); revenue claim is now
-   "~20%". Owner confirms the remaining claims — 98% guest satisfaction, 78% industry average, "#1",
-   15+ cities — are all defensible. Keeping them as written.
-4. Do we have current photos of real jobs?
-5. Where do leads go after the form — CRM, spreadsheet, or inbox?
-6. Sustainable writing cadence per month? *(Sizes Phase 3.)*
+1. ~~Google Business Profile?~~ Yes — in verification with Google as of 19 Aug 2026.
+2. ~~Testimonials real?~~ Yes — real clients, stock photos for privacy.
+3. ~~Stats defensible?~~ Yes — all owner-confirmed 21 Aug 2026.
+4. Do we have current photos of real jobs? *(Blocks the Phase 4 photography item.)*
+5. Where do leads go after the form — CRM, spreadsheet, or inbox? *(Determines whether
+   `LEAD_WEBHOOK_URL` is worth wiring.)*
+6. Sustainable writing cadence per month? *(Sizes Phase 3 — match it to what will actually be
+   sustained, not what looks good on a plan.)*
 
 ---
 
-## Measured: before → after Phase 1 (19 Aug 2026)
+## Resolved issues worth remembering
+
+**Cloudflare robots.txt override (fixed 20 Aug 2026).** Cloudflare's Managed robots.txt was
+prepending `Disallow: /` for ClaudeBot, GPTBot, CCBot, Google-Extended, Applebot-Extended,
+Amazonbot, Bytespider and meta-externalagent, plus `Content-Signal: ai-train=no` — directly
+contradicting `app/robots.js`. Turned off in the Cloudflare dashboard; the live file now has zero
+`Disallow` rules. **If AI crawlers ever stop appearing, check this first.**
+
+---
+
+## Measured: before → after Phase 1
 
 | Metric | Before | After |
 |---|---|---|
-| Hero srcset candidate selected @1600px | `w=640` (528×396 delivered) | `w=3840` (2560×1920 AVIF, 247 KB) |
+| Hero srcset candidate @1600px | `w=640` (528×396 delivered) | `w=3840` (2560×1920 AVIF, 247 KB) |
 | Hero `sizes` | `33vw` on a 100vw image | `100vw` |
-| Nav contrast on white | 2.65:1 (FAIL AA) | 13.88:1 (PASS AA/AAA) |
-| Scrolled header | transparent (class compiled to nothing) | frosted glass, `bg-white/70` + `blur(24px)` |
 | FAQ answers in crawlable HTML | 0 of 20 | 20 of 20 |
 | `/faq` visible words | 355 | 1,117 (+215%) |
 | Home visible words | 964 | 1,208 (+25%) |
@@ -243,12 +222,17 @@ Mostly not code. Longest lead time of anything here, so it starts regardless of 
 | Buttons with no accessible name | 4 | 0 |
 | Mobile tap targets under 44×44 | 25 | 0 |
 | `public/images` | 85 MB | 14 MB |
-| Favicon | 147 KB JPEG named `.ico` | 8.6 KB real multi-size ICO + PNG set |
+| Favicon | 147 KB JPEG named `.ico` | 8.6 KB multi-size ICO + PNG set |
 | Web manifest | 404 | served |
-| Analytics | none | Vercel Analytics + Speed Insights + GA4-ready |
+| Analytics | none | Vercel Analytics + Speed Insights + GA4 |
 | Lead persistence | none (email only) | server route, logged + optional webhook |
 | Spam protection | localStorage only | honeypot + server validation + IP rate limit |
 | ESLint | 3 warnings | clean |
 | Dead modules | 4 files + ~100 commented lines | removed |
 
-Lighthouse re-run and the GSC/GA4 baseline still need to happen once Phase 0's account setup is done.
+**Not improved, by choice:** nav contrast stays at 2.65:1. Three header treatments were built and
+tested on real devices; the owner chose the untinted one. Documented in AGENTS.md so it does not get
+"fixed" by a later pass.
+
+**Still outstanding:** a post-deploy Lighthouse run and the GSC/GA4 baseline. Both are Phase 0 items
+gated on account setup.
