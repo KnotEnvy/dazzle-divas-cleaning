@@ -169,7 +169,12 @@ Routes:
 - Protections: honeypot `company` field, server-side validation, per-instance IP rate limit (5/hour).
 - `SERVICE_TYPES` in the route must stay in sync with the `<option value>` list in `ContactForm.js`.
 
-## Known external issue — Cloudflare is overriding robots.txt
+## Resolved — Cloudflare robots.txt override (fixed 20 Aug 2026)
+The issue below was real and has been turned off in the Cloudflare dashboard. Live robots.txt now
+has zero `Disallow` rules. Kept here as history: if AI crawlers ever stop appearing, re-check
+`https://www.dazzledivascleaning.com/robots.txt` for a re-enabled Cloudflare managed block first.
+
+### What it was
 `app/robots.js` explicitly allows AI crawlers, but Cloudflare's **Managed robots.txt** feature prepends its own block to the live file that does the opposite:
 
 ```
@@ -180,3 +185,10 @@ User-agent: GPTBot      -> Disallow: /
 ```
 
 The crawlers are NOT network-blocked (all return 200), but well-behaved ones read robots.txt and will self-restrict. This cannot be fixed in code — it is a Cloudflare dashboard setting. Until it is turned off, the site's AI-discoverability work is being contradicted at the edge.
+
+## Header treatment (decided 20 Aug 2026)
+- Home header is **frosted glass on scroll**, not solid: `bg-white/90 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl` with a `border-white/40` hairline. Owner preference — a solid white bar was tried and rejected.
+- The tint must be a **real** value. The original `bg-slate/85` was not a Tailwind class and compiled to nothing, which is what caused the 2.65:1 contrast failure. Glass needs an actual translucent background, not the absence of one.
+- The `bg-white/90` base is the no-backdrop-filter fallback; a 70% wash with no blur behind it is not legible.
+- Nav links are `text-diva-navy-950` when scrolled, white over the hero. Measured 7.5:1 (over the darkest section that scrolls under the header) to 13.9:1 (over white). Keep any restyle above 4.5:1 at the worst backdrop.
+- Marketing pages use a **dark** glass header (`bg-slate-900/90`, white text) in `shell/SiteHeader.js`. Home and the marketing pages therefore do not match. Unifying them is a Phase 4 design-system decision, not a bug.

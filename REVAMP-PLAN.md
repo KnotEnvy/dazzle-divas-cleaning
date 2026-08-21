@@ -100,31 +100,14 @@ A redesign multiplies conversion on traffic you already have. It does not create
 
 ---
 
-## ⚠ Blocking external issue — Cloudflare is cancelling your AI-crawler policy
+## ✅ Resolved — Cloudflare robots.txt override removed (owner, 20 Aug 2026)
 
-`app/robots.js` allows GPTBot, ClaudeBot, PerplexityBot and others. Cloudflare's **Managed robots.txt**
-prepends a block to the live file that disallows them:
+Cloudflare's Managed robots.txt was prepending `Disallow: /` for ClaudeBot, GPTBot, CCBot,
+Google-Extended, Applebot-Extended, Amazonbot, Bytespider and meta-externalagent, plus
+`Content-Signal: ai-train=no` — directly contradicting `app/robots.js`.
 
-```
-Content-Signal: search=yes,ai-train=no,use=reference
-User-agent: ClaudeBot            Disallow: /
-User-agent: GPTBot               Disallow: /
-User-agent: CCBot                Disallow: /
-User-agent: Google-Extended      Disallow: /
-User-agent: Applebot-Extended    Disallow: /
-User-agent: Amazonbot            Disallow: /
-User-agent: Bytespider           Disallow: /
-User-agent: meta-externalagent   Disallow: /
-```
-
-The bots are **not** network-blocked (all return HTTP 200), but compliant crawlers read robots.txt and
-self-restrict. Every hour spent on AI discoverability is being undone at the edge.
-
-**Fix (you, in the Cloudflare dashboard — not code):** the site's zone → look for AI Crawl Control /
-"Managed robots.txt" / "Block AI bots" and turn the managed block off. Then re-check
-`https://www.dazzledivascleaning.com/robots.txt` — the Cloudflare section should be gone.
-
----
+Turned off in the Cloudflare dashboard. Verified: the live file is now 53 lines with **zero**
+`Disallow` rules and **zero** `Content-Signal` directives. `app/robots.js` is the sole authority.
 
 ## Phase 2 — Local SEO (start week 1, runs continuously)
 
@@ -197,8 +180,9 @@ Mostly not code. Longest lead time of anything here, so it starts regardless of 
 
 1. ~~Is there a Google Business Profile?~~ **Answered:** yes, in verification with Google as of 19 Aug 2026.
 2. ~~Are the testimonials real?~~ **Answered:** yes, real clients; photos are stock for privacy.
-3. ~~Substantiate the stats?~~ **Partly answered:** 550+/year for 3 years (now sitewide); revenue claim is
-   now "~20%". **Still unsourced: "98% guest satisfaction", "78% industry average", "#1", "15+ cities".**
+3. ~~Substantiate the stats?~~ **Answered:** 550+/year for 3 years (now sitewide); revenue claim is now
+   "~20%". Owner confirms the remaining claims — 98% guest satisfaction, 78% industry average, "#1",
+   15+ cities — are all defensible. Keeping them as written.
 4. Do we have current photos of real jobs?
 5. Where do leads go after the form — CRM, spreadsheet, or inbox?
 6. Sustainable writing cadence per month? *(Sizes Phase 3.)*
@@ -212,6 +196,7 @@ Mostly not code. Longest lead time of anything here, so it starts regardless of 
 | Hero srcset candidate selected @1600px | `w=640` (528×396 delivered) | `w=3840` (2560×1920 AVIF, 247 KB) |
 | Hero `sizes` | `33vw` on a 100vw image | `100vw` |
 | Nav contrast on white | 2.65:1 (FAIL AA) | 13.88:1 (PASS AA/AAA) |
+| Scrolled header | transparent (class compiled to nothing) | frosted glass, `bg-white/70` + `blur(24px)` |
 | FAQ answers in crawlable HTML | 0 of 20 | 20 of 20 |
 | `/faq` visible words | 355 | 1,117 (+215%) |
 | Home visible words | 964 | 1,208 (+25%) |
