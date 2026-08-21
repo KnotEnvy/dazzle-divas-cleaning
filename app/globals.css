@@ -2,37 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Variables for Theme Colors */
+/*
+ * Brand colour variables.
+ * These MUST stay in sync with tailwind.config.js — `diva-blue`, `diva-sky`
+ * and `diva-yellow` are declared in both places, and whichever loads last
+ * wins. They previously disagreed (#000080 here vs #082f49 in the config),
+ * which is why the footer rendered a different navy from everything else.
+ */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-  --diva-pink: #FF69B4;
-  --diva-blue: #000080;
-  --diva-sky: #87CEEB;
-  --diva-yellow: #FFD700;
+  --diva-pink: #ec4899;   /* diva-pink-500  */
+  --diva-blue: #082f49;   /* diva-navy-950  */
+  --diva-sky: #06b6d4;    /* diva-cyan-500  */
+  --diva-yellow: #f59e0b; /* diva-gold-500  */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-/* General Body Styling */
+/*
+ * The site is a light-only design. Every section sets its own background and
+ * text colour explicitly, so the body just needs a plain white ground — the
+ * old prefers-color-scheme override flipped body text to white and made any
+ * unstyled text invisible on dark-mode devices.
+ */
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #ffffff;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Text and Background Utilities */
+/* Legacy brand utilities still used by the footer and the policy pages. */
 .text-diva-pink { color: var(--diva-pink); }
 .bg-diva-pink { background-color: var(--diva-pink); }
 
@@ -45,41 +42,15 @@ body {
 .text-diva-yellow { color: var(--diva-yellow); }
 .bg-diva-yellow { background-color: var(--diva-yellow); }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Respect the OS "reduce motion" setting everywhere, including CSS
+   transitions Framer Motion does not manage. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-}
-
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-
-
-/* 1. Prevent layout shifts during font loading */
-html {
-  font-display: optional;
-}
-
-/* 2. Ensure smooth animations */
-* {
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* 3. Prevent unwanted margin collapse */
-.prevent-collapse {
-  display: flow-root;
-}
-
-/* 4. Optimize for GPU */
-.gpu {
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* 5. Force height calculations */
-.force-height {
-  contain: size layout;
-  content-visibility: auto;
 }

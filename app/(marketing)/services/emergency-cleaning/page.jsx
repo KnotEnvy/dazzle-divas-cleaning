@@ -27,9 +27,9 @@ const SITE_URL =
 const PATH = '/services/emergency-cleaning';
 
 export const metadata = {
-  title: 'Emergency & Same-Day Cleaning Service | Dazzle Divas Cleaning',
+  title: 'Emergency & Same-Day Cleaning Service',
   description:
-    '24/7 emergency cleaning in Volusia County. 2-hour response, no rush fees, no weekend or holiday surcharges. Surprise bookings, hurricane cleanup, no-show cleaners — we answer the phone.',
+    '24/7 emergency cleaning in Volusia County. 2-hour response, no rush fees, no weekend or holiday surcharges. Surprise bookings and storm cleanup.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Emergency & Same-Day Cleaning',

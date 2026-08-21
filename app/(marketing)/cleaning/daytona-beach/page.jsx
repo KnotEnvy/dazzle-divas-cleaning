@@ -21,9 +21,9 @@ const PATH = '/cleaning/daytona-beach';
 const CITY = 'Daytona Beach';
 
 export const metadata = {
-  title: 'Vacation Rental Cleaning in Daytona Beach, FL | Dazzle Divas',
+  title: 'Vacation Rental Cleaning in Daytona Beach, FL',
   description:
-    'Vacation rental cleaning across Daytona Beach — beachside condos along North Atlantic Avenue, Daytona Beach Shores, the South Peninsula. Race-week capacity reserved, photo-verified turnovers, since 2018.',
+    'Vacation rental cleaning across Daytona Beach — beachside condos, Daytona Beach Shores, the South Peninsula. Race-week capacity reserved.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Vacation Rental Cleaning in Daytona Beach, FL',

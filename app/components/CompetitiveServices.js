@@ -513,7 +513,7 @@ const CompetitiveServicesPage = ({ onClose }) => {
                   Ready to Transform Your Vacation Rental?
                 </h3>
                 <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                  Join 500+ satisfied vacation rental owners who trust Dazzle Divas for guest-ready properties.
+                  Join the Volusia County hosts who trust Dazzle Divas for guest-ready properties.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button 
@@ -811,7 +811,7 @@ const CompetitiveServicesPage = ({ onClose }) => {
                     Experience the Dazzle Divas Difference
                   </h3>
                   <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                    Join 500+ vacation rental owners who&apos;ve transformed their properties and increased their revenue with our specialized services.
+                    Join the Volusia County hosts who&apos;ve transformed their properties and increased their revenue with our specialized services.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button 

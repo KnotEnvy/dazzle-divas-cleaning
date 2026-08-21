@@ -2,11 +2,10 @@
 import Layout from './Layout';
 import ModernDazzleDivasWebsite from './testSite.js';
 
-export default function Main() {
+export default function Main({ lastYear }) {
   return (
     <Layout>
-      <ModernDazzleDivasWebsite />
-
+      <ModernDazzleDivasWebsite lastYear={lastYear} />
     </Layout>
   );
 }

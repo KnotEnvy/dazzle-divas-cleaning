@@ -7,6 +7,7 @@
 import { useState, useCallback } from 'react';
 import { init, send } from '@emailjs/browser';
 import { Loader2, AlertCircle } from 'lucide-react';
+import { track, EVENTS } from '../lib/analytics';
 
 // Initialize EmailJS only once
 init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
@@ -134,6 +135,9 @@ export default function ContactForm() {
     message: '',
     serviceType: 'residential'
   });
+
+  // Honeypot. Hidden from people, irresistible to bots.
+  const [company, setCompany] = useState('');
   
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({
@@ -257,6 +261,49 @@ export default function ContactForm() {
 
     setStatus({ submitting: true, submitted: false, error: null });
 
+    // Step 1 — capture the lead server-side FIRST. Once this succeeds the
+    // enquiry is recorded even if email delivery later fails, which is the
+    // failure mode that used to lose leads silently.
+    try {
+      const res = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          company, // honeypot
+          source: typeof window !== 'undefined' ? window.location.pathname : 'website',
+        }),
+      });
+
+      const result = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        if (result.errors) setErrors(result.errors);
+        setStatus({
+          submitting: false,
+          submitted: false,
+          error:
+            result.error ||
+            'Please check the highlighted fields and try again.',
+        });
+        track(EVENTS.QUOTE_SUBMIT_FAILED, { stage: 'capture', status: res.status });
+        return;
+      }
+    } catch (error) {
+      console.error('Lead capture failed:', error);
+      setStatus({
+        submitting: false,
+        submitted: false,
+        error:
+          "We couldn't reach our server. Please try again, or call (386) 301-5775.",
+      });
+      track(EVENTS.QUOTE_SUBMIT_FAILED, { stage: 'capture', status: 'network' });
+      return;
+    }
+
+    // Step 2 — send the notification email. The lead is already safe, so a
+    // failure here is logged and tracked but not shown as a failure to the
+    // visitor: from their side, we did receive it.
     try {
       await send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
@@ -270,40 +317,47 @@ export default function ContactForm() {
           service_type: formData.serviceType,
           timestamp: new Date().toISOString(),
           csrf_token: csrfToken,
-          user_agent: navigator.userAgent.substring(0, 100), // Truncated for security
         }
       );
-
-      setStatus({
-        submitting: false,
-        submitted: true,
-        error: null
-      });
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-        serviceType: 'residential'
-      });
-      setErrors({});
-
     } catch (error) {
-      console.error('Form submission error:', error);
-      setStatus({
-        submitting: false,
-        submitted: false,
-        error: "Failed to send message. Please try again or call us directly."
-      });
+      console.error('Notification email failed (lead was still captured):', error);
+      track(EVENTS.QUOTE_SUBMIT_FAILED, { stage: 'email' });
     }
+
+    track(EVENTS.QUOTE_SUBMIT, { service_type: formData.serviceType });
+
+    setStatus({ submitting: false, submitted: true, error: null });
+
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+      serviceType: 'residential'
+    });
+    setCompany('');
+    setErrors({});
   };
 
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
       <h3 className="text-2xl font-bold mb-6 text-white">Get Free Quote</h3>
       <form onSubmit={handleSubmit} className="space-y-4" aria-live="polite">
+        {/* Honeypot — visually hidden and skipped by assistive tech and
+            autofill. Bots fill it; the server drops anything that has it. */}
+        <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+          <label htmlFor="company">Company (leave this field empty)</label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
+
         {/* Hidden CSRF token */}
         <input type="hidden" name="csrf_token" value={csrfToken} />
         

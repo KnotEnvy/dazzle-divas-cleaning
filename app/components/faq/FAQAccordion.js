@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import { Plus, Minus, Search } from 'lucide-react';
 import Reveal from '../motion/Reveal';
 
@@ -114,9 +114,11 @@ export default function FAQAccordion({ items, categories }) {
                   <motion.button
                     layout
                     type="button"
+                    id={`${slug}-trigger`}
                     className="w-full flex items-start justify-between gap-4 px-6 py-5 text-left"
                     onClick={() => setOpenKey(isOpen ? null : key)}
                     aria-expanded={isOpen}
+                    aria-controls={`${slug}-panel`}
                   >
                     <span className="flex flex-col gap-1">
                       {item.category && (
@@ -139,22 +141,22 @@ export default function FAQAccordion({ items, categories }) {
                       {isOpen ? <Minus size={16} /> : <Plus size={16} />}
                     </span>
                   </motion.button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        key="content"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-6 pb-5 text-slate-700 leading-relaxed">
-                          {item.answer}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* Answer stays mounted so crawlers and AI assistants can
+                      read it without a click. CSS-only open/close. */}
+                  <div
+                    id={`${slug}-panel`}
+                    role="region"
+                    aria-labelledby={`${slug}-trigger`}
+                    className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
+                      isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="px-6 pb-5 text-slate-700 leading-relaxed">
+                        {item.answer}
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               );
             })}

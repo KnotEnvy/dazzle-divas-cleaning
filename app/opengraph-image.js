@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- ImageResponse (Satori) renders raw <img>; next/image is not available in this runtime. */
 // app/opengraph-image.js
 // Dynamically generates the 1200x630 social-share card for all pages.
 

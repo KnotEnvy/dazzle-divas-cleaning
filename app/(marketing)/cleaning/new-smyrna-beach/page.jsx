@@ -21,9 +21,9 @@ const PATH = '/cleaning/new-smyrna-beach';
 const CITY = 'New Smyrna Beach';
 
 export const metadata = {
-  title: 'Vacation Rental Cleaning in New Smyrna Beach, FL | Dazzle Divas',
+  title: 'Vacation Rental Cleaning in New Smyrna Beach',
   description:
-    'Vacation rental cleaning across New Smyrna Beach — Flagler Avenue condos, canal-front houses, Coronado Island, Bethune Beach. Boutique-rental focus, surf-tourism aware, photo-verified turnovers since 2018.',
+    'Vacation rental cleaning across New Smyrna Beach — Flagler Avenue condos, canal-front houses, Coronado Island, Bethune Beach. Photo-verified turnovers.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Vacation Rental Cleaning in New Smyrna Beach, FL',

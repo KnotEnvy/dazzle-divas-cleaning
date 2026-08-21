@@ -27,14 +27,14 @@ const SITE_URL =
 const PATH = '/services/vacation-rental-turnover';
 
 export const metadata = {
-  title: 'Vacation Rental Turnover Cleaning | Dazzle Divas Cleaning',
+  title: 'Vacation Rental Turnover Cleaning',
   description:
-    'Guest-ready vacation rental turnovers in Volusia County. 2-4 hour turnaround, 30-point photo verification, hospitality-trained crews. Serving Daytona Beach, Ormond Beach, and New Smyrna Beach.',
+    'Guest-ready vacation rental turnovers in Volusia County. 2-4 hour turnaround, 30-point photo verification, hospitality-trained crews.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Vacation Rental Turnover Cleaning',
     description:
-      'Photo-verified, guest-ready turnovers in 2-4 hours. Trusted by 500+ vacation rentals across Volusia County.',
+      'Photo-verified, guest-ready turnovers in 2-4 hours. 550+ vacation rentals cleaned a year across Volusia County.',
     url: `${SITE_URL}${PATH}`,
   },
 };

@@ -155,22 +155,25 @@ function WhatThisMeans({ show, children }) {
 
 /* ---------- Main component ---------- */
 
+// Static table of contents. Module scope so the IntersectionObserver
+// effect below has a stable reference and does not re-attach on every render.
+const sections = [
+  { id: 'intro', label: 'Introduction' },
+  { id: 'collect', label: 'Information We Collect' },
+  { id: 'use', label: 'How We Use Information' },
+  { id: 'legal', label: 'Legal Bases & Sharing' },
+  { id: 'cookies', label: 'Cookies & Analytics' },
+  { id: 'retention', label: 'Data Retention & Security' },
+  { id: 'rights', label: 'Your Rights & Choices' },
+  { id: 'international', label: 'International Users' },
+  { id: 'contact', label: 'Contact' },
+  { id: 'changes', label: 'Changes to this Policy' },
+];
+
 export default function PrivacyPolicy() {
   const effectiveDate = 'August 11, 2025';
   const lastUpdated = 'August 11, 2025';
 
-  const sections = [
-    { id: 'intro', label: 'Introduction' },
-    { id: 'collect', label: 'Information We Collect' },
-    { id: 'use', label: 'How We Use Information' },
-    { id: 'legal', label: 'Legal Bases & Sharing' },
-    { id: 'cookies', label: 'Cookies & Analytics' },
-    { id: 'retention', label: 'Data Retention & Security' },
-    { id: 'rights', label: 'Your Rights & Choices' },
-    { id: 'international', label: 'International Users' },
-    { id: 'contact', label: 'Contact' },
-    { id: 'changes', label: 'Changes to this Policy' },
-  ];
 
   const [simpleMode, setSimpleMode] = useState(false);
   const [activeId, setActiveId] = useState('intro');

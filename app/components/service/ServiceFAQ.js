@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 import Reveal from '../motion/Reveal';
 
@@ -60,9 +60,11 @@ export default function ServiceFAQ({ eyebrow, title, items }) {
                   <motion.button
                     layout
                     type="button"
+                    id={`service-faq-trigger-${i}`}
                     className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
                     onClick={() => setOpenIndex(isOpen ? -1 : i)}
                     aria-expanded={isOpen}
+                    aria-controls={`service-faq-panel-${i}`}
                   >
                     <span className="text-base md:text-lg font-semibold text-slate-900">
                       {item.question}
@@ -78,22 +80,22 @@ export default function ServiceFAQ({ eyebrow, title, items }) {
                       {isOpen ? <Minus size={16} /> : <Plus size={16} />}
                     </span>
                   </motion.button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        key="content"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-6 pb-5 text-slate-700 leading-relaxed">
-                          {item.answer}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* Answer stays mounted so crawlers and AI assistants can
+                      read it without a click. CSS-only open/close. */}
+                  <div
+                    id={`service-faq-panel-${i}`}
+                    role="region"
+                    aria-labelledby={`service-faq-trigger-${i}`}
+                    className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
+                      isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="px-6 pb-5 text-slate-700 leading-relaxed">
+                        {item.answer}
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               );
             })}

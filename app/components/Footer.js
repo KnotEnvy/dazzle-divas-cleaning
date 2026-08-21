@@ -257,7 +257,7 @@ export default function Footer() {
                 >
                   <Link
                     href={link.href}
-                    className="text-gray-300 hover:text-diva-pink transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                    className="inline-flex min-h-[44px] items-center text-gray-300 hover:text-diva-pink transition-colors duration-300 hover:translate-x-1 transform"
                   >
                     {link.label}
                   </Link>
@@ -328,7 +328,7 @@ export default function Footer() {
             </h4>
             <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-300">
               {serviceAreas.map((area, index) => {
-                const baseClass = "px-3 py-1 bg-white bg-opacity-10 rounded-full transition-colors duration-300";
+                const baseClass = "inline-flex min-h-[36px] items-center px-3 py-2 bg-white bg-opacity-10 rounded-full transition-colors duration-300";
                 const linkClass = `${baseClass} hover:bg-diva-pink hover:bg-opacity-20 hover:text-white`;
                 const staticClass = `${baseClass} cursor-default`;
                 return (

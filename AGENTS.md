@@ -56,6 +56,8 @@ Routes:
   - Avatars/logos: `Image` with explicit `width`/`height`.
 - Assets are in `public/images`.
 - Image optimization is enabled via `next.config.js` (`images.unoptimized: false`, WebP/AVIF, device sizes, 30-day cache TTL). Vercel's built-in optimizer serves resized formats per device.
+- **`sizes` must describe the width the image actually renders at.** A full-bleed `fill` background is `sizes="100vw"`. The hero previously declared `33vw`, so the browser fetched a 640px variant and stretched it across the viewport — a 4.5x upscale on desktop. Fixed Aug 2026.
+- Source images are capped at 2560px on the longest side, JPEG q~85. `public/images` went from 85 MB to 14 MB. Originals are archived outside the repo at `../_image_backup_20260819/`.
 
 ## Forms & EmailJS
 - Contact form lives in `app/components/ContactForm.js` and is embedded within the contact section of `testSite.js`.
@@ -67,6 +69,8 @@ Routes:
 
 ## SEO & Metadata
 - Root metadata in `app/layout.js` (title/description, LocalBusiness JSON-LD with `aggregateRating` + 3 Review objects, preconnect/dns-prefetch hints).
+- **JSON-LD must be a plain `<script>` in a server component — never `next/script`.** `<Script strategy="beforeInteractive">` queues the tag through `self.__next_s` and injects it client-side, so the schema is absent from the served HTML. Google executes JS and usually still sees it; AI/LLM crawlers read raw HTML and saw nothing. Fixed Aug 2026.
+- **Per-page titles must NOT include the brand.** `app/layout.js` sets `template: "%s | Dazzle Divas Cleaning"`. Adding the brand in a page's own `metadata.title` produces a doubled suffix. Budget: title ≤ 70 chars, description ≤ 160 chars, both measured after the template is applied.
 - Per-route metadata via `export const metadata` in each `page.jsx` (title, description, canonical, OG title/description/url — DO NOT set `openGraph.images`; the dynamic generators handle that).
 - Per-page schemas inlined as `<script type="application/ld+json">` in page JSX:
   - Service pages: `Service` (with `provider`, `areaServed`, `hasOfferCatalog`) + `FAQPage` (via `ServiceFAQ` component) + `BreadcrumbList` (via `Breadcrumbs` component)
@@ -87,7 +91,12 @@ Routes:
 - Hooks: Do not call hooks conditionally. In sparkles components, `useMemo` is called before any early returns; check `prefersReduced` after creating `dots`.
 - `.eslintignore` excludes `legacy/**`.
 
+## Accordions and collapsible content
+- **Answers stay mounted in the DOM at all times.** Never `{isOpen && <answer/>}`. Open/closed is a CSS `grid-template-rows: 0fr/1fr` transition on a wrapper with `overflow-hidden`, so crawlers and AI assistants read the text without a click. Applies to `FAQ.js`, `faq/FAQAccordion.js`, and `service/ServiceFAQ.js`. Fixed Aug 2026 — this alone took `/faq` from 355 to 1,117 crawlable words.
+
 ## Accessibility
+- Minimum tap target 44x44 on mobile (24x24 is the absolute WCAG 2.2 AA floor). Wrap small visual elements in a padded button rather than enlarging the visual.
+- Every icon-only button needs an `aria-label`.
 - Mobile menu button has `aria-label` and `aria-expanded`.
 - Modals have `role="dialog"` and `aria-modal`. Escape closes the image modal.
 - Consider adding a focus trap for modals if you expand modal features.
@@ -140,5 +149,69 @@ Routes:
 ## Authoritative Copy Decisions
 - **Office line is voice-only for incoming.** Phone (386) 301-5775 does NOT accept incoming SMS. Never write "call or text" anywhere on the site. Origin commit `28ce2e0` enforces this.
 - **Quote turnaround is 24 hours**, not "2 minutes." Origin commit `28ce2e0` enforces this in the home hero CTA.
-- **Founded 2018** — used in Footer copy, llms.txt, layout.js metadata description (which still says "since 2004" — pre-existing factual mismatch on home metadata, not yet corrected).
+- **Founded 2018** — used in Footer copy, llms.txt, and layout.js metadata.
+- **550+ properties cleaned per year** (three years running), NOT a cumulative "500+ properties served". Confirmed by the owner Aug 2026. Keep this figure consistent across testSite.js stats, the hero badge, property-management page stats, and llms.txt.
+- **Year-relative claims are computed, never hardcoded.** "Zero negative cleanliness reviews in {lastYear}" gets `lastYear` from `app/page.js` (a server component) so it can never go stale and can never cause a hydration mismatch. `app/page.js` sets `revalidate = 86400` for this reason.
+- **No dollar figures for customer revenue.** "~20% average revenue increase reported by hosts" replaced the old "$2,400 average annual revenue increase".
 
+
+## Measurement (added Aug 2026)
+- `app/components/Analytics.js` mounts Vercel Analytics + Speed Insights (zero config on Vercel) and GA4.
+- GA4 loads **only** when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set, so local and preview stay clean.
+- `app/lib/analytics.js` exports `track(event, params)` and an `EVENTS` map. It no-ops when no provider is present — safe to call from anywhere.
+- Phone and email clicks are captured by one delegated listener in `Analytics.js`. Do NOT add per-link handlers.
+- Tracked today: `call_click`, `email_click`, `quote_submit`, `quote_submit_failed`.
+
+## Lead capture (added Aug 2026)
+- `app/api/quote/route.js` is the server-side capture endpoint. The form posts here **first**, then attempts the EmailJS notification.
+- Rationale: previously a failed EmailJS call lost the enquiry silently. Now the lead is recorded before delivery is attempted, and an email failure is tracked but not shown to the visitor as a failure.
+- Capture targets: structured `console.log('[LEAD]', ...)` (always, searchable in Vercel logs) and `LEAD_WEBHOOK_URL` (optional — point it at Zapier/Make/Sheets/CRM).
+- Protections: honeypot `company` field, server-side validation, per-instance IP rate limit (5/hour).
+- `SERVICE_TYPES` in the route must stay in sync with the `<option value>` list in `ContactForm.js`.
+
+## Resolved — Cloudflare robots.txt override (fixed 20 Aug 2026)
+The issue below was real and has been turned off in the Cloudflare dashboard. Live robots.txt now
+has zero `Disallow` rules. Kept here as history: if AI crawlers ever stop appearing, re-check
+`https://www.dazzledivascleaning.com/robots.txt` for a re-enabled Cloudflare managed block first.
+
+### What it was
+`app/robots.js` explicitly allows AI crawlers, but Cloudflare's **Managed robots.txt** feature prepends its own block to the live file that does the opposite:
+
+```
+Content-Signal: search=yes,ai-train=no,use=reference
+User-agent: ClaudeBot   -> Disallow: /
+User-agent: GPTBot      -> Disallow: /
+(also Amazonbot, Applebot-Extended, Bytespider, CCBot, Google-Extended, meta-externalagent)
+```
+
+The crawlers are NOT network-blocked (all return 200), but well-behaved ones read robots.txt and will self-restrict. This cannot be fixed in code — it is a Cloudflare dashboard setting. Until it is turned off, the site's AI-discoverability work is being contradicted at the edge.
+
+## Header treatment (FINAL — owner decision, 21 Aug 2026)
+
+The home header on scroll is **untinted glass**: `backdrop-blur-md shadow-lg` with a fully
+transparent background, and `text-diva-pink-400` links reading over whatever scrolls beneath.
+
+Three treatments were built and tested on real devices. The owner picked this one:
+
+| Treatment | Result |
+|---|---|
+| Solid `bg-white/95` | Rejected — reads as a solid bar |
+| Frosted `bg-white/70` + `blur(24px)`, navy links | Rejected — still too much tint |
+| **Untinted `backdrop-blur-md`, pink-400 links** | **Chosen** |
+
+**Do not "fix" this back.** The accessibility trade-off is known and accepted: pink-400
+(`#f472b6`) over a white section measures **2.65:1**, under the WCAG AA 4.5:1 minimum. The
+owner has confirmed the preference twice after real-world testing. It is documented in a
+comment above the `<header>` in `testSite.js` for the same reason.
+
+If it is ever revisited, the way to keep this exact look *and* pass AA is a **darker link
+colour** (e.g. `diva-pink-700` at 6.0:1) — not a background tint, which is the part that was
+rejected.
+
+Note the original code expressed this as `bg-slate/85`, which is not a valid Tailwind class
+and compiled to nothing. The look was therefore accidental. It is now intentional and the
+class list says what it means.
+
+Marketing pages keep their **dark** glass header (`bg-slate-900/90`, white text) in
+`shell/SiteHeader.js`. Home and the marketing pages deliberately do not match — owner
+confirmed 21 Aug 2026 that both should stay as they are.
