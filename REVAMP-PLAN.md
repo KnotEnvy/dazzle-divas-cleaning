@@ -24,19 +24,50 @@ A redesign multiplies conversion on traffic you already have. It does not create
 
 ---
 
-## Phase 0 — Instrument first (~½ day) · BLOCKS EVERYTHING
+## ⚠ NOTHING IS DEPLOYED YET — this blocks Phase 0
 
-- [x] Vercel Analytics + Speed Insights installed and wired (`app/components/Analytics.js`)
+Checked production 21 Aug 2026: `https://www.dazzledivascleaning.com` is still running the old
+`master`. Old page title, 1 JSON-LD block, no analytics, no manifest, no `550+`. All Phase 1 work
+sits on the unpushed branch `revamp/phase-1-fixes`.
+
+This is why Google says "install the Google tag" and Vercel says "install the package" — the
+measurement ID is set in Vercel, but the code that reads it has never shipped. Setting env vars and
+redeploying `master` cannot help; `master` has no Analytics component.
+
+```
+git push -u origin revamp/phase-1-fixes     # preview deploy, verify, then merge to master
+```
+
+Verified locally against a production build with a test measurement ID — the whole stack works the
+moment it ships:
+
+- `gtag` loads, `config` fires with the measurement ID
+- `/_vercel/insights/script.js` and `/_vercel/speed-insights/script.js` both inject
+- Clicking a `tel:` link emits `call_click {destination, location}`
+
+---
+
+## Phase 0 — Instrument first
+
+- [x] Vercel Analytics + Speed Insights installed and wired (`app/components/Analytics.js`),
+      importing from `@vercel/analytics/next` and `@vercel/speed-insights/next` — the `/next`
+      entrypoints hook `next/navigation` so client-side route changes count as pageviews
 - [x] `track()` helper + delegated call/email click tracking (`app/lib/analytics.js`)
-- [x] GA4 component built — **activates the moment you set `NEXT_PUBLIC_GA_MEASUREMENT_ID`**
-- [ ] Create the GA4 property and set `NEXT_PUBLIC_GA_MEASUREMENT_ID` in Vercel  ← NEEDS YOU
+- [x] GA4 wired; activates on `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+- [x] Measurement ID created and set in Vercel (owner, 21 Aug 2026)
+- [x] Conversion events: `call_click`, `email_click`, `quote_submit`, `quote_submit_failed`
+- [ ] **Deploy the branch** — everything above is inert until this happens  ← BLOCKING
+- [ ] Confirm GA4 Realtime shows traffic after deploy  ← NEEDS YOU
+- [ ] Enable Analytics + Speed Insights in the Vercel project's Analytics tab  ← NEEDS YOU
 - [ ] Google Search Console verified, sitemap submitted  ← NEEDS YOU
 - [ ] Bing Webmaster Tools verified  ← NEEDS YOU
-- [x] Conversion events: `call_click`, `email_click`, `quote_submit`, `quote_submit_failed`
-- [ ] Baseline snapshot recorded: Lighthouse (home / service / city / faq), GSC impressions + avg position,
-      current rank for ~12 target terms
+- [ ] Baseline snapshot recorded: Lighthouse (home / service / city / faq), GSC impressions + avg
+      position, current rank for ~12 target terms
 
-**Done when:** 7 consecutive days of clean GA4 data, GSC reporting, baseline numbers written down.
+**Note on the "Google tag" prompt:** GA4's setup wizard offers CMS installers or a manual snippet.
+Neither is needed — `app/components/Analytics.js` already loads `gtag.js` and calls `config`. Take
+the Measurement ID (`G-XXXXXXXXXX`) only; skip the install step and use "Test" / Realtime to confirm
+once deployed.
 
 ---
 

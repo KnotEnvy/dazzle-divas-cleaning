@@ -186,9 +186,32 @@ User-agent: GPTBot      -> Disallow: /
 
 The crawlers are NOT network-blocked (all return 200), but well-behaved ones read robots.txt and will self-restrict. This cannot be fixed in code — it is a Cloudflare dashboard setting. Until it is turned off, the site's AI-discoverability work is being contradicted at the edge.
 
-## Header treatment (decided 20 Aug 2026)
-- Home header is **frosted glass on scroll**, not solid: `bg-white/90 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl` with a `border-white/40` hairline. Owner preference — a solid white bar was tried and rejected.
-- The tint must be a **real** value. The original `bg-slate/85` was not a Tailwind class and compiled to nothing, which is what caused the 2.65:1 contrast failure. Glass needs an actual translucent background, not the absence of one.
-- The `bg-white/90` base is the no-backdrop-filter fallback; a 70% wash with no blur behind it is not legible.
-- Nav links are `text-diva-navy-950` when scrolled, white over the hero. Measured 7.5:1 (over the darkest section that scrolls under the header) to 13.9:1 (over white). Keep any restyle above 4.5:1 at the worst backdrop.
-- Marketing pages use a **dark** glass header (`bg-slate-900/90`, white text) in `shell/SiteHeader.js`. Home and the marketing pages therefore do not match. Unifying them is a Phase 4 design-system decision, not a bug.
+## Header treatment (FINAL — owner decision, 21 Aug 2026)
+
+The home header on scroll is **untinted glass**: `backdrop-blur-md shadow-lg` with a fully
+transparent background, and `text-diva-pink-400` links reading over whatever scrolls beneath.
+
+Three treatments were built and tested on real devices. The owner picked this one:
+
+| Treatment | Result |
+|---|---|
+| Solid `bg-white/95` | Rejected — reads as a solid bar |
+| Frosted `bg-white/70` + `blur(24px)`, navy links | Rejected — still too much tint |
+| **Untinted `backdrop-blur-md`, pink-400 links** | **Chosen** |
+
+**Do not "fix" this back.** The accessibility trade-off is known and accepted: pink-400
+(`#f472b6`) over a white section measures **2.65:1**, under the WCAG AA 4.5:1 minimum. The
+owner has confirmed the preference twice after real-world testing. It is documented in a
+comment above the `<header>` in `testSite.js` for the same reason.
+
+If it is ever revisited, the way to keep this exact look *and* pass AA is a **darker link
+colour** (e.g. `diva-pink-700` at 6.0:1) — not a background tint, which is the part that was
+rejected.
+
+Note the original code expressed this as `bg-slate/85`, which is not a valid Tailwind class
+and compiled to nothing. The look was therefore accidental. It is now intentional and the
+class list says what it means.
+
+Marketing pages keep their **dark** glass header (`bg-slate-900/90`, white text) in
+`shell/SiteHeader.js`. Home and the marketing pages deliberately do not match — owner
+confirmed 21 Aug 2026 that both should stay as they are.

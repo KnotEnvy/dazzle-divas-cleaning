@@ -3,7 +3,10 @@
 
 import { useEffect } from 'react';
 import Script from 'next/script';
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
+// Use the /next entrypoints, not /react — they hook into next/navigation so
+// client-side route changes are reported as pageviews. This is what the
+// Vercel dashboard's setup instructions point at.
+import { Analytics as VercelAnalytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { track, EVENTS } from '../lib/analytics';
 

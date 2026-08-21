@@ -147,15 +147,21 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
     <div className="min-h-screen bg-white">
       
       {/*
-        Modern Header — frosted glass on scroll.
-        The tint has to be real, not absent: the original `bg-slate/85` was not
-        a Tailwind class so it compiled to nothing, leaving pink-400 links on
-        bare white at 2.65:1. white/70 behind a blur keeps the glass look and
-        still gives navy links 5.9:1 over the darkest thing that scrolls under
-        it. The bg-white/90 base is the fallback for browsers without
-        backdrop-filter, where a 70% wash alone would not be legible.
+        Modern Header — untinted glass on scroll.
+
+        OWNER DECISION (Aug 2026, after real-world testing on device): no
+        background tint at all. Just the blur, with pink-400 links reading
+        over whatever scrolls underneath. A solid white bar and a white/70
+        frosted tint were both built, tested, and rejected — this is the look
+        that won. Do not "fix" it back.
+
+        Known, accepted trade-off: pink-400 (#f472b6) over a white section
+        measures 2.65:1, below the WCAG AA 4.5:1 minimum for body text. The
+        owner has confirmed this twice. If it ever needs revisiting, the way
+        to keep this exact look AND pass AA is a darker link colour rather
+        than a background tint.
       */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl border-b border-white/40 shadow-lg shadow-slate-900/5' : 'bg-transparent'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
         <nav className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Explicit label: the two spans below concatenate into
@@ -164,10 +170,10 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
             <Link href="/" aria-label="Dazzle Divas Cleaning home" className="flex items-center space-x-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600 focus-visible:ring-offset-2">
               <Image src="/images/Divas_logo-pink.jpg" alt="Dazzle Divas Cleaning logo" width={48} height={48} className="h-12 w-12 rounded-full" />
               <div>
-                <span className={`block text-lg font-bold transition-colors ${isScrolled ? 'text-diva-navy-950' : 'text-white'}`}>
+                <span className="block text-lg font-bold text-diva-pink-400">
                   Dazzle Divas Cleaning
                 </span>
-                <span className={`block text-xs transition-colors ${isScrolled ? 'text-diva-pink-700' : 'text-white/85'}`}>
+                <span className="block text-xs text-diva-pink-600">
                   Vacation Rental Specialists
                 </span>
               </div>
@@ -178,9 +184,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className={`font-medium transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600 focus-visible:ring-offset-2 ${
-                    isScrolled ? 'text-diva-navy-950 hover:text-diva-pink-700' : 'text-white hover:text-diva-pink-200'
-                  }`}
+                  className="text-diva-pink-400 hover:text-pink-600 font-medium transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600 focus-visible:ring-offset-2"
                 >
                   {item.name}
                 </a>
@@ -191,7 +195,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
             </div>
 
             <button
-              className={`md:hidden -mr-2 p-3 rounded-lg transition-colors ${isScrolled ? 'text-diva-navy-950' : 'text-white'}`}
+              className="md:hidden -mr-2 p-3 rounded-lg text-diva-pink-400"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
