@@ -1,7 +1,8 @@
 # Dazzle Divas — Revamp Plan
 
-**Status as of 21 Aug 2026:** Phase 1 complete and merged to `master`. Phase 0 complete in code,
-waiting on account setup and a baseline. Phases 2–4 not started.
+**Status as of 21 Aug 2026:** Phase 1 complete, merged to `master`, and **live in production**
+(deploy `42c0b92`). GA4 confirmed firing. Phase 0 otherwise waiting on account setup and a baseline.
+Phases 2–4 not started.
 
 Read alongside `AGENTS.md`. This file is the **what and when**; AGENTS.md is the **how**
 (architecture, conventions, and the decisions you must not undo).
@@ -50,9 +51,13 @@ only the owner can do.
       Phone/email clicks use one delegated listener in `Analytics.js` — **do not add per-link
       handlers.**
 - [x] Merged to `master` and deployed (21 Aug 2026).
-- [ ] Confirm GA4 Realtime shows traffic  ← **owner**
-- [ ] Enable Analytics + Speed Insights in the Vercel project's Analytics tab (the npm package is
-      only half of it)  ← **owner**
+- [x] **GA4 confirmed firing in production** (21 Aug 2026): `gtag/js?id=G-XGRTEKNYKZ` loads and
+      `config` is called on page load. Realtime should now show traffic.
+- [ ] **Enable Web Analytics + Speed Insights in the Vercel project's Analytics tab**  ← **owner**
+      Verified on production that the scripts are **not** injecting: no `_vercel` script tags and no
+      `_vercel` resource requests, even though `/_vercel/insights/script.js` returns 200 (Vercel
+      serves that path regardless). The npm package and the mounted components are only half of it —
+      the feature has to be switched on for the project. Nothing to deploy once you do.
 - [ ] Google Search Console verified, sitemap submitted  ← **owner**
 - [ ] Bing Webmaster Tools verified  ← **owner**
 - [ ] Record the baseline: Lighthouse on the four templates, GSC impressions and average position,
