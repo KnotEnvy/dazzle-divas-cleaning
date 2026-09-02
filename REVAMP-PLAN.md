@@ -1,11 +1,18 @@
 # Dazzle Divas — Revamp Plan
 
-**Status as of 21 Aug 2026:** Phase 1 complete, merged to `master`, and **live in production**
-(deploy `42c0b92`). GA4 confirmed firing. Phase 0 otherwise waiting on account setup and a baseline.
-Phases 2–4 not started.
+**Status as of 2 Sep 2026:** Phase 1 complete and live in production. **Phase 0 complete** — GA4,
+Vercel Web Analytics and Speed Insights all verified firing. Google Business Profile set up.
+**Phase 2 (local SEO) is the active phase.** Phases 3–4 not started.
 
-Read alongside `AGENTS.md`. This file is the **what and when**; AGENTS.md is the **how**
-(architecture, conventions, and the decisions you must not undo).
+Three documents, three jobs:
+
+| File | Job |
+|---|---|
+| `handoff.json` | Machine-readable state for the next team — status, invariants, gotchas, prioritized next actions |
+| `REVAMP-PLAN.md` (this file) | The **what and when** — phases, reasoning, open questions |
+| `AGENTS.md` | The **how** — architecture, conventions, and decisions you must not undo |
+
+Start with `handoff.json` if you are picking this up cold.
 
 ---
 
@@ -53,12 +60,13 @@ only the owner can do.
 - [x] Merged to `master` and deployed (21 Aug 2026).
 - [x] **GA4 confirmed firing in production** (21 Aug 2026): `gtag/js?id=G-XGRTEKNYKZ` loads and
       `config` is called on page load. Realtime should now show traffic.
-- [ ] **Enable Web Analytics + Speed Insights in the Vercel project's Analytics tab**  ← **owner**
-      Verified on production that the scripts are **not** injecting: no `_vercel` script tags and no
-      `_vercel` resource requests, even though `/_vercel/insights/script.js` returns 200 (Vercel
-      serves that path regardless). The npm package and the mounted components are only half of it —
-      the feature has to be switched on for the project. Nothing to deploy once you do.
-- [ ] Google Search Console verified, sitemap submitted  ← **owner**
+- [x] **Vercel Web Analytics + Speed Insights confirmed live** (2 Sep 2026). `window.va` and
+      `window.si` are both present and both scripts load.
+      **Note for anyone verifying this later:** Vercel serves these under randomized anti-adblock
+      paths (e.g. `/a2b11d4b727bed90/script.js`), **not** under `/_vercel/`. Grepping script `src`
+      for `_vercel` finds nothing and looks like the feature is off. It isn't — check `window.va`.
+- [ ] Google Search Console verified, sitemap submitted  ← **owner** (no verification meta tag on
+      the site, but GSC is commonly verified by DNS or the GA4 link — confirm in the dashboard)
 - [ ] Bing Webmaster Tools verified  ← **owner**
 - [ ] Record the baseline: Lighthouse on the four templates, GSC impressions and average position,
       current rank for ~12 target terms. **Do this before Phase 4 or the revamp is unmeasurable.**
@@ -101,13 +109,14 @@ All fixed and verified — see the before/after table at the bottom.
 
 ---
 
-## Phase 2 — Local SEO · START HERE NEXT
+## Phase 2 — Local SEO · ACTIVE PHASE
 
 Mostly not code. Longest lead time of anything in this plan, so it starts regardless of build
 progress. This is where the traffic actually is.
 
-- [~] Google Business Profile created — **verification pending with Google** as of 19 Aug 2026.
-      Once verified: full categories, services, service area, hours, 20+ photos, seeded Q&A
+- [x] Google Business Profile set up (owner, 2 Sep 2026)
+- [ ] Confirm the profile is *fully populated*: categories, service list, service area, hours,
+      20+ photos, seeded Q&A. A thin verified profile ranks poorly — completeness is the signal.
 - [ ] Review engine: automated post-job follow-up with a direct review link. Steady trickle, not a
       burst
 - [ ] Citations with identical NAP: Bing Places, Apple Business Connect, Yelp, Nextdoor, Thumbtack

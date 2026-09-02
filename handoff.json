@@ -1,0 +1,487 @@
+{
+  "handoff": {
+    "version": "1.0",
+    "generatedAt": "2026-09-02",
+    "generatedBy": "Claude Opus 5 (Claude Code session)",
+    "audience": "Next engineering/SEO team taking over site enhancements",
+    "companionDocs": {
+      "REVAMP-PLAN.md": "What and when — phases, status, open questions",
+      "AGENTS.md": "How — architecture, conventions, RSC boundary rules, decisions not to undo"
+    },
+    "readFirst": [
+      "invariants — several things that look like bugs are deliberate decisions",
+      "gotchas — three of these cost real debugging time in the last pass",
+      "nextActions — prioritized, with the reasoning behind the ordering"
+    ],
+    "oneLineSummary": "Phase 1 (defect fixes + instrumentation) shipped and verified. Measurement is live. Phase 2 (local SEO) is unblocked and is the highest-leverage work remaining."
+  },
+
+  "project": {
+    "name": "Dazzle Divas Cleaning",
+    "legalName": "Dazzle Divas Cleaning LLC",
+    "business": "Vacation rental turnover and residential cleaning, Volusia County, Florida. Founded 2018.",
+    "positioning": "Vacation-rental turnover specialist, not a general house cleaner. This is the strongest decision on the site — defend it.",
+    "primaryCustomer": "Airbnb/VRBO hosts and property managers in Volusia County",
+    "stack": {
+      "framework": "Next.js 14.2.4 (App Router)",
+      "language": "JavaScript (no TypeScript despite tsconfig.json being present)",
+      "styling": "Tailwind CSS 3.4 with custom brand colors",
+      "animation": "framer-motion 11",
+      "icons": "lucide-react",
+      "email": "EmailJS (client-side send, behind a server capture route)",
+      "hosting": "Vercel",
+      "cdn": "Cloudflare (in front of Vercel)"
+    },
+    "repo": "https://github.com/KnotEnvy/dazzle-divas-cleaning",
+    "productionBranch": "master",
+    "deployTrigger": "push to master auto-deploys to production",
+    "urls": {
+      "production": "https://www.dazzledivascleaning.com",
+      "canonicalHost": "www (apex 308-redirects to www)"
+    }
+  },
+
+  "currentState": {
+    "lastDeployedCommit": "20c7d36",
+    "lastDeployedDate": "2026-08-21",
+    "buildStatus": "clean — 19 static pages, ESLint clean, no warnings",
+    "phase1": "complete, merged, live, verified against production",
+    "measurement": "fully live — GA4, Vercel Web Analytics, Vercel Speed Insights all confirmed firing in production 2026-09-02",
+    "googleBusinessProfile": "set up (owner-reported 2026-09-02)"
+  },
+
+  "environment": {
+    "required": [
+      {
+        "name": "NEXT_PUBLIC_EMAILJS_PUBLIC_KEY",
+        "purpose": "EmailJS client init"
+      }
+    ],
+    "configured": [
+      {
+        "name": "NEXT_PUBLIC_GA_MEASUREMENT_ID",
+        "value": "G-XGRTEKNYKZ",
+        "purpose": "GA4. Gates whether gtag loads at all — absent means no GA4, which keeps local and preview clean."
+      },
+      {
+        "name": "NEXT_PUBLIC_EMAILJS_SERVICE_ID",
+        "purpose": "EmailJS service"
+      },
+      {
+        "name": "NEXT_PUBLIC_EMAILJS_TEMPLATE_ID",
+        "purpose": "EmailJS template"
+      },
+      {
+        "name": "NEXT_PUBLIC_SITE_URL",
+        "purpose": "Used by sitemap.js and per-page canonicals. Falls back to the production URL."
+      }
+    ],
+    "optionalNotSet": [
+      {
+        "name": "LEAD_WEBHOOK_URL",
+        "purpose": "Forwards every quote submission to a durable destination (Zapier / Make / Sheets / CRM). Without it, leads exist only in Vercel runtime logs. Worth setting — see openQuestions.leadDestination."
+      }
+    ]
+  },
+
+  "analytics": {
+    "ga4": {
+      "status": "live",
+      "measurementId": "G-XGRTEKNYKZ",
+      "verifiedAt": "2026-09-02",
+      "evidence": "gtag/js?id=G-XGRTEKNYKZ loads and config fires on page load"
+    },
+    "vercelWebAnalytics": {
+      "status": "live",
+      "verifiedAt": "2026-09-02",
+      "note": "Scripts load under Vercel's randomized anti-adblock paths (e.g. /a2b11d4b727bed90/script.js), NOT under /_vercel/. Do not conclude it is broken because you cannot find '_vercel' in the script srcs — check for window.va instead."
+    },
+    "vercelSpeedInsights": {
+      "status": "live",
+      "verifiedAt": "2026-09-02",
+      "note": "Same randomized-path behavior. Check window.si."
+    },
+    "cloudflareWebAnalytics": {
+      "status": "present",
+      "note": "A Cloudflare beacon.min.js also loads. Not configured by this team — inherited from the Cloudflare layer."
+    },
+    "conversionEvents": {
+      "implementation": "app/lib/analytics.js exports track(event, params) and EVENTS. No-ops when no provider is present, so it is safe to call anywhere.",
+      "events": [
+        "call_click",
+        "email_click",
+        "quote_submit",
+        "quote_submit_failed"
+      ],
+      "criticalNote": "Phone and email clicks are captured by ONE delegated listener in app/components/Analytics.js. Do NOT add per-link onClick handlers — you will double-count."
+    }
+  },
+
+  "phases": [
+    {
+      "id": 0,
+      "name": "Instrumentation",
+      "status": "complete",
+      "completedAt": "2026-09-02",
+      "remaining": [
+        {
+          "task": "Google Search Console verified + sitemap submitted",
+          "owner": "business",
+          "status": "unverified — no google-site-verification meta tag on the site, but GSC verification is commonly done via DNS or the GA4 link, so absence proves nothing. Confirm in the GSC dashboard."
+        },
+        {
+          "task": "Bing Webmaster Tools verified",
+          "owner": "business",
+          "status": "unverified — no msvalidate meta tag present"
+        },
+        {
+          "task": "Record the pre-Phase-4 baseline",
+          "owner": "next team",
+          "status": "NOT DONE — blocking",
+          "why": "Lighthouse on the four templates, GSC impressions and average position, and current rank for ~12 target terms. Without this, the Phase 4 redesign cannot be shown to have worked. Capture it before changing anything visual."
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Defect fixes",
+      "status": "complete",
+      "completedAt": "2026-08-21",
+      "summary": "Five issues were cancelling out the existing SEO work, plus zero analytics. See metrics.beforeAfter for the measured result.",
+      "shipped": [
+        "Hero was rendering at 4.5x upscale — sizes='33vw' on a full-bleed fill image",
+        "Root LocalBusiness/Organization/WebSite JSON-LD was JS-injected, absent from served HTML",
+        "All FAQ answers were gated behind {isOpen && ...} — crawlable questions, invisible answers",
+        "Scrolled header used bg-slate/85, not a real Tailwind class, so it compiled to nothing",
+        "Seven pages shipped a doubled brand suffix in the title at 81-89 chars",
+        "Two h1 on home; six headings concatenated without word spaces",
+        "public/images 85 MB -> 14 MB",
+        "Mobile sticky call/quote bar on home",
+        "Server-side lead capture at /api/quote with honeypot and rate limiting",
+        "Copy corrections: 550+/year, computed last-year, ~20% revenue lift",
+        "Accessibility: tap targets, accessible names, real 404, icon set, web manifest",
+        "Dead code, duplicate color tokens, duplicate BreadcrumbList removed"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Local SEO",
+      "status": "in_progress",
+      "priority": "HIGHEST — this is where the traffic is",
+      "rationale": "Map-pack ranking is won on Google Business Profile signals and review volume, not site design. For a local cleaning company this outweighs everything else in this plan. It also has the longest lead time, so it compounds only if started early.",
+      "items": [
+        {
+          "task": "Google Business Profile fully populated",
+          "status": "profile set up 2026-09-02; confirm categories, service list, service area, hours, 20+ photos, and seeded Q&A are all filled in",
+          "owner": "business"
+        },
+        {
+          "task": "Review engine — automated post-job follow-up with a direct review link",
+          "status": "not started",
+          "note": "Aim for a steady weekly trickle, not a burst. Burst patterns look inorganic.",
+          "owner": "business + light engineering"
+        },
+        {
+          "task": "Citations with identical NAP",
+          "status": "not started",
+          "targets": ["Bing Places", "Apple Business Connect", "Yelp", "Nextdoor", "Thumbtack"],
+          "owner": "business"
+        },
+        {
+          "task": "Add a street/mailing address to the LocalBusiness schema",
+          "status": "not started",
+          "file": "app/layout.js",
+          "why": "Currently addressLocality only, which limits local-pack eligibility",
+          "owner": "engineering"
+        },
+        {
+          "task": "Re-source review markup from Google reviews",
+          "status": "blocked on GBP review volume",
+          "file": "app/layout.js",
+          "why": "The 3 Review objects are real client reviews (owner-confirmed; photos are stock for privacy) so they stay on the page. But Google does not surface review rich results for a business marking up reviews about itself, so the markup earns nothing where it sits.",
+          "owner": "engineering"
+        },
+        {
+          "task": "Airbnb/VRBO host Facebook groups for Volusia County",
+          "status": "not started",
+          "why": "Where the actual buyers already are",
+          "owner": "business"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Content and GEO expansion",
+      "status": "not_started",
+      "estimate": "3-4 weeks, content-bound",
+      "rationale": "10 pages is a small surface. Every page is a separate chance to rank, and for AI search, depth and specificity are what get you cited rather than skimmed.",
+      "items": [
+        "City pages: Port Orange, Ponce Inlet, Daytona Beach Shores, Ormond-by-the-Sea. Real local detail, not swapped nouns — existing three share ~25% of phrasing; keep new ones at or below that",
+        "The three service pages the schema already promises: Residential House Cleaning, Deep Cleaning, Eco-Friendly Cleaning",
+        "Transparent pricing page — LLMs cite specific numbers and competitors mostly hide theirs",
+        "About page with real names, faces, and the 2018 founding story (E-E-A-T for a local business)",
+        "6-8 guides phrased the way hosts actually search: turnover checklists, what cleaning fee to charge, Volusia short-term rental rules, race-week prep, hurricane prep",
+        "Answer-first structure: lead each section with the answer in one sentence, then support it"
+      ],
+      "doneWhen": "20+ pages, every schema claim has a page behind it, GSC shows impressions on terms nobody explicitly targeted"
+    },
+    {
+      "id": 4,
+      "name": "Visual revamp",
+      "status": "not_started",
+      "estimate": "2-3 weeks; design exploration can start any time",
+      "blockedBy": "Phase 0 baseline must be captured first, or the revamp is unmeasurable",
+      "items": [
+        "Consolidate the design system — one color source of truth, one type scale; retire the legacy CSS variables in globals.css",
+        "Decompose app/components/testSite.js (~1,040 lines, one client component) into section components",
+        "Convert static sections to server components — currently ~200 KB compressed JS to render what is mostly a brochure",
+        "Real photography: before/after pairs from actual turnovers, plus the team. Current portfolio is 2024 decor shots, not evidence of cleaning",
+        "Motion discipline; honour prefers-reduced-motion throughout",
+        "Rebuild home around one question: does a host understand in 5 seconds what we do and how to book it"
+      ],
+      "doneWhen": "Live, and GA4 shows a higher call+form conversion rate than the Phase 0 baseline"
+    }
+  ],
+
+  "invariants": [
+    {
+      "rule": "The office phone line is voice-only",
+      "detail": "Never write 'call or text' anywhere on the site. (386) 301-5775 does not accept incoming SMS.",
+      "severity": "factual-error-if-violated"
+    },
+    {
+      "rule": "Quote turnaround is 24 hours",
+      "detail": "Not '2 minutes'. An earlier version overclaimed this.",
+      "severity": "factual-error-if-violated"
+    },
+    {
+      "rule": "Founded 2018",
+      "detail": "Used in footer copy, llms.txt, and layout.js metadata.",
+      "severity": "factual-error-if-violated"
+    },
+    {
+      "rule": "The home header is untinted glass — this is a decision, not a bug",
+      "detail": "backdrop-blur-md with a fully transparent background and text-diva-pink-400 links. Three treatments were built and tested on real devices (solid bg-white/95, frosted bg-white/70 + blur, and untinted); the owner chose untinted. Pink-400 on a white section measures 2.65:1, below the WCAG AA 4.5:1 minimum. This trade-off is known and accepted. If it must ever pass AA, the lever is a DARKER LINK COLOR (diva-pink-700 measures 6.0:1), not a background tint — the tint is the part that was rejected.",
+      "severity": "do-not-undo",
+      "file": "app/components/testSite.js"
+    },
+    {
+      "rule": "Marketing pages and home deliberately do not match",
+      "detail": "shell/SiteHeader.js uses dark glass (bg-slate-900/90, white text); home uses untinted light glass. Owner confirmed both should stay. Unifying them is a Phase 4 design decision, not a bug fix.",
+      "severity": "do-not-undo"
+    },
+    {
+      "rule": "JSON-LD must be a plain <script> rendered from a server component",
+      "detail": "Never next/script. strategy='beforeInteractive' queues the tag through self.__next_s and injects it client-side, so the schema is absent from the served HTML. Google executes JS and usually still sees it; AI/LLM crawlers read raw HTML and see nothing. This bug was live for months.",
+      "severity": "regression-risk",
+      "file": "app/layout.js"
+    },
+    {
+      "rule": "Accordion answers stay mounted in the DOM",
+      "detail": "Never {isOpen && <answer/>}. Open/closed is a CSS grid-template-rows 0fr/1fr transition on a wrapper with overflow-hidden. Applies to FAQ.js, faq/FAQAccordion.js, service/ServiceFAQ.js. This single change took /faq from 355 to 1,117 crawlable words.",
+      "severity": "regression-risk"
+    },
+    {
+      "rule": "Page metadata.title must NOT include the brand",
+      "detail": "app/layout.js sets template: '%s | Dazzle Divas Cleaning'. Adding the brand in a page's own title produces a doubled suffix. Budget: title <= 70 chars, description <= 160 chars, measured AFTER the template is applied.",
+      "severity": "regression-risk"
+    },
+    {
+      "rule": "Never hardcode a year in copy",
+      "detail": "'Zero negative cleanliness reviews in {lastYear}' takes lastYear from app/page.js (a server component) with revalidate = 86400. Computing it client-side causes a hydration mismatch; hardcoding it goes stale.",
+      "severity": "regression-risk"
+    },
+    {
+      "rule": "next/image sizes must describe the RENDERED width",
+      "detail": "A full-bleed fill background is sizes='100vw'. The hero declared 33vw and the browser fetched a 640px variant to stretch across the viewport — a 4.5x upscale. Source images are capped at 2560px on the longest side.",
+      "severity": "regression-risk"
+    },
+    {
+      "rule": "RSC boundary — lucide icons as props",
+      "detail": "When a server page passes a lucide-react icon (a forwardRef component) as a prop, the receiving component must stay a server component (no 'use client'), or Next fails with 'Functions cannot be passed directly to Client Components'.",
+      "severity": "build-break-risk"
+    },
+    {
+      "rule": "Every new route updates five places",
+      "detail": "app/sitemap.js, public/llms.txt, the relevant home-page array in testSite.js, the dropdown lists in shell/SiteHeader.js, and the footer chip array in Footer.js.",
+      "severity": "consistency"
+    },
+    {
+      "rule": "Stat claims are owner-confirmed as defensible",
+      "detail": "550+ properties cleaned a year, 98% guest satisfaction, 78% industry average, '#1', 15+ cities, ~20% revenue lift. Confirmed 2026-08-21. Any NEW stat needs a source before it ships.",
+      "severity": "do-not-undo"
+    }
+  ],
+
+  "architecture": {
+    "entryPoints": {
+      "home": "app/page.js -> app/components/Main.js -> app/components/testSite.js (wrapped in Layout)",
+      "marketingPages": "app/(marketing)/layout.jsx -> PageShell (SiteHeader + Footer + StickyQuotePill + MotionConfig)",
+      "note": "Home does NOT use the marketing route group — it owns its own header inside testSite.js"
+    },
+    "keyFiles": {
+      "app/layout.js": "Root metadata, title template, LocalBusiness + WebSite + Organization JSON-LD (plain script tags)",
+      "app/page.js": "Server component. Computes lastYear, sets revalidate = 86400",
+      "app/components/testSite.js": "The entire home page, ~1,040 lines, one client component. Phase 4 decomposition target.",
+      "app/components/Analytics.js": "GA4 + Vercel Analytics + Speed Insights + delegated click tracking",
+      "app/lib/analytics.js": "track() helper and EVENTS map",
+      "app/api/quote/route.js": "Server-side lead capture — validation, honeypot, IP rate limit, logging, optional webhook",
+      "app/components/ContactForm.js": "Posts to /api/quote FIRST, then attempts the EmailJS notification",
+      "app/robots.js": "Explicitly allows AI/LLM crawlers",
+      "app/sitemap.js": "Enumerates all 10 routes",
+      "public/llms.txt": "AI-agent discoverability file — keep in sync with routes",
+      "app/manifest.js": "Web app manifest",
+      "AGENTS.md": "Conventions and decisions — read before editing anything"
+    },
+    "routes": [
+      "/",
+      "/services/vacation-rental-turnover",
+      "/services/emergency-cleaning",
+      "/services/property-management",
+      "/cleaning/ormond-beach",
+      "/cleaning/daytona-beach",
+      "/cleaning/new-smyrna-beach",
+      "/faq",
+      "/privacy-policy",
+      "/terms-of-service"
+    ],
+    "leadFlow": "Form -> POST /api/quote (validate, honeypot, rate limit, log '[LEAD]' as structured JSON, optional LEAD_WEBHOOK_URL) -> then EmailJS notification from the client. The lead is recorded BEFORE delivery is attempted, so a failed send no longer loses it silently. An email failure is tracked as quote_submit_failed but not shown to the visitor as a failure."
+  },
+
+  "metrics": {
+    "note": "All figures measured against the live site, before and after Phase 1.",
+    "beforeAfter": {
+      "heroSrcsetCandidateAt1600px": { "before": "w=640 (528x396 delivered)", "after": "w=1920 (2560x1920 AVIF)" },
+      "faqAnswersInCrawlableHtml": { "before": "0 of 20", "after": "20 of 20" },
+      "faqVisibleWords": { "before": 355, "after": 1117 },
+      "homeVisibleWords": { "before": 964, "after": 1208 },
+      "servicePageVisibleWords": { "before": "712-778", "after": "871-927" },
+      "cityPageVisibleWords": { "before": "605-633", "after": "745-800" },
+      "jsonLdBlocksInRawHtmlHome": { "before": 1, "after": 4 },
+      "businessSchemaInRawHtml": { "before": "0 blocks (JS-injected)", "after": "3 blocks on every page" },
+      "titlesOver70Chars": { "before": "7 of 10", "after": "0 of 10" },
+      "descriptionsOver160Chars": { "before": "6 of 10", "after": "0 of 10" },
+      "h1OnHome": { "before": 2, "after": 1 },
+      "headingsWithMissingWordSpaces": { "before": 6, "after": 0 },
+      "buttonsWithNoAccessibleName": { "before": 4, "after": 0 },
+      "mobileTapTargetsUnder44px": { "before": 25, "after": 0 },
+      "publicImagesSize": { "before": "85 MB", "after": "14 MB" },
+      "favicon": { "before": "147 KB JPEG named .ico", "after": "8.6 KB multi-size ICO + PNG set" },
+      "webManifest": { "before": "404", "after": "served" },
+      "eslint": { "before": "3 warnings", "after": "clean" }
+    },
+    "deliberatelyNotImproved": {
+      "navContrastOnWhite": "2.65:1 — below WCAG AA. Owner decision after testing three header treatments. See invariants."
+    },
+    "notYetCaptured": [
+      "Post-deploy Lighthouse scores on the four templates",
+      "GSC impressions and average position baseline",
+      "Rank for ~12 target terms",
+      "GA4 conversion-rate baseline (needs 7+ days of clean data)"
+    ]
+  },
+
+  "gotchas": [
+    {
+      "issue": "The Claude Code Browser pane does not composite frames when hidden",
+      "impact": "CSS transitions never advance, so getComputedStyle returns the PRE-transition value forever. This produced two false conclusions that a Tailwind class 'compiled to nothing' when the CSS was correct.",
+      "workaround": "el.style.transition='none'; void el.offsetWidth; then read. Cross-check by grepping .next/static/css/*.css for the escaped selector and by applying the same class to a throwaway element in the same document."
+    },
+    {
+      "issue": "window.scrollTo() in the automated browser does not fire scroll events",
+      "impact": "Scroll-dependent React state never updates, making scrolled-state styling look broken.",
+      "workaround": "window.dispatchEvent(new Event('scroll')) after setting scrollTop."
+    },
+    {
+      "issue": "Vercel Analytics scripts do NOT load from /_vercel/ paths",
+      "impact": "Grepping for '_vercel' in script srcs returns nothing and looks like the feature is disabled. It is not.",
+      "workaround": "Vercel serves them under randomized anti-adblock paths. Check for window.va and window.si instead."
+    },
+    {
+      "issue": "Browser-cached image variants mask srcset fixes",
+      "impact": "After fixing a sizes attribute, a browser that visited the old site may keep serving the old small variant.",
+      "workaround": "Cache-bust the URL before measuring."
+    },
+    {
+      "issue": "Cloudflare sits in front of Vercel and can override site-level files",
+      "impact": "Cloudflare's Managed robots.txt was silently prepending Disallow rules for ClaudeBot, GPTBot, CCBot, Google-Extended and others, plus Content-Signal: ai-train=no — directly contradicting app/robots.js. Turned off 2026-08-20.",
+      "workaround": "If AI crawlers ever stop appearing, curl the live robots.txt and check for a Cloudflare managed block before touching app/robots.js."
+    },
+    {
+      "issue": "Windows dev environment",
+      "impact": "Builds can take 3-5 minutes cold. A stale `next start` will hold port 3000 and silently serve an old build, making fixes look like they did not apply.",
+      "workaround": "taskkill //F //IM node.exe before rebuilding, and confirm the CSS hash changed."
+    }
+  ],
+
+  "openQuestions": [
+    {
+      "id": "jobPhotos",
+      "question": "Are there current photos of real jobs, including before/after pairs and the team?",
+      "blocks": "Phase 4 photography, Phase 3 about page",
+      "why": "The current portfolio is 2024 decor shots — they show nice rooms, not evidence of cleaning."
+    },
+    {
+      "id": "leadDestination",
+      "question": "Where should leads land — CRM, spreadsheet, or inbox?",
+      "blocks": "Whether to set LEAD_WEBHOOK_URL",
+      "why": "Today leads are in Vercel runtime logs plus an EmailJS notification. Logs are not a lead pipeline."
+    },
+    {
+      "id": "contentCadence",
+      "question": "How much writing can the business sustain per month?",
+      "blocks": "Sizing Phase 3",
+      "why": "Match the plan to what will actually be sustained, not what looks good on paper."
+    },
+    {
+      "id": "gscBaseline",
+      "question": "Is Google Search Console verified, and can the next team get access?",
+      "blocks": "Phase 0 baseline, and therefore Phase 4 measurement",
+      "why": "No verification meta tag is present, but GSC is commonly verified via DNS or the GA4 link, so that proves nothing either way."
+    }
+  ],
+
+  "nextActions": [
+    {
+      "priority": 1,
+      "action": "Capture the pre-revamp baseline",
+      "detail": "Lighthouse on home / a service page / a city page / faq, GSC impressions and average position, and rank for ~12 target terms. Write the numbers into REVAMP-PLAN.md.",
+      "why": "Everything downstream is unmeasurable without it, and it gets harder to capture honestly the longer you wait.",
+      "effort": "half a day",
+      "owner": "next team"
+    },
+    {
+      "priority": 2,
+      "action": "Finish Phase 2 local SEO",
+      "detail": "Fully populate the GBP, stand up the review engine, build citations, and add a street address to the LocalBusiness schema.",
+      "why": "Highest traffic leverage of anything remaining, and the longest lead time — reviews compound only if started early.",
+      "effort": "ongoing, starts now",
+      "owner": "business + light engineering"
+    },
+    {
+      "priority": 3,
+      "action": "Set LEAD_WEBHOOK_URL",
+      "detail": "Point it at a Google Sheet or CRM so leads land somewhere durable.",
+      "why": "Cheap, and it closes the last gap in the lead pipeline.",
+      "effort": "under an hour",
+      "owner": "business"
+    },
+    {
+      "priority": 4,
+      "action": "Phase 3 content expansion",
+      "detail": "Four city pages, three service pages the schema already promises, a pricing page, an about page, and 6-8 guides.",
+      "why": "Grows the rankable surface from 10 pages to 20+ and gives AI assistants specific, citable answers.",
+      "effort": "3-4 weeks, content-bound",
+      "owner": "next team"
+    },
+    {
+      "priority": 5,
+      "action": "Phase 4 visual revamp",
+      "detail": "Design system consolidation, testSite.js decomposition, server-component conversion, real photography.",
+      "why": "Multiplies conversion on the traffic Phases 2 and 3 bring in. Deliberately last.",
+      "effort": "2-3 weeks",
+      "owner": "next team",
+      "gate": "Do not start until the Phase 0 baseline exists."
+    }
+  ]
+}

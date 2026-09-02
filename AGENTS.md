@@ -1,5 +1,9 @@
 # Dazzle Divas Cleaning — Agent Guide
 
+> **Picking this up cold?** Read `handoff.json` first — it carries current status, the invariants you
+> must not undo, known environment gotchas, and prioritized next actions. `REVAMP-PLAN.md` has the
+> phase plan. This file is the architecture and conventions reference.
+
 Purpose: Give LLM agents enough context to safely modify and extend this Next.js app without breaking deployment, linting, or UX.
 
 ## Project Summary
@@ -215,3 +219,12 @@ class list says what it means.
 Marketing pages keep their **dark** glass header (`bg-slate-900/90`, white text) in
 `shell/SiteHeader.js`. Home and the marketing pages deliberately do not match — owner
 confirmed 21 Aug 2026 that both should stay as they are.
+
+## Verifying analytics (added 2 Sep 2026)
+- GA4, Vercel Web Analytics and Vercel Speed Insights are all live in production.
+- **Vercel's scripts do not load from `/_vercel/` paths.** They are served under randomized
+  anti-adblock paths such as `/a2b11d4b727bed90/script.js`. Searching script `src` attributes for
+  `_vercel` returns nothing and looks like the feature is disabled — it is not. Check for
+  `window.va` (analytics) and `window.si` (speed insights) instead.
+- `/_vercel/insights/script.js` returning a real script body is the other reliable signal that the
+  feature is enabled for the project.
