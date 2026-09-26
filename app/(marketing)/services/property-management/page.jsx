@@ -12,6 +12,7 @@ import {
   BarChart3,
   Camera,
   Zap,
+  Leaf,
 } from 'lucide-react';
 import ServiceHero from '../../../components/service/ServiceHero';
 import AtAGlance from '../../../components/service/AtAGlance';
@@ -221,6 +222,13 @@ const crossSell = [
     description:
       '24/7 dispatch for surprise bookings, no-show cleaners, and post-storm cleanup. No rush fees on standard tiers.',
     href: '/services/emergency-cleaning',
+  },
+  {
+    icon: Leaf,
+    title: 'Eco-Friendly Cleaning',
+    description:
+      'Non-toxic, fragrance-conscious products on request for any turnover in your portfolio.',
+    href: '/services/eco-friendly-cleaning',
   },
 ];
 

@@ -11,6 +11,7 @@ import {
   UtensilsCrossed,
   Sofa,
   Building,
+  Home,
 } from 'lucide-react';
 import ServiceHero from '../../../components/service/ServiceHero';
 import AtAGlance from '../../../components/service/AtAGlance';
@@ -222,6 +223,13 @@ const crossSell = [
       'Multi-property hosts get a dedicated manager, calendar sync, monthly reporting, and up to 20% volume pricing.',
     href: '/services/property-management',
   },
+  {
+    icon: Home,
+    title: 'Residential House Cleaning',
+    description:
+      'Recurring or one-time cleaning for the home you live in, or for your second home between owner stays.',
+    href: '/services/residential-house-cleaning',
+  },
 ];
 
 const serviceLd = {
@@ -331,7 +339,7 @@ export default function VacationRentalTurnoverPage() {
       <CrossSell title="Other services hosts use with us" items={crossSell} />
       <CTABand
         title="Ready for guest-ready turnovers?"
-        subtitle="Free quote, no commitment. Most quotes returned within 2 hours during business hours."
+        subtitle="Free quote, no commitment. Most quotes returned within 24 hours."
       />
     </>
   );

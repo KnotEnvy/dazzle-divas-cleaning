@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight, Star, Shield, Clock, CheckCircle, Phone, Award, Users,
   TrendingUp, MapPin, Calendar, Sparkles, Home, Building, Zap, Menu, X,
-  ArrowUp, Camera, Quote
+  ArrowUp, Camera, Quote, Droplets, Brush, Leaf
 } from 'lucide-react';
 import SecureModernContactForm from './ContactForm';
 import CompetitiveServicesPage from './CompetitiveServices';
@@ -76,28 +76,107 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
       badge: "Pro Service",
       color: "blue",
       href: "/services/property-management"
+    },
+    {
+      icon: Droplets,
+      title: "Residential House Cleaning",
+      description: "Recurring and one-time cleaning for Volusia County homes, hotel-level detail",
+      price: "Custom quote",
+      features: ["Weekly, bi-weekly, monthly", "Move-in / move-out", "Snowbird homes", "Quote in 24 hours"],
+      badge: "Homeowners",
+      color: "blue",
+      href: "/services/residential-house-cleaning"
+    },
+    {
+      icon: Brush,
+      title: "Deep Cleaning",
+      description: "Top-to-bottom reset for season openings, renovations, and long stays",
+      price: "Custom quote",
+      features: ["Baseboards & ceiling fans", "Inside oven & fridge", "Grout & fixtures", "Before listing photos"],
+      badge: "Seasonal Reset",
+      color: "pink",
+      href: "/services/deep-cleaning"
+    },
+    {
+      icon: Leaf,
+      title: "Eco-Friendly Cleaning",
+      description: "Non-toxic, fragrance-conscious products on request with any service",
+      price: "Custom quote",
+      features: ["Kid & pet aware", "Low-scent products", "Same checklist", "Available on every service"],
+      badge: "On Request",
+      color: "green",
+      href: "/services/eco-friendly-cleaning"
     }
   ];
 
   const serviceAreas = [
     {
+      name: "Daytona Beach",
+      tagline: "Race-week capacity reserved. Beachside, South Peninsula, and mainland.",
+      href: "/cleaning/daytona-beach"
+    },
+    {
+      name: "Daytona Beach Shores",
+      tagline: "Condo-tower turnovers planned around front-desk keys, elevators, and loading zones.",
+      href: "/cleaning/daytona-beach-shores"
+    },
+    {
       name: "Ormond Beach",
-      tagline: "Snowbird-season specialty, oceanfront condos, Ormond-by-the-Sea coverage.",
+      tagline: "Snowbird-season specialty, oceanfront condos, both sides of the Granada.",
       href: "/cleaning/ormond-beach"
     },
     {
-      name: "Daytona Beach",
-      tagline: "Race-week capacity reserved. Beachside, Shores, and South Peninsula.",
-      href: "/cleaning/daytona-beach"
+      name: "Ormond-by-the-Sea",
+      tagline: "Beach houses and small condos along A1A to the Flagler County line.",
+      href: "/cleaning/ormond-by-the-sea"
     },
     {
       name: "New Smyrna Beach",
       tagline: "Boutique vacation rentals, Flagler Avenue, Coronado Island, Bethune Beach.",
       href: "/cleaning/new-smyrna-beach"
+    },
+    {
+      name: "Port Orange",
+      tagline: "Mainland rentals and second homes, Spruce Creek to the Halifax riverfront.",
+      href: "/cleaning/port-orange"
+    },
+    {
+      name: "Ponce Inlet",
+      tagline: "Oceanfront condos and riverfront homes near the lighthouse and Inlet Harbor.",
+      href: "/cleaning/ponce-inlet"
     }
   ];
 
+  // Google reviews first (verbatim from the live Google Business Profile, owner
+  // approved; Sue Ann's is trimmed with ellipses). They have no `image`, so the
+  // card renders the reviewer's initial instead of a photo, plus a "Google
+  // review" badge linking to /reviews. Keep app/layout.js `review` in sync.
+  // Darnell leads because a property manager is the primary buyer.
   const testimonials = [
+    {
+      name: "Darnell Hatcher",
+      role: "Property Manager, SkyRun Daytona",
+      source: "google",
+      rating: 5,
+      text: "Dazzle Divas is absolutely everything you need and want with a cleaning company. They have addressed biohazard situations beyond normal cleaning to prepping areas for photo shoots. From new construction to ultra luxury they have come through for me as a property manager. I highly recommend them and they are local boots on the ground and you actually talk to the owners! I couldn't recommend a better cleaning company.",
+      property: "Managed portfolio"
+    },
+    {
+      name: "Sue Ann Eidson",
+      role: "Repeat guest, New Smyrna Beach",
+      source: "google",
+      rating: 5,
+      text: "I have used the Dazzle Divas Cleaning service over the past three years while renting beach houses in New Smyrna Beach, Florida. I liked the fact that they were very professional and trustworthy. … I also appreciated the extra help that they always gave me—helping me fix drapes/shades, cleaning the grill, and making beds! … They are wonderful people and will leave your rental in immaculate condition!",
+      property: "3BR/3BA beach home"
+    },
+    {
+      name: "Jeff Thompson",
+      role: "Google review",
+      source: "google",
+      rating: 5,
+      text: "They do a wonderful job. They focus on detail And really go above and beyond I would recommend them everyone",
+      property: "Volusia County"
+    },
     {
       name: "Sarah Mitchell",
       role: "Airbnb Superhost",
@@ -122,8 +201,9 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
       text: "The attention to detail is incredible. Guests specifically mention how pristine and welcoming the space feels. My 5-star reviews increased 40% since switching to Dazzle Divas.",
       property: "Luxury Condo, New Smyrna"
     },
-    
+
   ];
+  const currentTestimonial = testimonials[activeTestimonial];
 
   const stats = [
     { number: "550+", label: "Properties Cleaned a Year", icon: Home },
@@ -423,7 +503,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {serviceAreas.map((area, index) => (
               <motion.div
                 key={area.name}
@@ -756,7 +836,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
               </span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Real results from real vacation rental owners across Volusia County.
+              Real reviews from property managers, hosts, and guests across Volusia County.
             </p>
           </motion.div>
 
@@ -776,28 +856,61 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
                   </div>
                   
                   <div className="text-center mb-8">
-                    <div className="flex justify-center mb-4">
-                      {[1,2,3,4,5].map((i) => (
-                        <Star key={i} className="w-6 h-6 text-yellow-500 fill-current" />
-                      ))}
-                    </div>
-                    <blockquote className="text-xl md:text-2xl text-slate-700 leading-relaxed mb-6">
-                      &ldquo;{testimonials[activeTestimonial].text}&rdquo;
+                    {currentTestimonial.source === 'google' ? (
+                      // Google badge replaces the large star row for Google
+                      // reviews. Plain <a>, not next/link: /reviews is a
+                      // redirect route handler. The delegated listener in
+                      // Analytics.js tracks the click; no onClick here.
+                      <a
+                        href="/reviews"
+                        className="mb-4 inline-flex min-h-[44px] items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors duration-300 hover:border-pink-300 hover:text-pink-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600"
+                      >
+                        <span className="flex" aria-hidden="true">
+                          {[1,2,3,4,5].map((i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${i <= currentTestimonial.rating ? 'text-yellow-500 fill-current' : 'text-slate-300'}`}
+                            />
+                          ))}
+                        </span>
+                        <span className="sr-only">{`${currentTestimonial.rating} out of 5 stars, `}</span>
+                        Google review
+                      </a>
+                    ) : (
+                      <div className="flex justify-center mb-4">
+                        {[1,2,3,4,5].map((i) => (
+                          <Star key={i} className="w-6 h-6 text-yellow-500 fill-current" />
+                        ))}
+                      </div>
+                    )}
+                    <blockquote
+                      className={`${currentTestimonial.text.length > 220 ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} text-slate-700 leading-relaxed mb-6`}
+                    >
+                      &ldquo;{currentTestimonial.text}&rdquo;
                     </blockquote>
                   </div>
 
                   <div className="flex items-center justify-center space-x-4">
-                    <Image
-                      src={testimonials[activeTestimonial].image}
-                      alt={testimonials[activeTestimonial].name}
-                      width={64}
-                      height={64}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
+                    {currentTestimonial.image ? (
+                      <Image
+                        src={currentTestimonial.image}
+                        alt={currentTestimonial.name}
+                        width={64}
+                        height={64}
+                        className="w-16 h-16 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div
+                        aria-hidden="true"
+                        className="flex w-16 h-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-diva-pink-600 to-diva-pink-700 text-2xl font-bold text-white"
+                      >
+                        {currentTestimonial.name.charAt(0)}
+                      </div>
+                    )}
                     <div className="text-center">
-                      <h4 className="font-bold text-slate-900">{testimonials[activeTestimonial].name}</h4>
-                      <p className="text-slate-600">{testimonials[activeTestimonial].role}</p>
-                      <p className="text-sm text-pink-600 font-medium">{testimonials[activeTestimonial].property}</p>
+                      <h4 className="font-bold text-slate-900">{currentTestimonial.name}</h4>
+                      <p className="text-slate-600">{currentTestimonial.role}</p>
+                      <p className="text-sm text-pink-600 font-medium">{currentTestimonial.property}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -842,6 +955,25 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
             >
               Get Started Today
             </button>
+            {/* Review short links (app/reviews/route.js, app/review/route.js).
+                Plain <a> so Next does not prefetch a cross-origin redirect.
+                Clicks are tracked by the delegated listener in Analytics.js. */}
+            <div className="mt-6 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-8">
+              <a
+                href="/reviews"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded font-semibold text-pink-700 underline-offset-4 transition-colors duration-300 hover:text-pink-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600"
+              >
+                <Star className="w-4 h-4 text-yellow-500 fill-current" aria-hidden="true" />
+                Read all our Google reviews
+              </a>
+              <a
+                href="/review"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded font-semibold text-pink-700 underline-offset-4 transition-colors duration-300 hover:text-pink-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-600"
+              >
+                Leave us a review
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>

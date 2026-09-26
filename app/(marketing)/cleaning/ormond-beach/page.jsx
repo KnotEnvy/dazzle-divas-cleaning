@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+import Link from 'next/link';
 import {
   Sun,
   Home,
@@ -191,7 +193,16 @@ export default function OrmondBeachPage() {
         title="Cleaning Ormond Beach's vacation rentals"
         body={[
           "Ormond Beach sits at the north end of Volusia's vacation rental coast — quieter than Daytona to the south, with a higher concentration of long-stay guests, snowbird rentals, and oceanfront condos. We turnover everything from compact 1BR units along Ocean Shore Boulevard to multi-bedroom homes in Halifax Plantation and The Trails.",
-          'Peak season runs October through April for snowbird inflows and overlaps with race weeks and Bike Week traffic on A1A. Summer brings family vacations and surf-tourism guests across the Granada corridor and Ormond-by-the-Sea. Our dispatch routes Ormond as a single service area: barrier island and mainland properties get the same response times.',
+          <Fragment key="ormond-by-the-sea-link">
+            {'Peak season runs October through April for snowbird inflows and overlaps with race weeks and Bike Week traffic on A1A. Summer brings family vacations and surf-tourism guests across the Granada corridor and '}
+            <Link
+              href="/cleaning/ormond-by-the-sea"
+              className="font-semibold text-diva-pink-600 hover:text-diva-pink-700 underline underline-offset-2"
+            >
+              Ormond-by-the-Sea
+            </Link>
+            {'. Our dispatch routes Ormond as a single service area: barrier island and mainland properties get the same response times.'}
+          </Fragment>,
           "Most of our Ormond clients are owner-managed rentals or small portfolios — and we've built protocols around that: HOA-aware crews, documented property briefs, photo verification per turnover, and snowbird-season deep cleans baked into our standard scope.",
         ]}
         highlights={highlights}
@@ -218,7 +229,7 @@ export default function OrmondBeachPage() {
       />
       <CTABand
         title="Cleaning your Ormond Beach rental?"
-        subtitle="Free quote, no commitment. Most Ormond quotes returned within 2 hours during business hours."
+        subtitle="Free quote, no commitment. Most Ormond quotes returned within 24 hours."
       />
     </>
   );

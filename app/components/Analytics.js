@@ -12,6 +12,32 @@ import { track, EVENTS } from '../lib/analytics';
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
+// True for links that lead to Google reviews: the same-origin /review and
+// /reviews short links (app/review/route.js, app/reviews/route.js), with or
+// without a trailing slash or query string, and any raw g.page link. The
+// g.page test is on the parsed hostname, so an href that merely contains the
+// substring (e.g. "/catalog.pages") does not match.
+function isReviewHref(href) {
+  try {
+    const url = new URL(href, window.location.origin);
+    if (url.hostname === 'g.page') return true;
+    return url.origin === window.location.origin && /^\/reviews?\/?$/.test(url.pathname);
+  } catch {
+    return false;
+  }
+}
+
+function trackReviewClick(target) {
+  const link = target.closest?.('a[href]');
+  if (!link) return;
+  const href = link.getAttribute('href') || '';
+  if (!isReviewHref(href)) return;
+  track(EVENTS.REVIEW_CLICK, {
+    destination: href,
+    location: window.location.pathname,
+  });
+}
+
 /**
  * Site-wide measurement.
  *
@@ -19,14 +45,18 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
  *   automatically once the project is deployed on Vercel.
  * - GA4 only loads if NEXT_PUBLIC_GA_MEASUREMENT_ID is set, so nothing breaks
  *   locally or in preview.
- * - Phone and email clicks are tracked with a single delegated listener rather
- *   than wiring a handler into every `tel:` link across the site.
+ * - Phone, email, and review-link clicks are tracked with a single delegated
+ *   listener rather than wiring a handler into every link across the site.
+ *   Do not add per-link onClick tracking; it would double-count.
  */
 export default function Analytics() {
   useEffect(() => {
     const onClick = (e) => {
       const link = e.target.closest?.('a[href^="tel:"], a[href^="mailto:"]');
-      if (!link) return;
+      if (!link) {
+        trackReviewClick(e.target);
+        return;
+      }
       const href = link.getAttribute('href') || '';
       const isCall = href.startsWith('tel:');
       track(isCall ? EVENTS.CALL_CLICK : EVENTS.EMAIL_CLICK, {

@@ -22,4 +22,7 @@ export const EVENTS = {
   QUOTE_SUBMIT: 'quote_submit',
   QUOTE_SUBMIT_FAILED: 'quote_submit_failed',
   EMAIL_CLICK: 'email_click',
+  // Any click toward Google reviews: the /review and /reviews short links or
+  // a raw g.page link. Fired by the delegated listener in Analytics.js.
+  REVIEW_CLICK: 'review_click',
 };

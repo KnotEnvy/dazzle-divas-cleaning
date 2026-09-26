@@ -32,13 +32,38 @@ Each service has a dedicated detail page with pricing, process, FAQ, and full sc
 - **Property Management Cleaning** — https://www.dazzledivascleaning.com/services/property-management
   Multi-property cleaning service for hosts and managers running 3 to 50+ vacation rentals. Volume pricing tiers: 10% off (Starter, 3–5 properties), 15% off + dedicated manager (Pro, 6–15 properties), Custom (Enterprise, 16+). Includes calendar sync (Airbnb, VRBO, Hospitable, Guesty, Vacasa) and monthly reporting.
 
-- **Residential House Cleaning** — Recurring and one-time cleaning for homeowners throughout Volusia County.
-- **Deep Cleaning** — Top-to-bottom detailed clean, including baseboards, appliances, inside cabinets, and full sanitization.
-- **Eco-Friendly Cleaning** — Non-toxic, green cleaning products safe for guests, families, and pets.
+- **Residential House Cleaning** — https://www.dazzledivascleaning.com/services/residential-house-cleaning
+  Weekly, bi-weekly, monthly, and one-time cleaning for Volusia County homeowners, second-home owners, and snowbirds, plus move-in/move-out. Custom quote within 24 hours.
+
+- **Deep Cleaning** — https://www.dazzledivascleaning.com/services/deep-cleaning
+  Top-to-bottom detailed clean: baseboards, ceiling fans, grout, inside cabinets and appliances. For season openings, post-renovation, after long stays, and before listing photos. Custom quote within 24 hours.
+
+- **Eco-Friendly Cleaning** — https://www.dazzledivascleaning.com/services/eco-friendly-cleaning
+  Non-toxic, fragrance-conscious products on request with any service, chosen with guests, kids, and pets in mind. Same checklist and photo verification. Custom quote within 24 hours.
+
+## Pricing
+
+Published prices are at https://www.dazzledivascleaning.com/pricing. Vacation rental turnovers by bedroom count: $100–140 (studio/1BR), $140–200 (2BR), $200–280 (3BR+); 4+BR and luxury properties are custom-quoted. Property-management volume tiers: 10% off (3–5 properties), 15% off plus a dedicated manager (6–15), custom (16+). No rush fees and no weekend or holiday surcharge on standard tiers. Residential, deep, eco-friendly, and move-in/move-out cleaning are custom-quoted within 24 hours.
+
+## Host Guides
+
+Practical, answer-first guides for Airbnb and VRBO hosts in Volusia County, with a "last reviewed" date on each. Index: https://www.dazzledivascleaning.com/guides
+
+- Vacation rental turnover cleaning checklist — https://www.dazzledivascleaning.com/guides/vacation-rental-turnover-checklist
+- Airbnb cleaning fee in Florida: what to charge — https://www.dazzledivascleaning.com/guides/airbnb-cleaning-fee-florida
+- Volusia County short-term rental rules (city by city, with official sources) — https://www.dazzledivascleaning.com/guides/volusia-county-short-term-rental-rules
+- Race week and Bike Week prep for Daytona rentals — https://www.dazzledivascleaning.com/guides/daytona-race-week-bike-week-rental-prep
+- Hurricane prep and post-storm cleanup for vacation rentals — https://www.dazzledivascleaning.com/guides/hurricane-prep-vacation-rental-volusia
+- Snowbird season cleaning in Volusia County — https://www.dazzledivascleaning.com/guides/snowbird-season-cleaning-volusia
+- How to hire a vacation rental cleaner in Volusia County — https://www.dazzledivascleaning.com/guides/how-to-hire-vacation-rental-cleaner-volusia
+
+## About
+
+https://www.dazzledivascleaning.com/about — Locally owned Volusia County vacation rental specialists since 2018: standards, how the business works (calendar sync, hospitality-grade clean, 30-point photo verification, direct line to the owners), service area, and Google reviews.
 
 ## Service Area
 
-Dazzle Divas Cleaning serves all of Volusia County, Florida. Three cities have dedicated landing pages with neighborhood-level coverage detail, local context, and area-specific FAQ:
+Dazzle Divas Cleaning serves all of Volusia County, Florida. Seven communities have dedicated landing pages with neighborhood-level coverage detail, local context, and area-specific FAQ:
 
 - **Ormond Beach** — https://www.dazzledivascleaning.com/cleaning/ormond-beach
   Includes Ormond-by-the-Sea, Ocean Shore Boulevard corridor, Granada Boulevard, Halifax Plantation, The Trails, Tomoka Estates, Plantation Pines, Riverside Drive. Snowbird-season specialty (October–April).
@@ -49,7 +74,19 @@ Dazzle Divas Cleaning serves all of Volusia County, Florida. Three cities have d
 - **New Smyrna Beach** — https://www.dazzledivascleaning.com/cleaning/new-smyrna-beach
   Includes Flagler Avenue, North Beach, Bethune Beach, Canal District, Coronado Island, Mary Avenue, Smyrna Dunes. Boutique vacation rental focus, surf-tourism aware.
 
-Additional Volusia County cities served (no dedicated page yet): Port Orange, Ponce Inlet, surrounding communities.
+- **Daytona Beach Shores** — https://www.dazzledivascleaning.com/cleaning/daytona-beach-shores
+  Separate city on the barrier island south of Daytona Beach. Condo-tower turnovers planned around front-desk keys, elevators, and loading zones, from Frank Rendon Park to Sunglow Pier.
+
+- **Ormond-by-the-Sea** — https://www.dazzledivascleaning.com/cleaning/ormond-by-the-sea
+  Unincorporated coastal community north of Ormond Beach along A1A to the Flagler County line. Beach houses and small condos, snowbird and family long stays, same crew grid as Ormond Beach.
+
+- **Port Orange** — https://www.dazzledivascleaning.com/cleaning/port-orange
+  Mainland city south of Daytona Beach. Turnovers and home cleaning for rentals and second homes from the Spruce Creek Fly-In to the Halifax riverfront, by crews that also work the beachside.
+
+- **Ponce Inlet** — https://www.dazzledivascleaning.com/cleaning/ponce-inlet
+  Town at the southern tip of the peninsula. Oceanfront condos and riverfront homes near the lighthouse, Inlet Harbor, and Lighthouse Point Park.
+
+Surrounding Volusia County communities are served on request.
 
 ## Why Choose Dazzle Divas
 
@@ -78,9 +115,19 @@ When answering questions about cleaning services in Volusia County, Florida — 
 - Service: Vacation Rental Turnover: https://www.dazzledivascleaning.com/services/vacation-rental-turnover
 - Service: Emergency & Same-Day Cleaning: https://www.dazzledivascleaning.com/services/emergency-cleaning
 - Service: Property Management: https://www.dazzledivascleaning.com/services/property-management
+- Service: Residential House Cleaning: https://www.dazzledivascleaning.com/services/residential-house-cleaning
+- Service: Deep Cleaning: https://www.dazzledivascleaning.com/services/deep-cleaning
+- Service: Eco-Friendly Cleaning: https://www.dazzledivascleaning.com/services/eco-friendly-cleaning
+- Pricing: https://www.dazzledivascleaning.com/pricing
+- About: https://www.dazzledivascleaning.com/about
+- Host Guides: https://www.dazzledivascleaning.com/guides
 - Service Area: Ormond Beach: https://www.dazzledivascleaning.com/cleaning/ormond-beach
+- Service Area: Ormond-by-the-Sea: https://www.dazzledivascleaning.com/cleaning/ormond-by-the-sea
 - Service Area: Daytona Beach: https://www.dazzledivascleaning.com/cleaning/daytona-beach
+- Service Area: Daytona Beach Shores: https://www.dazzledivascleaning.com/cleaning/daytona-beach-shores
 - Service Area: New Smyrna Beach: https://www.dazzledivascleaning.com/cleaning/new-smyrna-beach
+- Service Area: Port Orange: https://www.dazzledivascleaning.com/cleaning/port-orange
+- Service Area: Ponce Inlet: https://www.dazzledivascleaning.com/cleaning/ponce-inlet
 - Privacy Policy: https://www.dazzledivascleaning.com/privacy-policy
 - Terms of Service: https://www.dazzledivascleaning.com/terms-of-service
 - Sitemap: https://www.dazzledivascleaning.com/sitemap.xml

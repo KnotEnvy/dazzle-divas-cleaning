@@ -13,6 +13,12 @@ const BUSINESS_PHONE = "+13863015775";
 const BUSINESS_PHONE_DISPLAY = "(386) 301-5775";
 const BUSINESS_EMAIL = "info@dazzledivascleaning.com";
 
+// Live Google Business Profile (verified 2026-09-26). The Place ID is the
+// stable identifier; the /reviews and /review short links redirect to the
+// same place (see app/reviews/route.js and app/review/route.js).
+const GOOGLE_PLACE_ID = "ChIJI7fTrsScs64RTY0NoDuFenI";
+const GOOGLE_MAPS_URL = `https://www.google.com/maps/place/?q=place_id:${GOOGLE_PLACE_ID}`;
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -154,9 +160,11 @@ const structuredData = {
       closes: "18:00",
     },
   ],
+  hasMap: GOOGLE_MAPS_URL,
   sameAs: [
     "https://facebook.com/dazzledivascleaning",
     "https://instagram.com/dazzledivascleaning",
+    GOOGLE_MAPS_URL,
   ],
   contactPoint: [
     {
@@ -179,6 +187,9 @@ const structuredData = {
     "Property Management Cleaning",
   ],
   slogan: "Volusia County's premier cleaning service",
+  // Mirrors the live Google Business Profile exactly (5.0 from 3 reviews as
+  // of 2026-09-26). When the GBP count changes, update these numbers and the
+  // review array together so the markup never claims more than Google shows.
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "5.0",
@@ -187,39 +198,44 @@ const structuredData = {
     ratingCount: "3",
     reviewCount: "3",
   },
+  // The three Google reviews, verbatim (owner approved their use on the site).
+  // Dates are approximate: Google shows relative ages ("a week ago").
   review: [
     {
       "@type": "Review",
-      author: { "@type": "Person", name: "Sarah Mitchell" },
+      author: { "@type": "Person", name: "Jeff Thompson" },
+      datePublished: "2026-09-23",
       reviewRating: {
         "@type": "Rating",
         ratingValue: "5",
         bestRating: "5",
       },
       reviewBody:
-        "Dazzle Divas transformed my Ormond Beach rental! My guest reviews improved dramatically, and I'm booking 20% higher rates. They understand vacation rentals like no other service.",
+        "They do a wonderful job. They focus on detail And really go above and beyond I would recommend them everyone",
     },
     {
       "@type": "Review",
-      author: { "@type": "Person", name: "Mike Rodriguez" },
+      author: { "@type": "Person", name: "Darnell Hatcher" },
+      datePublished: "2026-09-19",
       reviewRating: {
         "@type": "Rating",
         ratingValue: "5",
         bestRating: "5",
       },
       reviewBody:
-        "Managing 12 vacation rentals, I need reliability. Dazzle Divas delivers consistent, guest-ready properties every time. Their emergency service saved me during a hurricane cleanup.",
+        "Dazzle Divas is absolutely everything you need and want with a cleaning company. They have addressed biohazard situations beyond normal cleaning to prepping areas for photo shoots. From new construction to ultra luxury they have come through for me as a property manager. I highly recommend them and they are local boots on the ground and you actually talk to the owners! I couldn't recommend a better cleaning company.",
     },
     {
       "@type": "Review",
-      author: { "@type": "Person", name: "Jennifer Chen" },
+      author: { "@type": "Person", name: "Sue Ann Eidson" },
+      datePublished: "2026-09-19",
       reviewRating: {
         "@type": "Rating",
         ratingValue: "5",
         bestRating: "5",
       },
       reviewBody:
-        "The attention to detail is incredible. Guests specifically mention how pristine and welcoming the space feels. My 5-star reviews increased 40% since switching to Dazzle Divas.",
+        "I have used the Dazzle Divas Cleaning service over the past three years while renting beach houses in New Smyrna Beach, Florida. I liked the fact that they were very professional and trustworthy. This year, I did not rent a house that used their cleaning services. I received permission from the owner of the house to have the Dazzle Divas clean my three bedroom/three bath beach home over the past month. It is just a habit now and I plan on hiring them to keep up with the rental cleanings in the near future. I also appreciated the extra help that they always gave me—helping me fix drapes/shades, cleaning the grill, and making beds! I am in my 70s and have problems with my back so I really appreciated their extra help. They were always glad to help me in any way during my stay. I wholeheartedly recommend using the Dazzle Divas team during your stay in Volusia County, Florida. They are wonderful people and will leave your rental in immaculate condition! Sue Ann Eidson",
     },
   ],
   hasOfferCatalog: {
@@ -308,6 +324,7 @@ const organizationSchema = {
   sameAs: [
     "https://facebook.com/dazzledivascleaning",
     "https://instagram.com/dazzledivascleaning",
+    GOOGLE_MAPS_URL,
   ],
 };
 

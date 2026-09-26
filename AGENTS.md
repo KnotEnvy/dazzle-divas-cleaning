@@ -17,7 +17,7 @@ Purpose: Give LLM agents enough context to safely modify and extend this Next.js
 - Home route: `app/page.js` → `app/components/Main.js` → renders `testSite.js` inside `Layout`.
 - Layout (client): `app/components/Layout.js` wraps pages with `Footer` and the smooth-scroll hook. Slim by design — no header (each top-level page owns its own header).
 - Marketing pages route group: `app/(marketing)/layout.jsx` wraps Phase 1 pages in `PageShell` (SiteHeader + Footer + StickyQuotePill + MotionConfig). Home does NOT use this group — it keeps its own header inside `testSite.js`.
-- Global App metadata: `app/layout.js` (App Router metadata API). LocalBusiness JSON-LD with `aggregateRating` + 3 Review objects injected via `<Script>`. Preconnect/dns-prefetch hints for EmailJS.
+- Global App metadata: `app/layout.js` (App Router metadata API). LocalBusiness + WebSite + Organization JSON-LD as plain `<script>` tags (never `next/script`), with `aggregateRating` and the 3 real Google reviews (mirror the live profile), `hasMap` and the Google Maps URL in `sameAs`. Preconnect/dns-prefetch hints for EmailJS.
 - Dynamic OG cards: `app/opengraph-image.js` (1200×630) and `app/twitter-image.js` are file-based image conventions that auto-apply to all routes — do NOT set `openGraph.images` in per-page metadata or you'll override them.
 
 ## Key Components (active)
@@ -37,11 +37,15 @@ Purpose: Give LLM agents enough context to safely modify and extend this Next.js
 - `app/components/faq/FAQAccordion.js` — categorized accordion w/ search and FAQPage JSON-LD.
 
 Routes:
-- `/` home (testSite, unchanged)
-- `/services/vacation-rental-turnover`, `/services/emergency-cleaning`, `/services/property-management` — service detail pages
-- `/cleaning/ormond-beach`, `/cleaning/daytona-beach`, `/cleaning/new-smyrna-beach` — city landing pages (LocalBusiness schema with `areaServed`/`geo`/`serviceArea`)
+- `/` home (testSite)
+- `/services/vacation-rental-turnover`, `/services/emergency-cleaning`, `/services/property-management`, `/services/residential-house-cleaning`, `/services/deep-cleaning`, `/services/eco-friendly-cleaning` — service detail pages. The three added Sep 2026 have no published prices: a "how pricing works" block replaces `PricingGrid`, and their Service JSON-LD uses `@id: ${SITE_URL}${PATH}#service` with `provider: { '@id': `${SITE_URL}/#business` }`.
+- `/cleaning/ormond-beach`, `/cleaning/daytona-beach`, `/cleaning/new-smyrna-beach`, `/cleaning/port-orange`, `/cleaning/ponce-inlet`, `/cleaning/daytona-beach-shores`, `/cleaning/ormond-by-the-sea` — city landing pages (LocalBusiness schema with `areaServed`/`geo`/`serviceArea`; the four added Sep 2026 also carry `@id: …#localbusiness` and `parentOrganization`)
+- `/pricing` — the only page that publishes prices; `priceSpecification` schema for the turnover tiers. Components in `app/components/pricing/`.
+- `/about` — AboutPage schema; a JSX comment reserves the "Meet the team" section until the owner supplies names and photos. Components in `app/components/about/`.
+- `/guides` + `/guides/<slug>` — seven host guides. **Single source of truth is `app/components/guides/guides.js`** (`GUIDES` array: slug, title, description, lastReviewed, readingMinutes…). `app/sitemap.js` imports it, so a new guide only needs a registry entry, a `page.jsx`, and an `llms.txt` line. Shared layout in `app/components/guides/GuideLayout.js` (server component: Article + BreadcrumbList schema, "Last reviewed" line).
 - `/faq` — categorized FAQ w/ FAQPage schema
 - `/privacy-policy`, `/terms-of-service` — policy/terms pages
+- `/review` and `/reviews` — **route handlers, not pages**: `force-static` 302 redirects to the Google write-a-review link and the Maps profile. Link to them with a plain `<a>`, not `next/link` (prefetch would follow the cross-origin redirect and log a CORS error). Keep them out of the sitemap and `llms.txt`.
 - `app/robots.js`, `app/sitemap.js` present for SEO; sitemap enumerates all routes above.
 
 ## RSC server/client boundary rules (Phase 1 lesson)
@@ -148,7 +152,8 @@ Routes:
   - Service cards: each has "Compare Services" (modal) + "View full service page →" (Link to `/services/*`)
   - Footer: service-area chips link to `/cleaning/*` (for cities with pages); Quick Links includes Service Areas + FAQ; "Our Services" rows link to detail pages
 - Phase 1 pages use `SiteHeader.js` with dropdowns linking among themselves and back to home (`/#contact`, `/#services`, etc.).
-- When adding a new service or city page: update sitemap, llms.txt Key Pages list, the relevant home-page array (`services` or `serviceAreas` in `testSite.js`), the Footer dropdown lists in `SiteHeader.js`, and the Footer chip array.
+- When adding a new service or city page: update sitemap, llms.txt Key Pages list, the relevant home-page array (`services` or `serviceAreas` in `testSite.js`), the dropdown lists in `SiteHeader.js` (`services`, `cities`, `resources`), and the Footer arrays (`navigationLinks`, `serviceAreas`, and the "Our Services" rows). A new guide only needs a `GUIDES` registry entry plus an `llms.txt` line — the sitemap reads the registry.
+- Home "Areas We Serve" is a 4-column grid on `lg` (7 city cards); the services grid stays 3 columns (6 cards, two rows).
 
 ## Authoritative Copy Decisions
 - **Office line is voice-only for incoming.** Phone (386) 301-5775 does NOT accept incoming SMS. Never write "call or text" anywhere on the site. Origin commit `28ce2e0` enforces this.
@@ -164,7 +169,7 @@ Routes:
 - GA4 loads **only** when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set, so local and preview stay clean.
 - `app/lib/analytics.js` exports `track(event, params)` and an `EVENTS` map. It no-ops when no provider is present — safe to call from anywhere.
 - Phone and email clicks are captured by one delegated listener in `Analytics.js`. Do NOT add per-link handlers.
-- Tracked today: `call_click`, `email_click`, `quote_submit`, `quote_submit_failed`.
+- Tracked today: `call_click`, `email_click`, `review_click` (any anchor to `/review`, `/reviews`, or a `g.page` host, with a `destination` param), `quote_submit`, `quote_submit_failed`.
 
 ## Lead capture (added Aug 2026)
 - `app/api/quote/route.js` is the server-side capture endpoint. The form posts here **first**, then attempts the EmailJS notification.

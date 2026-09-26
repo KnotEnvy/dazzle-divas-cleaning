@@ -15,6 +15,10 @@ import {
   Home,
   Building,
   Recycle,
+  Droplets,
+  Brush,
+  Leaf,
+  DollarSign,
   ArrowUp
 } from 'lucide-react';
 import Link from 'next/link';
@@ -137,8 +141,9 @@ export default function Footer() {
   const navigationLinks = [
     { label: 'Services', href: '/#services' },
     { label: 'Service Areas', href: '/#areas' },
-    { label: 'Portfolio', href: '/#portfolio' },
-    { label: 'Why Us', href: '/#why-choose-us' },
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'About Us', href: '/about' },
+    { label: 'Host Guides', href: '/guides' },
     { label: 'Testimonials', href: '/#testimonials' },
     { label: 'FAQ', href: '/faq' },
     { label: 'Contact', href: '/#contact' },
@@ -147,10 +152,12 @@ export default function Footer() {
 
   const serviceAreas = [
     { name: "Daytona Beach", href: "/cleaning/daytona-beach" },
+    { name: "Daytona Beach Shores", href: "/cleaning/daytona-beach-shores" },
     { name: "Ormond Beach", href: "/cleaning/ormond-beach" },
-    { name: "Ormond-by-the-Sea", href: null },
+    { name: "Ormond-by-the-Sea", href: "/cleaning/ormond-by-the-sea" },
     { name: "New Smyrna Beach", href: "/cleaning/new-smyrna-beach" },
-    { name: "Port Orange", href: null },
+    { name: "Port Orange", href: "/cleaning/port-orange" },
+    { name: "Ponce Inlet", href: "/cleaning/ponce-inlet" },
     { name: "+ All Volusia County", href: null },
   ];
 
@@ -236,11 +243,19 @@ export default function Footer() {
                   label="Follow us on Facebook"
                   delay={0.6}
                 />
-                <SocialIcon 
-                  icon={Instagram} 
-                  href="https://instagram.com/dazzledivascleaning" 
+                <SocialIcon
+                  icon={Instagram}
+                  href="https://instagram.com/dazzledivascleaning"
                   label="Follow us on Instagram"
                   delay={0.7}
+                />
+                {/* /reviews redirects to the Google Business Profile
+                    (app/reviews/route.js). lucide has no Google logo. */}
+                <SocialIcon
+                  icon={Star}
+                  href="/reviews"
+                  label="Read our Google Reviews"
+                  delay={0.8}
                 />
               </div>
             </FooterSection>
@@ -276,7 +291,19 @@ export default function Footer() {
               <ServiceLink icon={Building} delay={0.7} href="/services/property-management">
                 Property Management
               </ServiceLink>
-              <ServiceLink icon={Recycle} delay={0.8} href="/faq">
+              <ServiceLink icon={Droplets} delay={0.75} href="/services/residential-house-cleaning">
+                Residential House Cleaning
+              </ServiceLink>
+              <ServiceLink icon={Brush} delay={0.8} href="/services/deep-cleaning">
+                Deep Cleaning
+              </ServiceLink>
+              <ServiceLink icon={Leaf} delay={0.85} href="/services/eco-friendly-cleaning">
+                Eco-Friendly Cleaning
+              </ServiceLink>
+              <ServiceLink icon={DollarSign} delay={0.9} href="/pricing">
+                Pricing
+              </ServiceLink>
+              <ServiceLink icon={Recycle} delay={0.95} href="/faq">
                 FAQ &amp; Info
               </ServiceLink>
             </FooterSection>

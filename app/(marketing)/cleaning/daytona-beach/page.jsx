@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+import Link from 'next/link';
 import {
   Flag,
   Clock,
@@ -190,7 +192,16 @@ export default function DaytonaBeachPage() {
         eyebrow="Local context"
         title="Cleaning Daytona Beach's vacation rentals"
         body={[
-          "Daytona Beach has the highest turnover volume on Volusia's vacation rental coast — a different rhythm than Ormond or New Smyrna. Short-stay guests, race-event spikes, and a much wider mix of property types: high-rise condos along North Atlantic Avenue, single-family rentals on the South Peninsula, oceanfront homes in Daytona Beach Shores, and family vacation properties inland.",
+          <Fragment key="daytona-beach-shores-link">
+            {"Daytona Beach has the highest turnover volume on Volusia's vacation rental coast — a different rhythm than Ormond or New Smyrna. Short-stay guests, race-event spikes, and a much wider mix of property types: high-rise condos along North Atlantic Avenue, single-family rentals on the South Peninsula, oceanfront homes in "}
+            <Link
+              href="/cleaning/daytona-beach-shores"
+              className="font-semibold text-diva-pink-600 hover:text-diva-pink-700 underline underline-offset-2"
+            >
+              Daytona Beach Shores
+            </Link>
+            {', and family vacation properties inland.'}
+          </Fragment>,
           'Race weeks (Speedweeks, Bike Week, Biketoberfest) compress 30 days of bookings into 4-day windows. We reserve crew capacity in advance for those weeks for clients on annual schedules, and we plan dispatch routes around known event traffic on International Speedway Boulevard and A1A.',
           "Daytona properties run on tight check-in/out windows — typical 11am checkout / 4pm check-in with back-to-back guests. Our standard scope is built around that constraint: photo-verified turnover, restock, and a 30-point checklist sent to your phone before we leave. We don't ask for extra time when the booking calendar is full.",
         ]}

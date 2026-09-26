@@ -31,7 +31,7 @@ const items = [
     category: 'Booking',
     question: 'How do I get a quote?',
     answer:
-      'Use the contact form on the home page or call (386) 301-5775. Most quotes are returned within 2 hours during business hours and the same business day for evening requests. We need property address, bedroom count, and a rough idea of your booking calendar to spec accurately.',
+      'Use the contact form on the home page or call (386) 301-5775. Most quotes are returned within 24 hours. We need property address, bedroom count, and a rough idea of your booking calendar to spec accurately.',
   },
   {
     category: 'Booking',

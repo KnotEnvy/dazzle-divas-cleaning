@@ -10,12 +10,27 @@ const services = [
   { name: 'Vacation Rental Turnover', href: '/services/vacation-rental-turnover' },
   { name: 'Emergency Cleaning', href: '/services/emergency-cleaning' },
   { name: 'Property Management', href: '/services/property-management' },
+  { name: 'Residential House Cleaning', href: '/services/residential-house-cleaning' },
+  { name: 'Deep Cleaning', href: '/services/deep-cleaning' },
+  { name: 'Eco-Friendly Cleaning', href: '/services/eco-friendly-cleaning' },
+  { name: 'Pricing', href: '/pricing' },
 ];
 
 const cities = [
-  { name: 'Ormond Beach', href: '/cleaning/ormond-beach' },
   { name: 'Daytona Beach', href: '/cleaning/daytona-beach' },
+  { name: 'Daytona Beach Shores', href: '/cleaning/daytona-beach-shores' },
+  { name: 'Ormond Beach', href: '/cleaning/ormond-beach' },
+  { name: 'Ormond-by-the-Sea', href: '/cleaning/ormond-by-the-sea' },
   { name: 'New Smyrna Beach', href: '/cleaning/new-smyrna-beach' },
+  { name: 'Port Orange', href: '/cleaning/port-orange' },
+  { name: 'Ponce Inlet', href: '/cleaning/ponce-inlet' },
+];
+
+const resources = [
+  { name: 'Pricing', href: '/pricing' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Host Guides', href: '/guides' },
+  { name: 'FAQ', href: '/faq' },
 ];
 
 export default function SiteHeader() {
@@ -49,12 +64,7 @@ export default function SiteHeader() {
           <div className="hidden md:flex items-center gap-8">
             <DesktopDropdown label="Services" items={services} />
             <DesktopDropdown label="Service Areas" items={cities} />
-            <Link
-              href="/faq"
-              className="text-white/90 hover:text-diva-pink-300 font-medium transition-colors"
-            >
-              FAQ
-            </Link>
+            <DesktopDropdown label="Resources" items={resources} />
             <Link
               href="/#contact"
               className="text-white/90 hover:text-diva-pink-300 font-medium transition-colors"
@@ -85,13 +95,7 @@ export default function SiteHeader() {
           <div className="md:hidden mt-4 border-t border-white/10 pt-4 space-y-3">
             <MobileGroup label="Services" items={services} onNavigate={() => setMobileOpen(false)} />
             <MobileGroup label="Service Areas" items={cities} onNavigate={() => setMobileOpen(false)} />
-            <Link
-              href="/faq"
-              onClick={() => setMobileOpen(false)}
-              className="block py-2 text-white/90 hover:text-diva-pink-300"
-            >
-              FAQ
-            </Link>
+            <MobileGroup label="Resources" items={resources} onNavigate={() => setMobileOpen(false)} />
             <Link
               href="/#contact"
               onClick={() => setMobileOpen(false)}

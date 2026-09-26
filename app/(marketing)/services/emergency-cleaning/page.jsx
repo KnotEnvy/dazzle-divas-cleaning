@@ -12,6 +12,7 @@ import {
   UserX,
   ClipboardCheck,
   Building,
+  Sparkles,
 } from 'lucide-react';
 import ServiceHero from '../../../components/service/ServiceHero';
 import AtAGlance from '../../../components/service/AtAGlance';
@@ -219,6 +220,13 @@ const crossSell = [
     description:
       'Multi-property hosts get a dedicated manager, calendar sync, monthly reporting, and reserved peak-season capacity.',
     href: '/services/property-management',
+  },
+  {
+    icon: Sparkles,
+    title: 'Deep Cleaning',
+    description:
+      'A top-to-bottom reset once the emergency has passed: baseboards, ceiling fans, grout, and appliance interiors.',
+    href: '/services/deep-cleaning',
   },
 ];
 

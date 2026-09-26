@@ -2,6 +2,9 @@
   "name": "dazzle-divas-cleaning",
   "version": "1.5.2",
   "private": false,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,8 +1,8 @@
 {
   "handoff": {
-    "version": "1.0",
-    "generatedAt": "2026-09-02",
-    "generatedBy": "Claude Opus 5 (Claude Code session)",
+    "version": "1.1",
+    "generatedAt": "2026-09-26",
+    "generatedBy": "Claude Fable 5.1 lead + six Opus 5.5 subagents (Claude Code session)",
     "audience": "Next engineering/SEO team taking over site enhancements",
     "companionDocs": {
       "REVAMP-PLAN.md": "What and when — phases, status, open questions",
@@ -13,7 +13,7 @@
       "gotchas — three of these cost real debugging time in the last pass",
       "nextActions — prioritized, with the reasoning behind the ordering"
     ],
-    "oneLineSummary": "Phase 1 (defect fixes + instrumentation) shipped and verified. Measurement is live. Phase 2 (local SEO) is unblocked and is the highest-leverage work remaining."
+    "oneLineSummary": "Phase 1 live. The site was found NOT INDEXED by Google or Bing on 2026-09-26; the owner verified Search Console and Bing the same day and both now report it indexed. Phase 2 engineering (GBP schema, review engine) and Phase 3 content (17 new pages) are built on branch phase2-3/local-seo-and-content awaiting review and deploy. Phase 4 not started."
   },
 
   "project": {
@@ -42,12 +42,14 @@
   },
 
   "currentState": {
-    "lastDeployedCommit": "20c7d36",
-    "lastDeployedDate": "2026-08-21",
-    "buildStatus": "clean — 19 static pages, ESLint clean, no warnings",
+    "lastDeployedCommit": "47d4d3c",
+    "lastDeployedDate": "2026-09-02",
+    "branchInProgress": "phase2-3/local-seo-and-content — Phase 2 engineering + Phase 3 content, 27 page routes, ESLint clean; see REVAMP-PLAN.md for what the owner still has to confirm before/after deploy",
+    "buildStatus": "see the latest commit message on the branch",
     "phase1": "complete, merged, live, verified against production",
     "measurement": "fully live — GA4, Vercel Web Analytics, Vercel Speed Insights all confirmed firing in production 2026-09-02",
-    "googleBusinessProfile": "set up (owner-reported 2026-09-02)"
+    "googleBusinessProfile": "live — 5.0 rating on 3 reviews as of 2026-09-26; place ID ChIJI7fTrsScs64RTY0NoDuFenI; direct review link https://g.page/r/CU2NDaA7hXpyEBM/review",
+    "searchIndexing": "Site was absent from Google and Bing indexes on 2026-09-26 (site: query returned nothing; 0 of 12 target terms). Owner verified Google Search Console and Bing Webmaster Tools and submitted the sitemap that day; both report indexed. Re-submit the sitemap after the branch deploys."
   },
 
   "environment": {
@@ -110,10 +112,11 @@
       "events": [
         "call_click",
         "email_click",
+        "review_click",
         "quote_submit",
         "quote_submit_failed"
       ],
-      "criticalNote": "Phone and email clicks are captured by ONE delegated listener in app/components/Analytics.js. Do NOT add per-link onClick handlers — you will double-count."
+      "criticalNote": "Phone, email and review-link clicks are captured by ONE delegated listener in app/components/Analytics.js. Do NOT add per-link onClick handlers — you will double-count. review_click fires for anchors to /review, /reviews, or a g.page host."
     }
   },
 
@@ -127,18 +130,18 @@
         {
           "task": "Google Search Console verified + sitemap submitted",
           "owner": "business",
-          "status": "unverified — no google-site-verification meta tag on the site, but GSC verification is commonly done via DNS or the GA4 link, so absence proves nothing. Confirm in the GSC dashboard."
+          "status": "DONE 2026-09-26. Site reported indexed; reports populate within ~48 h."
         },
         {
           "task": "Bing Webmaster Tools verified",
           "owner": "business",
-          "status": "unverified — no msvalidate meta tag present"
+          "status": "DONE 2026-09-26, sitemap submitted."
         },
         {
           "task": "Record the pre-Phase-4 baseline",
           "owner": "next team",
-          "status": "NOT DONE — blocking",
-          "why": "Lighthouse on the four templates, GSC impressions and average position, and current rank for ~12 target terms. Without this, the Phase 4 redesign cannot be shown to have worked. Capture it before changing anything visual."
+          "status": "PARTIAL — rank snapshot captured 2026-09-26 (0 of 12 organic, 0 of 12 map pack, because the site was not indexed). Lighthouse NOT captured: the keyless PageSpeed API has a quota of 0; needs an API key or a manual pagespeed.web.dev run. GA4 and GSC numbers pending dashboard access. Tables are in REVAMP-PLAN.md → Baseline.",
+          "why": "Lighthouse on the four templates, GSC impressions and average position, and current rank for ~12 target terms. Without this, the Phase 4 redesign cannot be shown to have worked. Capture Lighthouse before the branch deploys if at all possible — it changes the shared header and footer on every template."
         }
       ]
     },
@@ -166,20 +169,20 @@
     {
       "id": 2,
       "name": "Local SEO",
-      "status": "in_progress",
+      "status": "engineering complete on branch; business items ongoing",
       "priority": "HIGHEST — this is where the traffic is",
       "rationale": "Map-pack ranking is won on Google Business Profile signals and review volume, not site design. For a local cleaning company this outweighs everything else in this plan. It also has the longest lead time, so it compounds only if started early.",
       "items": [
         {
           "task": "Google Business Profile fully populated",
-          "status": "profile set up 2026-09-02; confirm categories, service list, service area, hours, 20+ photos, and seeded Q&A are all filled in",
+          "status": "live 2026-09-26 with 3 five-star reviews. Seen on the profile that day and still on the owner: primary category is the generic 'Cleaners' (change to 'House cleaning service'); hours show 'Opens 7 AM' vs the site's 8 AM; the Website button points at the apex domain, not www. Unchecked: service list, service area, 20+ photos, seeded Q&A. Checklist in docs/review-engine.md.",
           "owner": "business"
         },
         {
           "task": "Review engine — automated post-job follow-up with a direct review link",
-          "status": "not started",
+          "status": "engineering DONE 2026-09-26: /review (302 to the write-a-review link), /reviews (302 to the Maps profile), review_click event, playbook + templates in docs/review-engine.md. Business half not started.",
           "note": "Aim for a steady weekly trickle, not a burst. Burst patterns look inorganic.",
-          "owner": "business + light engineering"
+          "owner": "business"
         },
         {
           "task": "Citations with identical NAP",
@@ -189,16 +192,14 @@
         },
         {
           "task": "Add a street/mailing address to the LocalBusiness schema",
-          "status": "not started",
+          "status": "DECIDED AGAINST 2026-09-26 — service-area business with the address hidden on GBP, so the schema stays locality-only to match. hasMap and the Maps URL in sameAs were added instead.",
           "file": "app/layout.js",
-          "why": "Currently addressLocality only, which limits local-pack eligibility",
           "owner": "engineering"
         },
         {
           "task": "Re-source review markup from Google reviews",
-          "status": "blocked on GBP review volume",
+          "status": "DONE 2026-09-26 — the three Review objects are the real Google reviews with datePublished; aggregateRating mirrors the profile (5.0 / 3). Keep in sync as reviews arrive. This markup will never earn review stars (self-serving per Google); its value is for AI crawlers.",
           "file": "app/layout.js",
-          "why": "The 3 Review objects are real client reviews (owner-confirmed; photos are stock for privacy) so they stay on the page. But Google does not surface review rich results for a business marking up reviews about itself, so the markup earns nothing where it sits.",
           "owner": "engineering"
         },
         {
@@ -212,8 +213,8 @@
     {
       "id": 3,
       "name": "Content and GEO expansion",
-      "status": "not_started",
-      "estimate": "3-4 weeks, content-bound",
+      "status": "built 2026-09-26 on branch phase2-3/local-seo-and-content — 17 new page routes (3 services, 4 cities, /pricing, /about, /guides + 7 guides). Remaining: owner supplies team names/photos for /about, resolves the pricing contradictions listed in REVAMP-PLAN.md open question 7, and confirms the service claims in open question 8.",
+      "estimate": "review + deploy, then content upkeep",
       "rationale": "10 pages is a small surface. Every page is a separate chance to rank, and for AI search, depth and specificity are what get you cited rather than skimmed.",
       "items": [
         "City pages: Port Orange, Ponce Inlet, Daytona Beach Shores, Ormond-by-the-Sea. Real local detail, not swapped nouns — existing three share ~25% of phrasing; keep new ones at or below that",
@@ -303,7 +304,22 @@
     },
     {
       "rule": "Every new route updates five places",
-      "detail": "app/sitemap.js, public/llms.txt, the relevant home-page array in testSite.js, the dropdown lists in shell/SiteHeader.js, and the footer chip array in Footer.js.",
+      "detail": "app/sitemap.js, public/llms.txt, the relevant home-page array in testSite.js, the dropdown lists in shell/SiteHeader.js (services / cities / resources), and the Footer arrays. Exception: a new guide only needs an entry in app/components/guides/guides.js plus an llms.txt line — the sitemap imports the registry.",
+      "severity": "consistency"
+    },
+    {
+      "rule": "Publish a price only if it is already on the site or owner-confirmed",
+      "detail": "The only published prices are the turnover tiers ($100-140 / $140-200 / $200-280), the PM volume tiers (10% / 15% / custom), the $25 priority-dispatch fee on the 2-hour emergency tier, and 'no rush fees on standard tiers'. Residential, deep, eco-friendly and move-in/out are custom-quoted within 24 hours. See openQuestions.pricingConflicts for the numbers that are contradicted elsewhere and must not be repeated until resolved.",
+      "severity": "factual-error-if-violated"
+    },
+    {
+      "rule": "The address stays locality-only",
+      "detail": "Service-area business with the address hidden on GBP (owner decision 2026-09-26). Never add a street address to the schema or copy.",
+      "severity": "do-not-undo"
+    },
+    {
+      "rule": "/review and /reviews are route handlers",
+      "detail": "force-static 302 redirects. Keep out of the sitemap and llms.txt; link with a plain <a>, not next/link.",
       "severity": "consistency"
     },
     {
@@ -328,7 +344,11 @@
       "app/api/quote/route.js": "Server-side lead capture — validation, honeypot, IP rate limit, logging, optional webhook",
       "app/components/ContactForm.js": "Posts to /api/quote FIRST, then attempts the EmailJS notification",
       "app/robots.js": "Explicitly allows AI/LLM crawlers",
-      "app/sitemap.js": "Enumerates all 10 routes",
+      "app/sitemap.js": "Enumerates all page routes; imports the guides registry so guides self-register",
+      "app/components/guides/guides.js": "Single source of truth for /guides — slug, title, description, lastReviewed, readingMinutes. Add a guide here + a page.jsx + an llms.txt line.",
+      "app/review/route.js": "302 to the Google write-a-review link. Route handler, not a page — keep out of sitemap/llms.txt; link with plain <a>, not next/link",
+      "app/reviews/route.js": "302 to the Google Maps profile by place ID",
+      "docs/review-engine.md": "Owner playbook: short links, post-job ask flow, SMS/email templates, GBP completeness checklist",
       "public/llms.txt": "AI-agent discoverability file — keep in sync with routes",
       "app/manifest.js": "Web app manifest",
       "AGENTS.md": "Conventions and decisions — read before editing anything"
@@ -338,12 +358,31 @@
       "/services/vacation-rental-turnover",
       "/services/emergency-cleaning",
       "/services/property-management",
+      "/services/residential-house-cleaning",
+      "/services/deep-cleaning",
+      "/services/eco-friendly-cleaning",
       "/cleaning/ormond-beach",
       "/cleaning/daytona-beach",
       "/cleaning/new-smyrna-beach",
+      "/cleaning/port-orange",
+      "/cleaning/ponce-inlet",
+      "/cleaning/daytona-beach-shores",
+      "/cleaning/ormond-by-the-sea",
+      "/pricing",
+      "/about",
+      "/guides",
+      "/guides/vacation-rental-turnover-checklist",
+      "/guides/airbnb-cleaning-fee-florida",
+      "/guides/volusia-county-short-term-rental-rules",
+      "/guides/daytona-race-week-bike-week-rental-prep",
+      "/guides/hurricane-prep-vacation-rental-volusia",
+      "/guides/snowbird-season-cleaning-volusia",
+      "/guides/how-to-hire-vacation-rental-cleaner-volusia",
       "/faq",
       "/privacy-policy",
-      "/terms-of-service"
+      "/terms-of-service",
+      "/review (redirect route handler, not in sitemap)",
+      "/reviews (redirect route handler, not in sitemap)"
     ],
     "leadFlow": "Form -> POST /api/quote (validate, honeypot, rate limit, log '[LEAD]' as structured JSON, optional LEAD_WEBHOOK_URL) -> then EmailJS notification from the client. The lead is recorded BEFORE delivery is attempted, so a failed send no longer loses it silently. An email failure is tracked as quote_submit_failed but not shown to the visitor as a failure."
   },
@@ -417,9 +456,32 @@
   "openQuestions": [
     {
       "id": "jobPhotos",
-      "question": "Are there current photos of real jobs, including before/after pairs and the team?",
-      "blocks": "Phase 4 photography, Phase 3 about page",
-      "why": "The current portfolio is 2024 decor shots — they show nice rooms, not evidence of cleaning."
+      "question": "Before/after pairs and team photos?",
+      "status": "partly answered 2026-09-26 — the photos in public/images ARE real jobs, and the owner has more on their phone. Still needed: before/after pairs and team photos.",
+      "blocks": "Phase 4 photography, the /about 'Meet the team' section"
+    },
+    {
+      "id": "teamNames",
+      "question": "Owner/team names, faces, and the 2018 founding story for /about",
+      "blocks": "The reserved 'Meet the team' section (JSX comment in app/(marketing)/about/page.jsx) and Person/founder schema",
+      "why": "E-E-A-T. The page ships without it and renders no placeholder."
+    },
+    {
+      "id": "pricingConflicts",
+      "question": "Resolve the pricing/terms contradictions before or right after deploy",
+      "detail": "TermsOfService.js: 50% same-day surcharge, $50 late-cancel, $75 trip charge, 3% card fee, $25/1.5% late fee, PayPal listed, Zelle missing — vs. 'no rush fees' on the emergency page, /faq and llms.txt (only a $25 priority-dispatch fee on the 2-hour tier). CompetitiveServices.js modal: deep clean 'Starting at $180', '4-6 hours' — unsourced. Turnover FAQ: $40/hour excess-condition time. Payment methods differ across /faq, layout.js and Terms. PM page says 'up to 20%' vs published 10%/15%/custom. Full list in REVAMP-PLAN.md open question 7.",
+      "blocks": "Credibility of /pricing; legal consistency"
+    },
+    {
+      "id": "hours",
+      "question": "Does the business open at 7 AM (GBP) or 8 AM (site + schema)?",
+      "blocks": "NAP/hours consistency across GBP, site, citations"
+    },
+    {
+      "id": "snowbirdRentals",
+      "question": "The Ormond Beach page markets a 'snowbird-season specialty', but the City of Ormond Beach FAQ says leases under six months are transient lodging not allowed in residential districts. Confirm the page's framing is about the cleaning service, not implying such rentals are permitted.",
+      "blocks": "Nothing technically; a reputational check",
+      "source": "found while writing /guides/volusia-county-short-term-rental-rules"
     },
     {
       "id": "leadDestination",
@@ -435,31 +497,39 @@
     },
     {
       "id": "gscBaseline",
-      "question": "Is Google Search Console verified, and can the next team get access?",
-      "blocks": "Phase 0 baseline, and therefore Phase 4 measurement",
-      "why": "No verification meta tag is present, but GSC is commonly verified via DNS or the GA4 link, so that proves nothing either way."
+      "question": "Can the next team get read access to Search Console and GA4?",
+      "status": "GSC verified by the owner 2026-09-26. Access for the team not yet arranged; Claude in Chrome against the owner's logged-in session is the offered path.",
+      "blocks": "GSC impressions/position and GA4 conversion-rate baseline rows"
     }
   ],
 
   "nextActions": [
     {
       "priority": 1,
-      "action": "Capture the pre-revamp baseline",
-      "detail": "Lighthouse on home / a service page / a city page / faq, GSC impressions and average position, and rank for ~12 target terms. Write the numbers into REVAMP-PLAN.md.",
-      "why": "Everything downstream is unmeasurable without it, and it gets harder to capture honestly the longer you wait.",
-      "effort": "half a day",
-      "owner": "next team"
+      "action": "Review and deploy branch phase2-3/local-seo-and-content, then re-submit the sitemap in GSC and Bing",
+      "detail": "Read the pricing contradictions (openQuestions.pricingConflicts) first — decide whether Terms or the marketing pages are right, and fix the losing side before or right after deploy. Spot-check /pricing, /about, one guide and one new city page on a phone.",
+      "why": "17 new pages do nothing until they are live and in the sitemap Google has.",
+      "effort": "an hour of review, then push to master",
+      "owner": "business + next team"
     },
     {
       "priority": 2,
-      "action": "Finish Phase 2 local SEO",
-      "detail": "Fully populate the GBP, stand up the review engine, build citations, and add a street address to the LocalBusiness schema.",
-      "why": "Highest traffic leverage of anything remaining, and the longest lead time — reviews compound only if started early.",
-      "effort": "ongoing, starts now",
-      "owner": "business + light engineering"
+      "action": "Finish the GBP and start the review trickle",
+      "detail": "Change the primary category from 'Cleaners' to 'House cleaning service'; fix hours (7 vs 8 AM); point the Website button at www; add 20+ photos and Q&A. Then run the docs/review-engine.md flow after every job.",
+      "why": "Map-pack ranking is a GBP-and-reviews game; 0 of 12 target terms show the business today.",
+      "effort": "an hour for the profile, then ongoing",
+      "owner": "business"
     },
     {
       "priority": 3,
+      "action": "Capture Lighthouse before deploy if possible, and the GSC/GA4 rows once data lands",
+      "detail": "Get a PageSpeed Insights API key (or run pagespeed.web.dev by hand) for the 4 template URLs; rerun scratch/psi/run.sh with &key=. Pull GSC impressions/position and the GA4 60-day call+form rate ~48 h after verification.",
+      "why": "The rank snapshot exists; Lighthouse and the dashboard rows are the missing baseline pieces.",
+      "effort": "an hour",
+      "owner": "next team"
+    },
+    {
+      "priority": 4,
       "action": "Set LEAD_WEBHOOK_URL",
       "detail": "Point it at a Google Sheet or CRM so leads land somewhere durable.",
       "why": "Cheap, and it closes the last gap in the lead pipeline.",
@@ -467,15 +537,15 @@
       "owner": "business"
     },
     {
-      "priority": 4,
-      "action": "Phase 3 content expansion",
-      "detail": "Four city pages, three service pages the schema already promises, a pricing page, an about page, and 6-8 guides.",
-      "why": "Grows the rankable surface from 10 pages to 20+ and gives AI assistants specific, citable answers.",
-      "effort": "3-4 weeks, content-bound",
-      "owner": "next team"
+      "priority": 5,
+      "action": "Citations and the About page team section",
+      "detail": "Bing Places, Apple Business Connect, Yelp, Nextdoor, Thumbtack with identical NAP. Supply names, photos and the founding story so the reserved 'Meet the team' section can ship.",
+      "why": "NAP consistency feeds the map pack; the team section is the E-E-A-T piece /about is missing.",
+      "effort": "an afternoon",
+      "owner": "business"
     },
     {
-      "priority": 5,
+      "priority": 6,
       "action": "Phase 4 visual revamp",
       "detail": "Design system consolidation, testSite.js decomposition, server-component conversion, real photography.",
       "why": "Multiplies conversion on the traffic Phases 2 and 3 bring in. Deliberately last.",
