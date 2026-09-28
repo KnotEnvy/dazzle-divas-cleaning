@@ -126,6 +126,7 @@ Routes:
   - `LEAD_WEBHOOK_URL` (server-side; forwards `/api/quote` submissions to a durable destination)
 
 ## Runtime
+- Next.js 14.2.35 (the last 14.x patch; the line is end-of-life, so a 15.5.24+/16.x upgrade is the top next action — see `handoff.json` → `currentState.securityAdvisory`).
 - Node.js 24, pinned by `engines.node: "24.x"` in `package.json` (this overrides the Vercel dashboard setting) and `.nvmrc` for local parity. Node 20 is deprecated on Vercel from 1 Oct 2026. Verified: `next build` on Node 24.14.0.
 - PostCSS config is `postcss.config.js` (tailwindcss + autoprefixer). A duplicate `postcss.config.mjs` was removed in Sep 2026; Next only ever read the `.js` one.
 - `tsconfig.json` is present although the project is JavaScript. With it present, Next ignores `jsconfig.json` (whose `@/` path aliases are unused). Removing `tsconfig.json` is possible but untested; leave it unless you verify a byte-identical build.

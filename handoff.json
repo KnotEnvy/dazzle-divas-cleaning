@@ -13,7 +13,7 @@
       "gotchas — three of these cost real debugging time in the last pass",
       "nextActions — prioritized, with the reasoning behind the ordering"
     ],
-    "oneLineSummary": "Phase 1 live. The site was found NOT INDEXED by Google or Bing on 2026-09-26; the owner verified Search Console and Bing the same day and both now report it indexed. Phase 2 engineering (GBP schema, review engine) and Phase 3 content (17 new pages) are built on branch phase2-3/local-seo-and-content awaiting review and deploy. Phase 4 not started."
+    "oneLineSummary": "Phase 1 live. The site was found NOT INDEXED by Google or Bing on 2026-09-26; the owner verified Search Console and Bing the same day and both now report it indexed. Phase 2 engineering (GBP schema, review engine), Phase 3 content (17 new pages), the owner's pricing policy, Node 24 and Next 14.2.35 are all LIVE as of 2026-09-28. Top next action is a Next.js 15/16 upgrade for security. Phase 4 not started."
   },
 
   "project": {
@@ -23,7 +23,7 @@
     "positioning": "Vacation-rental turnover specialist, not a general house cleaner. This is the strongest decision on the site — defend it.",
     "primaryCustomer": "Airbnb/VRBO hosts and property managers in Volusia County",
     "stack": {
-      "framework": "Next.js 14.2.4 (App Router)",
+      "framework": "Next.js 14.2.35 (App Router) — the 14.x line is end-of-life; see nextActions priority 1",
       "language": "JavaScript (no TypeScript despite tsconfig.json being present)",
       "styling": "Tailwind CSS 3.4 with custom brand colors",
       "animation": "framer-motion 11",
@@ -42,10 +42,11 @@
   },
 
   "currentState": {
-    "lastDeployedCommit": "47d4d3c",
-    "lastDeployedDate": "2026-09-02",
-    "branchInProgress": "phase2-3/local-seo-and-content — Phase 2 engineering + Phase 3 content, 27 page routes, ESLint clean; see REVAMP-PLAN.md for what the owner still has to confirm before/after deploy",
-    "buildStatus": "see the latest commit message on the branch",
+    "lastDeployedCommit": "master HEAD (git log -1); Phase 2/3 + pricing + cleanup deployed as 256bf8f, then the Next.js 14.2.35 patch",
+    "lastDeployedDate": "2026-09-28",
+    "branchInProgress": "none — phase2-3/local-seo-and-content was merged, deployed and deleted 2026-09-28",
+    "buildStatus": "clean on Node 24.14.0 + Next 14.2.35: 38 static routes, ESLint clean. A 27-page production audit (status, one h1, JSON-LD, title/description budgets, banned pricing phrases, redirects, sitemap, llms.txt, Terms) passed against the live site 2026-09-28.",
+    "securityAdvisory": "npm audit (production deps) on 2026-09-28 still reports 1 critical + 2 high, all fixed only in Next 15.5.24+/16.x: the whole 14.x line is end-of-life. The two criticals are an RCE on Windows-hosted servers (not applicable: Vercel runs Linux) and an RCE in the self-hosted Image Optimization API with AVIF (Vercel serves /_next/image from its own platform optimizer, which reduces but has not been verified to remove exposure). Remaining highs are DoS/SSRF classes around Server Actions, rewrites, middleware and WebSocket upgrades; this site uses none of Server Actions, rewrites or middleware. Plan the 15/16 upgrade as its own project.",
     "phase1": "complete, merged, live, verified against production",
     "measurement": "fully live — GA4, Vercel Web Analytics, Vercel Speed Insights all confirmed firing in production 2026-09-02",
     "googleBusinessProfile": "live — 5.0 rating on 3 reviews as of 2026-09-26; place ID ChIJI7fTrsScs64RTY0NoDuFenI; direct review link https://g.page/r/CU2NDaA7hXpyEBM/review",
@@ -213,7 +214,7 @@
     {
       "id": 3,
       "name": "Content and GEO expansion",
-      "status": "built 2026-09-26 on branch phase2-3/local-seo-and-content — 17 new page routes (3 services, 4 cities, /pricing, /about, /guides + 7 guides). Remaining: owner supplies team names/photos for /about, resolves the pricing contradictions listed in REVAMP-PLAN.md open question 7, and confirms the service claims in open question 8.",
+      "status": "LIVE 2026-09-28 — 17 new page routes (3 services, 4 cities, /pricing, /about, /guides + 7 guides), built 2026-09-26. Remaining: owner supplies team names/photos for /about, resolves the pricing contradictions listed in REVAMP-PLAN.md open question 7, and confirms the service claims in open question 8.",
       "estimate": "review + deploy, then content upkeep",
       "rationale": "10 pages is a small surface. Every page is a separate chance to rank, and for AI search, depth and specificity are what get you cited rather than skimmed.",
       "items": [
@@ -505,11 +506,11 @@
   "nextActions": [
     {
       "priority": 1,
-      "action": "Review and deploy branch phase2-3/local-seo-and-content, then re-submit the sitemap in GSC and Bing",
-      "detail": "Read the pricing contradictions (openQuestions.pricingConflicts) first — decide whether Terms or the marketing pages are right, and fix the losing side before or right after deploy. Spot-check /pricing, /about, one guide and one new city page on a phone.",
-      "why": "17 new pages do nothing until they are live and in the sitemap Google has.",
-      "effort": "an hour of review, then push to master",
-      "owner": "business + next team"
+      "action": "Upgrade Next.js from 14.2.35 to 15.5.24+ (or 16.x) on a branch, with a Vercel preview before merging",
+      "detail": "The 14.x line is end-of-life and carries advisories fixed only in 15.5.24+ (see currentState.securityAdvisory). Expect React 19, async request APIs (headers/cookies/params), next/image and caching default changes, and eslint-config-next alignment. Rebuild, rerun the 27-page audit and a CSS selector diff against production, then merge. Owner: re-submit the sitemap in GSC and Bing now that the 17 new pages are live (owner said they would, 2026-09-28).",
+      "why": "Security. Every remaining npm audit finding in production dependencies is fixed by this and nothing else.",
+      "effort": "half a day to a day, including verification",
+      "owner": "next team"
     },
     {
       "priority": 2,
