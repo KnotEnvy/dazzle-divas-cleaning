@@ -308,8 +308,8 @@
       "severity": "consistency"
     },
     {
-      "rule": "Publish a price only if it is already on the site or owner-confirmed",
-      "detail": "The only published prices are the turnover tiers ($100-140 / $140-200 / $200-280), the PM volume tiers (10% / 15% / custom), the $25 priority-dispatch fee on the 2-hour emergency tier, and 'no rush fees on standard tiers'. Residential, deep, eco-friendly and move-in/out are custom-quoted within 24 hours. See openQuestions.pricingConflicts for the numbers that are contradicted elsewhere and must not be repeated until resolved.",
+      "rule": "Pricing and billing policy (owner-confirmed 2026-09-28) — publish nothing outside it",
+      "detail": "Turnover tiers $100-140 / $140-200 / $200-280 by bedroom count; 4+BR and luxury custom-quoted. Deep cleaning = 2x the standard clean for the home, $200 minimum. PM volume discount up to 15% (10% for 3-5 properties, 15% for 6-15, custom 16+). NO same-day surcharge; emergency requests MAY carry an emergency fee that depends on time of day and current workload, always quoted before dispatch — never state a fixed emergency fee and never write 'no rush fees'. Scheduled turnovers cost the same on weekends and holidays. Priced per job, NEVER hourly. NO cancellation fee (48 hours' notice requested). Payment: Zelle preferred; also cash, check, Venmo, credit card with a 3% CONVENIENCE fee (not 'processing fee'). PayPal is NOT accepted. PM clients invoiced monthly, net-15. Unchanged in Terms and not revisited: $75 no-access trip charge, late fee on balances over 30 days. Residential, eco-friendly and move-in/out are custom-quoted within 24 hours.",
       "severity": "factual-error-if-violated"
     },
     {
@@ -468,14 +468,13 @@
     },
     {
       "id": "pricingConflicts",
-      "question": "Resolve the pricing/terms contradictions before or right after deploy",
-      "detail": "TermsOfService.js: 50% same-day surcharge, $50 late-cancel, $75 trip charge, 3% card fee, $25/1.5% late fee, PayPal listed, Zelle missing — vs. 'no rush fees' on the emergency page, /faq and llms.txt (only a $25 priority-dispatch fee on the 2-hour tier). CompetitiveServices.js modal: deep clean 'Starting at $180', '4-6 hours' — unsourced. Turnover FAQ: $40/hour excess-condition time. Payment methods differ across /faq, layout.js and Terms. PM page says 'up to 20%' vs published 10%/15%/custom. Full list in REVAMP-PLAN.md open question 7.",
-      "blocks": "Credibility of /pricing; legal consistency"
+      "question": "Resolve the pricing/terms contradictions",
+      "status": "RESOLVED 2026-09-28 by the owner and applied sitewide (Terms, emergency page, /pricing, /faq, home FAQ and cards, comparison modal, city pages, guides, llms.txt, layout.js paymentAccepted). See the 'Pricing and billing policy' invariant. Still open by omission: the $75 no-access trip charge and the late fee in Terms were not addressed and were left as-is; ACH was dropped from /faq to match the canonical payment list."
     },
     {
       "id": "hours",
       "question": "Does the business open at 7 AM (GBP) or 8 AM (site + schema)?",
-      "blocks": "NAP/hours consistency across GBP, site, citations"
+      "status": "RESOLVED 2026-09-28 — 8 AM. The site and schema were already right; the owner must change the GBP hours."
     },
     {
       "id": "snowbirdRentals",

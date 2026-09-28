@@ -59,7 +59,7 @@ export default function CustomQuoteServices({
                     <p className="mt-4 text-slate-600 leading-relaxed">{service.summary}</p>
                     <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-diva-gold-200 bg-diva-gold-50 px-3 py-1 text-sm font-semibold text-diva-gold-800">
                       <Clock size={14} aria-hidden />
-                      {quoteLabel}
+                      {service.quoteLabel || quoteLabel}
                     </p>
                     <p className="mt-5 text-sm font-semibold uppercase tracking-wider text-slate-500">
                       {factorsLabel}

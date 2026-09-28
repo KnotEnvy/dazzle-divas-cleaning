@@ -86,7 +86,7 @@ const sections = [
           <li>
             If a cleaner falls through mid-event, our{' '}
             <Link href="/services/emergency-cleaning">emergency service</Link> steps in when
-            capacity allows, with no rush fees on standard tiers.
+            capacity allows, and any emergency fee is quoted before we dispatch.
           </li>
         </ul>
       </>
@@ -250,8 +250,8 @@ const sections = [
           spots, ceiling fans, the oven, and the patio. The fall reset lines up with the start of
           snowbird season, which our{' '}
           <Link href={guidePath('snowbird-season-cleaning-volusia')}>snowbird guide</Link> covers.
-          Our <Link href="/services/deep-cleaning">deep cleaning service</Link> is custom-quoted
-          within 24 hours.
+          Our <Link href="/services/deep-cleaning">deep cleaning service</Link> is priced at twice
+          a standard clean, with a $200 minimum.
         </p>
       </>
     ),
@@ -326,7 +326,7 @@ const services = [
     icon: Zap,
     title: 'Emergency & Same-Day Cleaning',
     description:
-      'Surprise bookings and no-show cleaners during event weeks. No rush fees on standard tiers.',
+      'Surprise bookings and no-show cleaners during event weeks. Emergency fees quoted before dispatch.',
     href: '/services/emergency-cleaning',
   },
 ];

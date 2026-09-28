@@ -378,7 +378,7 @@ const services = [
     icon: ClipboardCheck,
     title: 'Emergency & Same-Day Cleaning',
     description:
-      'Pre-inspection cleans, surprise bookings, and no-show replacements, with no rush fees on standard tiers.',
+      'Pre-inspection cleans, surprise bookings, and no-show replacements, with any emergency fee quoted upfront.',
     href: '/services/emergency-cleaning',
   },
 ];

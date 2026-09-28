@@ -199,7 +199,7 @@ const faqs = [
   {
     question: 'What happens if a guest leaves the property in unusually bad condition?',
     answer:
-      "We document with photos before cleaning and notify you immediately. You're charged the standard rate; any extra time required for excessive damage is billed at $40/hour with your approval first.",
+      "We document with photos before cleaning and notify you immediately. We price per job, never by the hour: if the damage needs work well beyond a standard turnover, we quote the extra job and get your approval before we start.",
   },
   {
     question: 'How do you protect against missed details?',
@@ -213,14 +213,14 @@ const crossSell = [
     icon: Zap,
     title: 'Emergency & Same-Day Cleaning',
     description:
-      'Surprise bookings, no-show cleaners, post-storm cleanup. 2-hour response, no rush fees, 24/7 phone line.',
+      'Surprise bookings, no-show cleaners, post-storm cleanup. 2-hour response goal, 24/7 phone line, emergency fees quoted upfront.',
     href: '/services/emergency-cleaning',
   },
   {
     icon: Building,
     title: 'Property Management Service',
     description:
-      'Multi-property hosts get a dedicated manager, calendar sync, monthly reporting, and up to 20% volume pricing.',
+      'Multi-property hosts get a dedicated manager, calendar sync, monthly reporting, and up to 15% volume pricing.',
     href: '/services/property-management',
   },
   {

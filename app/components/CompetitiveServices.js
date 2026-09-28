@@ -163,7 +163,7 @@ const CompetitiveServicesPage = ({ onClose }) => {
       ],
       competitiveAdvantages: [
         "Only 24/7 emergency service in Volusia County",
-        "No rush fees or premium charges",
+        "No same-day surcharge",
         "2-hour response guarantee",
         "Disaster cleanup expertise",
         "Insurance claim support and documentation",
@@ -247,7 +247,7 @@ const CompetitiveServicesPage = ({ onClose }) => {
       title: "Deep Clean & Seasonal Reset",
       subtitle: "Beyond Basic Deep Cleaning",
       shortDescription: "Complete property refresh with staging and photography prep",
-      price: "Starting at $180",
+      price: "Starting at $200",
       duration: "4-6 hours",
       guarantee: "Move-in ready standard",
       availability: "Scheduled in advance",

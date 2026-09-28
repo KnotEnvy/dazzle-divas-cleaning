@@ -62,7 +62,7 @@ const highlights = [
   {
     icon: CalendarClock,
     label: 'Quotes within 24 hours',
-    detail: 'Turnovers at published tier prices; home and deep cleans custom-quoted.',
+    detail: 'Turnovers at published tier prices; deep cleans from $200; home cleans custom-quoted.',
   },
 ];
 
@@ -101,7 +101,7 @@ const services = [
     icon: Zap,
     title: 'Emergency & Same-Day',
     description:
-      'A 2-hour dispatch goal in business hours for early check-ins and no-show cleaners, with no rush fee on standard tiers.',
+      'A 2-hour dispatch goal in business hours for early check-ins and no-show cleaners, with no same-day surcharge.',
     href: '/services/emergency-cleaning',
   },
   {
@@ -132,7 +132,7 @@ const faqs = [
   {
     question: 'What does a turnover cost in Port Orange?',
     answer:
-      'The same as the rest of Volusia County: $100–140 for a studio or 1BR, $140–200 for a 2BR, and $200–280 for 3BR and up, depending on size and condition. Homes with 4+ bedrooms, and residential or deep cleans, are custom-quoted within 24 hours.',
+      'The same as the rest of Volusia County: $100–140 for a studio or 1BR, $140–200 for a 2BR, and $200–280 for 3BR and up, depending on size and condition. Deep cleans are twice the standard clean, with a $200 minimum. Homes with 4+ bedrooms and residential cleans are custom-quoted within 24 hours.',
   },
   {
     question: 'Can you look after a second home while I am away?',

@@ -35,7 +35,7 @@ export const metadata = {
   openGraph: {
     title: 'Property Management Cleaning Service',
     description:
-      'Built for hosts running 3 to 50+ vacation rentals. Single point of contact, calendar sync, up to 20% volume pricing.',
+      'Built for hosts running 3 to 50+ vacation rentals. Single point of contact, calendar sync, up to 15% volume pricing.',
     url: `${SITE_URL}${PATH}`,
   },
 };
@@ -50,7 +50,7 @@ const stats = [
   { icon: Building, value: '550+', label: 'Properties cleaned a year' },
   { icon: User, value: '1', label: 'Dedicated manager' },
   { icon: CalendarClock, value: 'Auto', label: 'Calendar sync' },
-  { icon: Tag, value: '20%', label: 'Volume discount up to' },
+  { icon: Tag, value: '15%', label: 'Volume discount up to' },
 ];
 
 const steps = [
@@ -220,7 +220,7 @@ const crossSell = [
     icon: Zap,
     title: 'Emergency & Same-Day Cleaning',
     description:
-      '24/7 dispatch for surprise bookings, no-show cleaners, and post-storm cleanup. No rush fees on standard tiers.',
+      '24/7 dispatch for surprise bookings, no-show cleaners, and post-storm cleanup. Emergency fees quoted before dispatch.',
     href: '/services/emergency-cleaning',
   },
   {

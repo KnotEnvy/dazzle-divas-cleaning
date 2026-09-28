@@ -60,7 +60,7 @@ const highlights = [
   {
     icon: Calendar,
     label: 'Same-day available',
-    detail: 'Including weekends and holidays. No rush fees on standard tiers.',
+    detail: 'Including weekends and holidays. No same-day surcharge.',
   },
 ];
 

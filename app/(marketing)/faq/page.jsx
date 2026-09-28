@@ -55,7 +55,7 @@ const items = [
     category: 'Booking',
     question: 'What payment methods do you accept?',
     answer:
-      'We accept credit/debit cards, ACH bank transfers, Zelle, and check. Property Management clients are invoiced monthly with net-15 terms. Standard turnovers are paid on completion or via stored payment method on file.',
+      'Zelle is our preferred payment method. We also accept cash, check, Venmo, and credit/debit cards; card payments carry a 3% convenience fee. Property Management clients are invoiced monthly with net-15 terms. Standard turnovers are paid on completion or via stored payment method on file.',
   },
   {
     category: 'Service',
@@ -95,9 +95,9 @@ const items = [
   },
   {
     category: 'Pricing',
-    question: 'Do you charge rush or weekend fees?',
+    question: 'Do you charge extra for weekends, holidays, or emergencies?',
     answer:
-      "No rush or weekend fees on standard same-day requests. Saturdays, Sundays, and holidays (including Christmas, July 4th, race weeks) are priced the same as weekdays. The only exception is our 2-hour emergency dispatch tier, which adds a $25 priority dispatch fee when crews must be pulled from another scheduled job.",
+      'Scheduled and same-day turnovers cost the same any day of the week, including Saturdays, Sundays, and holidays such as Christmas, July 4th, and race weeks. There is no same-day surcharge. True emergency requests may carry an emergency fee that depends on the time of day and our current workload, and we quote it before we dispatch.',
   },
   {
     category: 'Pricing',

@@ -173,8 +173,8 @@ const sections = [
 ];
 
 export default function TermsOfService() {
-  const effectiveDate = 'May 22, 2025';
-  const lastUpdated = 'May 22, 2025';
+  const effectiveDate = 'September 28, 2026';
+  const lastUpdated = 'September 28, 2026';
 
 
   const [simpleMode, setSimpleMode] = useState(false);
@@ -308,7 +308,7 @@ export default function TermsOfService() {
             >
               <SectionHeader id="payment" icon={CreditCard} title="Payment Terms" onCopy={handleCopy} />
               <WhatThisMeans show={simpleMode}>
-                Pay at service (or monthly within 15 days). Cards add a 3% processor fee. Late balances can get a
+                Pay at service (or monthly within 15 days). Zelle is preferred; cards carry a 3% convenience fee. Late balances can get a
                 small finance charge and may affect scheduling priority.
               </WhatThisMeans>
 
@@ -323,8 +323,8 @@ export default function TermsOfService() {
                 <div className="border-l-4 border-blue-300 pl-4">
                   <h4 className="font-semibold text-gray-800 mb-2">Accepted Payment Methods</h4>
                   <p className="text-gray-700">
-                    We accept cash, check, Venmo, PayPal, and major credit cards. A 3% processing fee applies to
-                    credit card payments.
+                    Zelle is our preferred payment method. We also accept cash, check, Venmo, and major credit
+                    cards. A 3% convenience fee applies to credit card payments.
                   </p>
                 </div>
                 <div className="border-l-4 border-yellow-300 pl-4">
@@ -347,7 +347,7 @@ export default function TermsOfService() {
             >
               <SectionHeader id="scheduling" icon={CalendarClock} title="Scheduling & Cancellations" onCopy={handleCopy} />
               <WhatThisMeans show={simpleMode}>
-                Give us 48 hours’ notice for changes. Emergencies are extra (and based on availability).
+                Give us 48 hours’ notice for changes; there is no cancellation fee. Emergencies may carry a fee based on time of day and workload, quoted upfront.
                 Weather delays don’t incur fees; no-access visits carry a trip charge.
               </WhatThisMeans>
 
@@ -356,17 +356,19 @@ export default function TermsOfService() {
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                     <h4 className="font-semibold text-red-800 mb-2 flex items-center">
                       <ClockIcon className="w-4 h-4 mr-2" />
-                      48-Hour Notice Required
+                      48-Hour Notice Requested
                     </h4>
                     <p className="text-red-700 text-sm">
-                      Please provide at least 48 hours’ notice for rescheduling or cancellations. Late cancellations
-                      (less than 48 hours) are subject to a $50 fee.
+                      Please provide at least 48 hours’ notice for rescheduling or cancellations so we can offer the
+                      time to another client. There is no cancellation fee.
                     </p>
                   </div>
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
                     <h4 className="font-semibold text-amber-800 mb-2">Emergency Cleaning</h4>
                     <p className="text-amber-700 text-sm">
-                      Same-day or next-day emergency cleaning requests are subject to a 50% surcharge and availability.
+                      There is no same-day surcharge. Emergency requests may carry an emergency fee based on the time
+                      of day and our current workload, and we quote it before we dispatch. Emergency service is
+                      subject to availability.
                     </p>
                   </div>
                 </div>

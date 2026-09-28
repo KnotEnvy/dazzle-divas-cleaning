@@ -30,12 +30,12 @@ const PATH = '/services/emergency-cleaning';
 export const metadata = {
   title: 'Emergency & Same-Day Cleaning Service',
   description:
-    '24/7 emergency cleaning in Volusia County. 2-hour response, no rush fees, no weekend or holiday surcharges. Surprise bookings and storm cleanup.',
+    '24/7 emergency cleaning in Volusia County. 2-hour response goal, no same-day surcharge, emergency fees quoted upfront. Surprise bookings and storm cleanup.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Emergency & Same-Day Cleaning',
     description:
-      '24/7 emergency response for vacation rentals across Volusia County. 2-hour dispatch, no rush fees.',
+      '24/7 emergency response for vacation rentals across Volusia County. 2-hour dispatch goal, emergency fees quoted upfront.',
     url: `${SITE_URL}${PATH}`,
   },
 };
@@ -49,7 +49,7 @@ const breadcrumbs = [
 const stats = [
   { icon: Clock, value: '2 hr', label: 'Response goal' },
   { icon: Phone, value: '24/7', label: 'Phone line' },
-  { icon: DollarSign, value: '$0', label: 'Rush fees' },
+  { icon: DollarSign, value: '$0', label: 'Same-day surcharge' },
   { icon: Calendar, value: '7 days', label: 'Weekend & holiday' },
 ];
 
@@ -133,21 +133,21 @@ const tiers = [
     tagline: 'Booked by noon, done before guest arrival',
     price: 'Standard',
     priceSuffix: 'turnover rates',
-    priceNote: 'No rush fees, no weekend or holiday surcharge.',
+    priceNote: 'No same-day surcharge, any day of the week.',
     features: [
       'Booking confirmed within 30 min',
       'Crew dispatched same business day',
       'Full guest-ready turnover',
       '30-point photo verification',
-      'No after-hours premium',
+      'No same-day surcharge',
     ],
   },
   {
     name: 'Within 4 Hours',
     tagline: 'Most-booked emergency tier',
     price: 'Standard',
-    priceSuffix: 'turnover rates',
-    priceNote: 'Same pricing as scheduled turnover, prioritized routing.',
+    priceSuffix: 'rate + emergency fee',
+    priceNote: 'Emergency fee depends on time of day and workload, quoted before dispatch.',
     featured: true,
     features: [
       '4-hour dispatch SLA',
@@ -160,9 +160,9 @@ const tiers = [
   {
     name: 'Within 2 Hours',
     tagline: 'True emergency dispatch',
-    price: '+$25',
-    priceSuffix: 'priority dispatch fee',
-    priceNote: 'Standard turnover rate plus a small fee for crew rerouting.',
+    price: 'Standard',
+    priceSuffix: 'rate + emergency fee',
+    priceNote: 'Emergency fee depends on time of day and workload, quoted before dispatch.',
     features: [
       '2-hour response SLA',
       'Crew pulled from active route',
@@ -177,12 +177,12 @@ const faqs = [
   {
     question: 'How fast can you respond to an emergency cleaning request?',
     answer:
-      'We aim for 2-hour response during business hours and same-day for after-hours requests. Saturday, Sunday, and holiday emergencies are handled with no weekend surcharge — Volusia County race weeks and major holidays are our busiest dispatch windows.',
+      'We aim for 2-hour response during business hours and same-day for after-hours requests. We answer 7 days a week, including holidays, and Volusia County race weeks and major holidays are our busiest dispatch windows.',
   },
   {
-    question: 'Do you charge rush fees for emergency or same-day cleaning?',
+    question: 'Is there an extra fee for emergency or same-day cleaning?',
     answer:
-      "No. Standard turnover rates apply 24/7, including weekends and holidays. The only exception is our 2-hour response tier, which adds a $25 priority dispatch fee when crews must be pulled from another scheduled job. We don't penalize last-minute hosts.",
+      'Same-day turnovers are billed at the standard turnover rate, with no same-day surcharge. True emergencies, such as a 2-hour or 4-hour response, may carry an emergency fee that depends on the time of day and our current workload. We always quote it before we dispatch, so there are no surprises on the invoice.',
   },
   {
     question: 'What counts as an emergency cleaning?',
@@ -236,7 +236,7 @@ const serviceLd = {
   name: 'Emergency & Same-Day Cleaning',
   serviceType: 'Emergency Cleaning Service',
   description:
-    '24/7 emergency cleaning response for vacation rentals across Volusia County. 2-hour dispatch, no rush fees, no weekend or holiday surcharges.',
+    '24/7 emergency cleaning response for vacation rentals across Volusia County. 2-hour dispatch goal; any emergency fee is quoted before dispatch.',
   provider: {
     '@type': 'LocalBusiness',
     name: 'Dazzle Divas Cleaning LLC',
@@ -296,7 +296,7 @@ export default function EmergencyCleaningPage() {
       <PricingGrid
         eyebrow="Response-time tiers"
         title="Pick your response window"
-        subtitle="All emergency tiers are priced at our standard turnover rates — no premium for nights, weekends, or holidays. Only the 2-hour rush adds a small dispatch fee when we reroute crews."
+        subtitle="Same-day turnovers are billed at our standard turnover rates with no same-day surcharge. Faster emergency windows may add an emergency fee based on time of day and our current workload, and we always quote it before we dispatch."
         tiers={tiers}
         footnote="Pricing reflects standard turnover rates by property size. See Vacation Rental Turnover pricing for detail; emergency tier adds the response-time guarantee."
       />

@@ -228,8 +228,15 @@ never explicitly targeted.
 5. Where do leads go after the form — CRM, spreadsheet, or inbox? *(Determines whether
    `LEAD_WEBHOOK_URL` is worth wiring.)*
 6. Sustainable writing cadence per month? *(Guides now exist; this sizes what gets added.)*
-7. **Pricing and terms contradictions found while building `/pricing` (owner must resolve before
-   or shortly after deploy):**
+7. ~~**Pricing and terms contradictions.**~~ **Resolved by the owner 28 Sep 2026 and applied
+   sitewide:** no same-day surcharge, but emergency requests may carry an emergency fee based on
+   time of day and workload, quoted before dispatch (no "no rush fees" claims, no fixed $25);
+   card payments carry a 3% **convenience** fee; PayPal no longer accepted; Zelle preferred;
+   deep cleaning is 2× a standard clean with a $200 minimum; priced per job, never hourly; no
+   cancellation fee; PM volume discount up to 15%; hours open at 8 AM (GBP must be changed).
+   Left untouched because they were not addressed: the $75 no-access trip charge and the late
+   fee in Terms. ACH was dropped from `/faq` to match the canonical payment list. The original
+   findings, for the record:
    - `TermsOfService.js` lists a **50% surcharge** on same-day/next-day emergencies, a $50 late
      cancellation fee, a $75 trip charge, a 3% card fee and a $25 / 1.5% late fee, and lists PayPal
      but not Zelle. The emergency page, `/faq` and `llms.txt` say **no rush fees**, with only a

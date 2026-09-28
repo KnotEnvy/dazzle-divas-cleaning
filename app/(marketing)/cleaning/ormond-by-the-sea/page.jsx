@@ -101,7 +101,7 @@ const services = [
     icon: Zap,
     title: 'Emergency & Same-Day',
     description:
-      'A 24/7 line for storm cleanup, early arrivals, and cancelled cleaners, with no rush fee on standard tiers.',
+      'A 24/7 line for storm cleanup, early arrivals, and cancelled cleaners, with any emergency fee quoted before we dispatch.',
     href: '/services/emergency-cleaning',
   },
   {

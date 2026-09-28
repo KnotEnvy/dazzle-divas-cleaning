@@ -2,7 +2,6 @@ import Link from 'next/link';
 import {
   ArrowDownToLine,
   Refrigerator,
-  Clock,
   Star,
   ClipboardList,
   Fan,
@@ -18,6 +17,7 @@ import {
   Leaf,
   Home,
   ArrowRight,
+  Tag,
 } from 'lucide-react';
 import ServiceHero from '../../../components/service/ServiceHero';
 import AtAGlance from '../../../components/service/AtAGlance';
@@ -36,7 +36,7 @@ const PATH = '/services/deep-cleaning';
 export const metadata = {
   title: 'Deep Cleaning for Homes & Vacation Rentals',
   description:
-    'Top-to-bottom deep cleaning in Volusia County: baseboards, ceiling fans, grout, cabinet and appliance interiors. Custom quote within 24 hours.',
+    'Top-to-bottom deep cleaning in Volusia County: baseboards, ceiling fans, grout, cabinet and appliance interiors. From $200, quoted within 24 hours.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Deep Cleaning for Homes & Vacation Rentals',
@@ -55,7 +55,7 @@ const breadcrumbs = [
 const stats = [
   { icon: ArrowDownToLine, value: 'Top-down', label: 'Fans and fixtures first, floors last' },
   { icon: Refrigerator, value: 'Inside', label: 'Cabinets, oven, and fridge' },
-  { icon: Clock, value: '24 hr', label: 'Custom quote turnaround' },
+  { icon: Tag, value: '$200', label: 'Minimum, 2× a standard clean' },
   { icon: Star, value: '98%', label: 'Guest satisfaction reported by hosts' },
 ];
 
@@ -83,7 +83,7 @@ const comparison = [
   {
     label: 'Pricing',
     turnover: 'From $100, by bedroom count',
-    deep: 'Custom quote within 24 hours',
+    deep: '2× a standard clean, $200 minimum',
   },
 ];
 
@@ -468,14 +468,14 @@ function PricingFactors({ factors }) {
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-3 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-              Quoted per property, within 24 hours
+              Twice a standard clean, $200 minimum
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-5 text-lg text-slate-600 leading-relaxed">
-              Deep cleans are priced per job, because two homes of the same size
-              can need very different amounts of work. Your quote arrives within
-              24 hours.
+              A deep clean is priced per job at twice the standard clean for your
+              home, with a $200 minimum. The factors below set the standard clean,
+              and your quote arrives within 24 hours.
             </p>
           </Reveal>
         </div>
@@ -509,8 +509,8 @@ function PricingFactors({ factors }) {
           <div className="mt-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 rounded-2xl border border-diva-gold-200 bg-diva-gold-50 p-6 md:p-8">
             <p className="text-slate-700 leading-relaxed max-w-2xl">
               <strong className="text-slate-900">For reference:</strong>{' '}
-              turnovers start at $100. A deep clean covers far more ground, so
-              expect a higher quote for the same home.
+              turnovers start at $100, so deep cleans start at $200. A deep clean
+              is always twice the standard clean for the same home.
             </p>
             <Link
               href="/#contact"

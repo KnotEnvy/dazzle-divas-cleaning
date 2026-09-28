@@ -124,7 +124,7 @@ const structuredData = {
   foundingDate: "2018",
   priceRange: "$$",
   currenciesAccepted: "USD",
-  paymentAccepted: "Cash, Check, Credit Card, Venmo, Zelle",
+  paymentAccepted: "Zelle, Cash, Check, Credit Card, Venmo",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Daytona Beach",

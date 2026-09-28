@@ -62,7 +62,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
       title: "Emergency Service",
       description: "Last-minute cleanings and same-day turnovers available 24/7",
       price: "Standard rates",
-      features: ["2-hour response", "No rush fees", "Weekend available", "Text updates"],
+      features: ["2-hour response goal", "No same-day surcharge", "Weekend available", "Text updates"],
       badge: "24/7 Ready",
       color: "red",
       href: "/services/emergency-cleaning"
@@ -91,7 +91,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
       icon: Brush,
       title: "Deep Cleaning",
       description: "Top-to-bottom reset for season openings, renovations, and long stays",
-      price: "Custom quote",
+      price: "From $200",
       features: ["Baseboards & ceiling fans", "Inside oven & fridge", "Grout & fixtures", "Before listing photos"],
       badge: "Seasonal Reset",
       color: "pink",

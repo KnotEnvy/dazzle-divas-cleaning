@@ -18,7 +18,7 @@ export const faqs = [
   },
   {
     q: "How much does a cleaning service cost?",
-    a: "Pricing depends on the size of your property, the type of cleaning (turnover, deep clean, move-in/move-out), and your scheduling needs. Vacation rental turnovers start at $100. Call (386) 301-5775 or request a free quote for a custom price tailored to your property.",
+    a: "Pricing depends on the size of your property, the type of cleaning (turnover, deep clean, move-in/move-out), and your scheduling needs. Vacation rental turnovers start at $100, and deep cleans start at $200 (twice a standard clean). We price per job, never by the hour. Call (386) 301-5775 or request a free quote for a custom price tailored to your property.",
   },
   {
     q: "Are you licensed and insured?",
@@ -38,7 +38,7 @@ export const faqs = [
   },
   {
     q: "What payment methods do you accept?",
-    a: "We accept cash, check, credit card, Venmo, and Zelle. For recurring property managers and Airbnb hosts, we can set up monthly invoicing.",
+    a: "Zelle is our preferred payment method. We also accept cash, check, Venmo, and credit cards (a 3% convenience fee applies to card payments). For recurring property managers and Airbnb hosts, we can set up monthly invoicing.",
   },
 ];
 

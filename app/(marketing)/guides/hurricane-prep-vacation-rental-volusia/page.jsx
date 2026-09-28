@@ -275,7 +275,7 @@ const faqs = [
   {
     question: 'Can you clean a vacation rental after a hurricane?',
     answer:
-      'Yes. Our 24/7 emergency line handles post-storm cleanup, with a 2-hour dispatch goal during business hours and no rush fees on standard tiers. We coordinate around water extraction crews, clear debris, sanitize, take insurance documentation photos, and finish with a photo-verified turnover.',
+      'Yes. Our 24/7 emergency line handles post-storm cleanup, with a 2-hour dispatch goal during business hours, and any emergency fee is quoted before we dispatch. We coordinate around water extraction crews, clear debris, sanitize, take insurance documentation photos, and finish with a photo-verified turnover.',
   },
 ];
 

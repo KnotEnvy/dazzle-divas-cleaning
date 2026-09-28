@@ -172,8 +172,8 @@ const sections = [
         <p>
           On price, our turnover rates are published by bedroom count: $100&ndash;140 for a studio or
           one-bedroom, $140&ndash;200 for two bedrooms, and $200&ndash;280 for three and up, with
-          custom quotes for four-plus bedrooms and luxury homes. There are no rush fees and no
-          weekend or holiday surcharge on standard tiers. See the full breakdown on our{' '}
+          custom quotes for four-plus bedrooms and luxury homes. Every job is priced per job, never
+          by the hour, and there is no same-day surcharge. See the full breakdown on our{' '}
           <Link href="/pricing">pricing page</Link>, and our{' '}
           <Link href={guidePath('airbnb-cleaning-fee-florida')}>cleaning fee guide</Link> for turning
           that price into a guest-facing fee.

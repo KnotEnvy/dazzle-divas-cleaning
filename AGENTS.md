@@ -162,6 +162,7 @@ Routes:
 - **550+ properties cleaned per year** (three years running), NOT a cumulative "500+ properties served". Confirmed by the owner Aug 2026. Keep this figure consistent across testSite.js stats, the hero badge, property-management page stats, and llms.txt.
 - **Year-relative claims are computed, never hardcoded.** "Zero negative cleanliness reviews in {lastYear}" gets `lastYear` from `app/page.js` (a server component) so it can never go stale and can never cause a hydration mismatch. `app/page.js` sets `revalidate = 86400` for this reason.
 - **No dollar figures for customer revenue.** "~20% average revenue increase reported by hosts" replaced the old "$2,400 average annual revenue increase".
+- **Pricing and billing policy (owner-confirmed 28 Sep 2026).** Turnovers $100–140 / $140–200 / $200–280 by bedroom count. Deep cleaning is 2× the standard clean for the home, $200 minimum. PM volume discount up to 15% (10% / 15% / custom). **No same-day surcharge**, but emergency requests may carry an emergency fee based on time of day and current workload, always quoted before dispatch — never write "no rush fees" and never state a fixed emergency fee. Priced per job, **never hourly**. **No cancellation fee** (48 hours' notice requested). Zelle is the preferred payment; also cash, check, Venmo, and credit cards with a 3% **convenience** fee. **PayPal is not accepted.** The full rule lives in `handoff.json` → invariants.
 
 
 ## Measurement (added Aug 2026)

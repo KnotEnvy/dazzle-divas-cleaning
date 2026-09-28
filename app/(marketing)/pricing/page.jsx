@@ -50,12 +50,12 @@ const PATH = '/pricing';
 export const metadata = {
   title: 'Vacation Rental Cleaning Prices from $100',
   description:
-    'Published turnover prices for Volusia County: $100–$140 studio/1BR, $140–$200 2BR, $200–$280 3BR+. No rush fees on standard tiers. Free quotes in 24 hours.',
+    'Published turnover prices for Volusia County: $100–$140 studio/1BR, $140–$200 2BR, $200–$280 3BR+. Deep cleans from $200. Free quotes in 24 hours.',
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Vacation Rental Cleaning Prices from $100',
     description:
-      'Turnover prices by bedroom count, volume discounts for 3+ rentals, and no weekend or holiday surcharge on standard tiers. Volusia County, FL.',
+      'Turnover prices by bedroom count, deep cleaning from $200, and volume discounts for 3+ rentals. Priced per job, never hourly. Volusia County, FL.',
     url: `${SITE_URL}${PATH}`,
   },
 };
@@ -114,7 +114,7 @@ const rateRows = [
 const stats = [
   { icon: Tag, value: '$100', label: 'Turnovers start at' },
   { icon: Clock, value: '24 hr', label: 'Free quote turnaround' },
-  { icon: Ban, value: '$0', label: 'Rush fees on standard tiers' },
+  { icon: Sparkles, value: '$200', label: 'Deep cleans start at' },
   { icon: Percent, value: '10–15%', label: 'Off for 3–15 rentals' },
 ];
 
@@ -205,18 +205,18 @@ const volumeTiers = [
 const emergencyPolicy = [
   {
     icon: Ban,
-    title: 'No rush fees',
-    body: 'Same-day and within-4-hour requests on standard tiers cost the same as a turnover booked ahead.',
+    title: 'No same-day surcharge',
+    body: 'A same-day turnover on a standard tier costs the same as one booked ahead.',
   },
   {
     icon: CalendarDays,
-    title: 'No weekend or holiday surcharge',
-    body: 'Saturdays, Sundays, holidays, and race weeks cost the same as weekdays.',
+    title: 'Same price on weekends and holidays',
+    body: 'Scheduled turnovers on Saturdays, Sundays, holidays, and race weeks cost the same as weekdays.',
   },
   {
     icon: Zap,
-    title: '2-hour dispatch goal',
-    body: 'Our target during business hours. After-hours requests are handled same-day.',
+    title: 'Emergency fees quoted upfront',
+    body: 'A 2- or 4-hour emergency response may add a fee based on time of day and our current workload. You hear the number before we dispatch.',
   },
   {
     icon: PhoneCall,
@@ -239,7 +239,7 @@ const priceFactors = [
   {
     icon: ClipboardCheck,
     title: 'Condition at checkout',
-    body: 'Unusual messes are photographed and reported to you first. Extra time is only billed with your approval.',
+    body: 'We price per job, never by the hour. Unusual messes are photographed and reported to you first, and any change to the job price is agreed before we start.',
   },
   {
     icon: Award,
@@ -262,7 +262,9 @@ const customServices = [
   {
     icon: Sparkles,
     name: 'Deep cleaning',
-    summary: 'Top to bottom, including baseboards, appliances, and inside cabinets.',
+    summary:
+      'Top to bottom, including baseboards, appliances, and inside cabinets. Priced at twice the standard clean for your home, with a $200 minimum.',
+    quoteLabel: 'From $200 · 2× a standard clean',
     factors: ['Size of the home', 'Current condition', 'Time since the last deep clean'],
   },
   {
@@ -306,12 +308,12 @@ const faqs = [
   {
     question: 'How do you charge for vacation rental cleaning?',
     answer:
-      'A flat rate per turnover, set by bedroom count: $100–$140 for a studio or 1 bedroom, $140–$200 for 2 bedrooms, and $200–$280 for 3 bedrooms and up. Square footage and condition set where you land in the range.',
+      'A flat rate per turnover, set by bedroom count: $100–$140 for a studio or 1 bedroom, $140–$200 for 2 bedrooms, and $200–$280 for 3 bedrooms and up. Square footage and condition set where you land in the range. We price per job and never bill by the hour.',
   },
   {
     question: 'Do you charge more for weekends or holidays?',
     answer:
-      'No. Weekends, holidays, and race weeks cost the same as weekdays, and same-day requests on standard tiers carry no rush fee. Every response-time tier is listed on our Emergency & Same-Day Cleaning page.',
+      'No. Scheduled turnovers on weekends, holidays, and race weeks cost the same as weekdays, and there is no same-day surcharge. True emergencies may add an emergency fee based on time of day and our current workload, quoted before we dispatch. Every response-time tier is on our Emergency & Same-Day Cleaning page.',
   },
   {
     question: 'Is laundry included?',
@@ -326,12 +328,12 @@ const faqs = [
   {
     question: 'Do you require a contract?',
     answer:
-      'No. Per-turnover service has no commitment, and property management plans are month-to-month. Scheduling, cancellation, and payment terms are in our Terms of Service.',
+      "No. Per-turnover service has no commitment, property management plans are month-to-month, and there is no cancellation fee. We only ask for 48 hours' notice when plans change. Full scheduling and payment terms are in our Terms of Service.",
   },
   {
     question: 'How do I pay?',
     answer:
-      'We accept cash, check, credit card, Venmo, and Zelle. Hosts on a recurring schedule and property managers can set up monthly invoicing.',
+      'Zelle is our preferred payment method. We also accept cash, check, Venmo, and credit cards; card payments carry a 3% convenience fee. Hosts on a recurring schedule and property managers can set up monthly invoicing.',
   },
 ];
 
@@ -441,8 +443,8 @@ export default function PricingPage() {
         tone="dark"
         columns={4}
         eyebrow="Weekends, holidays & emergencies"
-        title="No rush fees and no weekend or holiday surcharge"
-        lead="Same-day and emergency turnovers on standard tiers cost the normal rate, any day of the year."
+        title="No same-day surcharge, and emergency fees quoted upfront"
+        lead="Same-day turnovers cost the normal rate any day of the year. True emergencies may add a fee based on time of day and workload, and you hear the number before we dispatch."
         items={emergencyPolicy}
         footer={
           <>

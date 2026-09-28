@@ -151,7 +151,7 @@ const pricingFactors = [
     icon: Layers,
     title: 'Which service you book',
     description:
-      'Turnovers start at $100 by bedroom count; residential and deep cleans are quoted individually.',
+      'Turnovers start at $100 by bedroom count and deep cleans at $200; residential cleans are quoted individually.',
   },
   {
     icon: Ruler,

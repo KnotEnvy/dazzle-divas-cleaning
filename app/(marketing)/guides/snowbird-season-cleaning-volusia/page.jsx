@@ -63,8 +63,7 @@ const sections = [
         <p>
           Schedule the deep clean as soon as the long-stay booking is confirmed. Departures cluster
           in spring, and we plan snowbird departures into our peak-week capacity. Deep cleaning is
-          custom-quoted within 24 hours, since the price depends on size, condition, and how long
-          the last guest stayed; see our{' '}
+          priced at twice the standard clean for the home, with a $200 minimum; see our{' '}
           <Link href="/services/deep-cleaning">deep cleaning service</Link> for what it covers.
         </p>
         <GuideFigure
@@ -252,7 +251,7 @@ const faqs = [
   {
     question: 'How much does a deep clean between long-stay guests cost?',
     answer:
-      'Deep cleaning is custom-quoted within 24 hours because the price depends on property size, condition, and how long the last guest stayed. For reference, standard turnovers run $100–280 by bedroom count.',
+      'A deep clean is priced at twice the standard clean for the home, with a $200 minimum. For reference, standard turnovers run $100–280 by bedroom count.',
   },
   {
     question: 'Can I rent my Ormond Beach house to snowbirds for three months?',
