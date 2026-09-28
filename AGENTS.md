@@ -73,7 +73,7 @@ Routes:
   - `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`
   - `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
   - `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`
-- Security hygiene: client-side sanitization, simple CSRF token, localStorage rate limiting. No server-side verification is implemented.
+- Security hygiene: client-side sanitization plus server-side validation, a honeypot field, and an IP rate limit in `app/api/quote/route.js` (see "Lead capture" below).
 
 ## SEO & Metadata
 - Root metadata in `app/layout.js` (title/description, LocalBusiness JSON-LD with `aggregateRating` + 3 Review objects, preconnect/dns-prefetch hints).
@@ -91,13 +91,12 @@ Routes:
 ## Deployment
 - Vercel auto-build on push to GitHub.
 - `next.config.js` is the single source of truth — image optimization (WebP/AVIF, deviceSizes, imageSizes, 30-day cache TTL), `poweredByHeader: false`, `compress: true`.
-- Scripts (`package.json`): `dev`, `build`, `start`, `export`, `lint`.
+- Scripts (`package.json`): `dev`, `build`, `start`, `lint`. (The old `export` and gh-pages `deploy` scripts were removed; `next export` no longer exists in Next 14 and Vercel deploys on push.)
 
 ## Linting & Safety Rules
 - ESLint: `react/no-unescaped-entities` is enforced. Escape quotes in JSX text:
   - `'` → `&apos;` or use `&lsquo;/&rsquo;`; `"` → `&quot;` or `&ldquo;/&rdquo;`.
 - Hooks: Do not call hooks conditionally. In sparkles components, `useMemo` is called before any early returns; check `prefersReduced` after creating `dots`.
-- `.eslintignore` excludes `legacy/**`.
 
 ## Accordions and collapsible content
 - **Answers stay mounted in the DOM at all times.** Never `{isOpen && <answer/>}`. Open/closed is a CSS `grid-template-rows: 0fr/1fr` transition on a wrapper with `overflow-hidden`, so crawlers and AI assistants read the text without a click. Applies to `FAQ.js`, `faq/FAQAccordion.js`, and `service/ServiceFAQ.js`. Fixed Aug 2026 — this alone took `/faq` from 355 to 1,117 crawlable words.
@@ -108,11 +107,6 @@ Routes:
 - Mobile menu button has `aria-label` and `aria-expanded`.
 - Modals have `role="dialog"` and `aria-modal`. Escape closes the image modal.
 - Consider adding a focus trap for modals if you expand modal features.
-
-## Legacy Archive
-- Old modules are archived under `legacy/v1/components/` and excluded from lint/format/build.
-- To restore a component, move it back to `app/components/` and update imports.
-- See `legacy/README.md` for the list and rationale.
 
 ## Editing Tips for Agents
 - Keep `testSite.js` logically segmented; prefer factoring large static arrays outside the component to avoid re-creation on each render.
@@ -127,7 +121,14 @@ Routes:
 - Optional:
   - `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
   - `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`
-  - `NEXT_PUBLIC_SITE_URL` (sitemap)
+  - `NEXT_PUBLIC_GA_MEASUREMENT_ID` (GA4 loads only when set)
+  - `NEXT_PUBLIC_SITE_URL` (sitemap and canonicals)
+  - `LEAD_WEBHOOK_URL` (server-side; forwards `/api/quote` submissions to a durable destination)
+
+## Runtime
+- Node.js 24, pinned by `engines.node: "24.x"` in `package.json` (this overrides the Vercel dashboard setting) and `.nvmrc` for local parity. Node 20 is deprecated on Vercel from 1 Oct 2026. Verified: `next build` on Node 24.14.0.
+- PostCSS config is `postcss.config.js` (tailwindcss + autoprefixer). A duplicate `postcss.config.mjs` was removed in Sep 2026; Next only ever read the `.js` one.
+- `tsconfig.json` is present although the project is JavaScript. With it present, Next ignores `jsconfig.json` (whose `@/` path aliases are unused). Removing `tsconfig.json` is possible but untested; leave it unless you verify a byte-identical build.
 
 ## Dev Commands
 - Start dev: `npm run dev`
@@ -143,7 +144,6 @@ Routes:
 - Layout shell: `app/layout.js`, `app/components/Layout.js`, `app/components/Footer.js`
 - Policies: `app/privacy-policy/page.jsx` → `app/components/PrivacyPolicy.js` | `app/terms-of-service/page.jsx` → `app/components/TermsOfService.js`
 - SEO/discoverability: `app/robots.js`, `app/sitemap.js`, `app/opengraph-image.js`, `app/twitter-image.js`, `public/llms.txt`
-- Legacy: `legacy/v1/components/*`
 
 ## Navigation & Discovery (post-Phase-1)
 - Home page is the only ungated entry point — visitors arrive here and must be funneled to detail pages through:
