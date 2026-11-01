@@ -7,7 +7,7 @@
 Purpose: Give LLM agents enough context to safely modify and extend this Next.js app without breaking deployment, linting, or UX.
 
 ## Project Summary
-- Framework: Next.js 14 (App Router)
+- Framework: Next.js 16.4.3 (App Router), React 19.3.1
 - Styling: Tailwind CSS (custom brand colors), globals in `app/globals.css`
 - UI libs: `framer-motion`, `lucide-react`
 - Hosting: Vercel (auto-deploy on GitHub push)
@@ -23,7 +23,7 @@ Purpose: Give LLM agents enough context to safely modify and extend this Next.js
 ## Key Components (active)
 - `app/components/testSite.js` — main landing page. Sections in order: hero, stats, **Areas We Serve** (3 cards linking to `/cleaning/*`), services (3 cards each linking to `/services/*` via "View full service page →"), why-choose-us, portfolio, testimonials, FAQ (`<FAQ />`), contact (with `ContactForm`). Header nav includes FAQ link to `/faq`.
 - `app/components/FAQ.js` — home-page FAQ accordion (8 questions) with FAQPage JSON-LD. Inserted between testimonials and contact in `testSite.js`. Distinct from the dedicated `/faq` page (which has 20 categorized Qs and search/filter).
-- `app/components/ContactForm.js` — validated + sanitized EmailJS form (glass style).
+- `app/components/ContactForm.js` — validated quote form with server-side dispatch (glass style).
 - `app/components/CompetitiveServices.js` — modal overlay with service details/comparison. Triggered by "Compare Services" button on each home service card.
 - `app/components/PrivacyPolicy.js` — policy page (App route at `/privacy-policy`).
 - `app/components/TermsOfService.js` — terms page (App route at `/terms-of-service`).
@@ -68,6 +68,8 @@ Routes:
 - Source images are capped at 2560px on the longest side, JPEG q~85. `public/images` went from 85 MB to 14 MB. Originals are archived outside the repo at `../_image_backup_20260819/`.
 
 ## Forms & EmailJS
+- All dispatch is server-side; prefer `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY`, optional `EMAILJS_PRIVATE_KEY`. The legacy public names below are fallbacks only.
+- See `docs/contact-delivery.md` for Turnstile and webhook setup, deployment gates and delivery limitations.
 - Contact form lives in `app/components/ContactForm.js` and is embedded within the contact section of `testSite.js`.
 - Env vars (public):
   - `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`
@@ -94,6 +96,8 @@ Routes:
 - Scripts (`package.json`): `dev`, `build`, `start`, `lint`. (The old `export` and gh-pages `deploy` scripts were removed; `next export` no longer exists in Next 14 and Vercel deploys on push.)
 
 ## Linting & Safety Rules
+- `npm run lint` runs ESLint 9 using `eslint.config.mjs`; Next 16 removed `next lint`.
+- Keep decorative sparkle values deterministic across server/client renders; do not use `Math.random()` during render.
 - ESLint: `react/no-unescaped-entities` is enforced. Escape quotes in JSX text:
   - `'` → `&apos;` or use `&lsquo;/&rsquo;`; `"` → `&quot;` or `&ldquo;/&rdquo;`.
 - Hooks: Do not call hooks conditionally. In sparkles components, `useMemo` is called before any early returns; check `prefersReduced` after creating `dots`.
@@ -126,8 +130,8 @@ Routes:
   - `LEAD_WEBHOOK_URL` (server-side; forwards `/api/quote` submissions to a durable destination)
 
 ## Runtime
-- Next.js 14.2.35 (the last 14.x patch; the line is end-of-life, so a 15.5.24+/16.x upgrade is the top next action — see `handoff.json` → `currentState.securityAdvisory`).
-- Node.js 24, pinned by `engines.node: "24.x"` in `package.json` (this overrides the Vercel dashboard setting) and `.nvmrc` for local parity. Node 20 is deprecated on Vercel from 1 Oct 2026. Verified: `next build` on Node 24.14.0.
+- Next.js 16.4.3 with React/React DOM 19.3.1 in the local upgrade (not yet deployed). Node 24 remains pinned. `dev` and `build` explicitly select Webpack: Turbopack rejected the existing favicon encoding. Do not remove that flag without verifying the favicon through a successful build.
+- Node.js 24, pinned by `engines.node: "24.x"` in `package.json` (this overrides the Vercel dashboard setting) and `.nvmrc` for local parity. Node 20 is deprecated on Vercel from 1 Oct 2026. Original deployment verified on Node 24.14.0; local upgrade uses Node 24.21.0.
 - PostCSS config is `postcss.config.js` (tailwindcss + autoprefixer). A duplicate `postcss.config.mjs` was removed in Sep 2026; Next only ever read the `.js` one.
 - `tsconfig.json` is present although the project is JavaScript. With it present, Next ignores `jsconfig.json` (whose `@/` path aliases are unused). Removing `tsconfig.json` is possible but untested; leave it unless you verify a byte-identical build.
 
@@ -157,6 +161,8 @@ Routes:
 - Home "Areas We Serve" is a 4-column grid on `lg` (7 city cards); the services grid stays 3 columns (6 cards, two rows).
 
 ## Authoritative Copy Decisions
+- **Claims verified (owner reaffirmed 31 Oct 2026).** The existing market leadership, comparative performance, satisfaction, turnaround, revenue, and service claims are third-party verified for this market. Preserve them; do not ask the owner to re-justify them each session. This records the owner’s confirmation, not an independently inspected verification report. Do not invent a verifier or citation.
+- **Phase 4 is on hold (owner, 31 Oct 2026).** Targeted form/security/mobile repairs are authorized; a visual redesign is not.
 - **Office line is voice-only for incoming.** Phone (386) 301-5775 does NOT accept incoming SMS. Never write "call or text" anywhere on the site. Origin commit `28ce2e0` enforces this.
 - **Quote turnaround is 24 hours**, not "2 minutes." Origin commit `28ce2e0` enforces this in the home hero CTA.
 - **Founded 2018** — used in Footer copy, llms.txt, and layout.js metadata.
@@ -173,12 +179,13 @@ Routes:
 - Phone and email clicks are captured by one delegated listener in `Analytics.js`. Do NOT add per-link handlers.
 - Tracked today: `call_click`, `email_click`, `review_click` (any anchor to `/review`, `/reviews`, or a `g.page` host, with a `destination` param), `quote_submit`, `quote_submit_failed`.
 
-## Lead capture (added Aug 2026)
-- `app/api/quote/route.js` is the server-side capture endpoint. The form posts here **first**, then attempts the EmailJS notification.
-- Rationale: previously a failed EmailJS call lost the enquiry silently. Now the lead is recorded before delivery is attempted, and an email failure is tracked but not shown to the visitor as a failure.
-- Capture targets: structured `console.log('[LEAD]', ...)` (always, searchable in Vercel logs) and `LEAD_WEBHOOK_URL` (optional — point it at Zapier/Make/Sheets/CRM).
-- Protections: honeypot `company` field, server-side validation, per-instance IP rate limit (5/hour).
-- `SERVICE_TYPES` in the route must stay in sync with the `<option value>` list in `ContactForm.js`.
+## Lead capture (updated 31 Oct 2026)
+- `ContactForm.js` posts only to `/api/quote`; all notification dispatch is server-side in `app/lib/quote-handler.mjs`. Never reintroduce client EmailJS sending: it bypassed honeypot/rate-limit decisions.
+- A configured `LEAD_WEBHOOK_URL` is the sole destination; otherwise use the EmailJS REST API. Success means HTTP acceptance by that destination, not inbox delivery or durable storage. Logs are not a lead store. Failed/uncertain delivery keeps visitor input and provides a phone fallback.
+- Protections: hidden `company` honeypot, bounded JSON/body validation, narrow structural spam checks, per-instance IP limit (10 attempts/hour), 10-minute per-instance duplicate suppression, optional server-verified Cloudflare Turnstile. Do not block prose substrings such as `script` (which rejects “description”).
+- Turnstile requires explicit enablement, keys, and allowed hostnames; verification fails closed when enabled. Use the compact widget so narrow forms do not overflow.
+- Rate limits/deduplication are process-local, not distributed. Production edge rate limiting and a durable CRM/queue remain deployment concerns.
+- Configure and validate services using `docs/contact-delivery.md`; test with `node --test app/lib/quote-handler.test.mjs`. No real inquiries during automated tests.
 
 ## Resolved — Cloudflare robots.txt override (fixed 20 Aug 2026)
 The issue below was real and has been turned off in the Cloudflare dashboard. Live robots.txt now

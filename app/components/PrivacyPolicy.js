@@ -39,11 +39,11 @@ function FloatingSparkles() {
     () =>
       new Array(14).fill(0).map((_, i) => ({
         id: i,
-        left: `${Math.random() * 100}%`,
-        size: Math.random() * 8 + 4,
-        duration: 10 + Math.random() * 16,
-        delay: Math.random() * 4,
-        opacity: 0.12 + Math.random() * 0.2,
+        left: `${(i * 37 + 11) % 100}%`,
+        size: 4 + (i * 3 % 9),
+        duration: 10 + (i * 7 % 17),
+        delay: (i * 11 % 40) / 10,
+        opacity: 0.12 + (i * 13 % 21) / 100,
       })),
     []
   );

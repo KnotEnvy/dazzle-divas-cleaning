@@ -4,26 +4,23 @@
 
 'use client';
 
-import { useState, useCallback } from 'react';
-import { init, send } from '@emailjs/browser';
+import { useState, useEffect, useRef } from 'react';
+import Script from 'next/script';
+
 import { Loader2, AlertCircle } from 'lucide-react';
 import { track, EVENTS } from '../lib/analytics';
-
-// Initialize EmailJS only once
-init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
 
 // Validation rules
 const VALIDATION_RULES = {
   name: {
     required: true,
-    minLength: 2,
-    maxLength: 50,
-    pattern: /^[a-zA-Z\s\-'\.]+$/,
+    minLength: 1,
+    maxLength: 100,
+
     message: {
       required: "Name is required",
-      minLength: "Name must be at least 2 characters",
-      maxLength: "Name cannot exceed 50 characters",
-      pattern: "Please enter a valid name (letters, spaces, hyphens, apostrophes only)"
+      minLength: "Please enter your name",
+      maxLength: "Name cannot exceed 100 characters"
     }
   },
   email: {
@@ -35,7 +32,7 @@ const VALIDATION_RULES = {
     }
   },
   phone: {
-    pattern: /^[\d\s\-\+\(\)]*$/,
+    pattern: /^[\d\s+().xX#-]*$/,
     message: {
       pattern: "Please enter a valid phone number"
     }
@@ -50,81 +47,6 @@ const VALIDATION_RULES = {
       maxLength: "Message cannot exceed 1000 characters"
     }
   }
-};
-
-// Enhanced input sanitization
-const sanitizeInput = (value, fieldType = 'text') => {
-  if (typeof value !== 'string') return '';
-  
-  let sanitized = value; // MODIFICATION: Remove .trim() here
-  
-  // Remove potentially dangerous characters but preserve spaces
-  sanitized = sanitized.replace(/[<>]/g, '');
-  
-  // Remove excessive whitespace (multiple spaces become single space)
-  // This will now also allow single leading/trailing spaces during typing.
-  sanitized = sanitized.replace(/\s+/g, ' '); 
-  
-  // Apply field-specific sanitization
-  switch (fieldType) {
-    case 'name':
-      // Allow letters, spaces, hyphens, apostrophes, and periods
-      sanitized = sanitized.replace(/[^a-zA-Z\s\-'\.]/g, '');
-      break;
-    case 'email':
-      // Basic email character set
-      sanitized = sanitized.replace(/[^a-zA-Z0-9@._+-]/g, '');
-      break;
-    case 'phone':
-      // Keep digits, spaces, dashes, parentheses, plus
-      sanitized = sanitized.replace(/[^\d\s\-\+\(\)]/g, '');
-      break;
-    case 'message':
-      // Allow most characters but remove dangerous ones
-      // The global /[<>]/g removal above already handles this for message.
-      // No additional character stripping that would remove spaces here.
-      break;
-  }
-  
-  return sanitized.slice(0, 1000); // Max length cap
-};
-
-// Phone number formatting
-const formatPhoneNumber = (value) => {
-  // Remove all non-digit characters
-  const digits = value.replace(/\D/g, '');
-  
-  // Format based on length
-  if (digits.length === 0) return '';
-  if (digits.length <= 3) return digits;
-  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
-  if (digits.length <= 10) return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
-  
-  // Handle longer numbers (with country code)
-  if (digits.length === 11 && digits[0] === '1') {
-    return `+1 ${digits.slice(1, 4)}-${digits.slice(4, 7)}-${digits.slice(7, 11)}`;
-  }
-  
-  // Default formatting for 10+ digits
-  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
-};
-
-// Enhanced rate limiting with IP simulation and CSRF protection
-const checkRateLimit = () => {
-  const now = Date.now();
-  const submissions = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
-  const recentSubmissions = submissions.filter(time => now - time < 3600000); // Last hour
-  
-  // More restrictive rate limiting
-  if (recentSubmissions.length >= 3) return false;
-  
-  localStorage.setItem('formSubmissions', JSON.stringify([...recentSubmissions, now]));
-  return true;
-};
-
-// Generate a simple CSRF token
-const generateCSRFToken = () => {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
 };
 
 export default function ContactForm() {
@@ -146,7 +68,20 @@ export default function ContactForm() {
     error: null
   });
   
-  const [csrfToken] = useState(() => generateCSRFToken());
+  const widget = useRef(null);
+  const widgetId = useRef(null);
+  const [challengeReady, setChallengeReady] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  useEffect(() => {
+    if (!siteKey || !challengeReady || !window.turnstile || !widget.current) return;
+    widgetId.current = window.turnstile.render(widget.current, {
+      sitekey: siteKey, action: 'quote', size: 'compact', callback: setTurnstileToken,
+      'expired-callback': () => setTurnstileToken(''),
+      'error-callback': () => { setTurnstileToken(''); return true; },
+    });
+    return () => { if (widgetId.current != null) window.turnstile?.remove(widgetId.current); };
+  }, [siteKey, challengeReady]);
 
   // Validate field
   const validateField = (name, value) => {
@@ -174,15 +109,8 @@ export default function ContactForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let processedValue = value;
-    
-    // Apply field-specific processing
-    if (name === 'phone') {
-      processedValue = formatPhoneNumber(value);
-    } else {
-      processedValue = sanitizeInput(value, name);
-    }
-    
+    const processedValue = value;
+
     setFormData(prev => ({
       ...prev,
       [name]: processedValue
@@ -210,16 +138,7 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Check rate limit
-    if (!checkRateLimit()) {
-      setStatus({
-        submitting: false,
-        submitted: false,
-        error: "Too many submission attempts. Please wait before trying again."
-      });
-      return;
-    }
+    if (status.submitting) return;
 
     // Validate all fields
     const newErrors = {};
@@ -235,35 +154,14 @@ export default function ContactForm() {
       return;
     }
 
-    // Additional security checks
-    const suspiciousPatterns = [
-      /script/i,
-      /javascript/i,
-      /onload/i,
-      /onerror/i,
-      /onclick/i,
-      /<iframe/i,
-      /<object/i,
-      /<embed/i,
-      /eval\(/i,
-      /expression\(/i
-    ];
-
-    const allFieldsText = Object.values(formData).join(' ').toLowerCase();
-    if (suspiciousPatterns.some(pattern => pattern.test(allFieldsText))) {
-      setStatus({
-        submitting: false,
-        submitted: false,
-        error: "Invalid input detected. Please check your message."
-      });
+    if (siteKey && !turnstileToken) {
+      setStatus({ submitting: false, submitted: false, error: 'Please complete the verification, or call (386) 301-5775.' });
       return;
     }
 
     setStatus({ submitting: true, submitted: false, error: null });
 
-    // Step 1 — capture the lead server-side FIRST. Once this succeeds the
-    // enquiry is recorded even if email delivery later fails, which is the
-    // failure mode that used to lose leads silently.
+    // The server validates and dispatches; only confirmed acceptance clears the form.
     try {
       const res = await fetch('/api/quote', {
         method: 'POST',
@@ -271,13 +169,16 @@ export default function ContactForm() {
         body: JSON.stringify({
           ...formData,
           company, // honeypot
+          turnstileToken,
           source: typeof window !== 'undefined' ? window.location.pathname : 'website',
         }),
       });
 
       const result = await res.json().catch(() => ({}));
+      setTurnstileToken('');
+      if (widgetId.current != null) window.turnstile?.reset(widgetId.current);
 
-      if (!res.ok) {
+      if (!res.ok || result.ok !== true || result.delivered !== true) {
         if (result.errors) setErrors(result.errors);
         setStatus({
           submitting: false,
@@ -290,7 +191,8 @@ export default function ContactForm() {
         return;
       }
     } catch (error) {
-      console.error('Lead capture failed:', error);
+      setTurnstileToken('');
+      if (widgetId.current != null) window.turnstile?.reset(widgetId.current);
       setStatus({
         submitting: false,
         submitted: false,
@@ -299,29 +201,6 @@ export default function ContactForm() {
       });
       track(EVENTS.QUOTE_SUBMIT_FAILED, { stage: 'capture', status: 'network' });
       return;
-    }
-
-    // Step 2 — send the notification email. The lead is already safe, so a
-    // failure here is logged and tracked but not shown as a failure to the
-    // visitor: from their side, we did receive it.
-    try {
-      await send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.name.trim(),
-          to_name: "Dazzle Divas",
-          from_email: formData.email.trim(),
-          phone: formData.phone || 'Not provided',
-          message: formData.message.trim(),
-          service_type: formData.serviceType,
-          timestamp: new Date().toISOString(),
-          csrf_token: csrfToken,
-        }
-      );
-    } catch (error) {
-      console.error('Notification email failed (lead was still captured):', error);
-      track(EVENTS.QUOTE_SUBMIT_FAILED, { stage: 'email' });
     }
 
     track(EVENTS.QUOTE_SUBMIT, { service_type: formData.serviceType });
@@ -340,7 +219,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+    <div className="min-w-0 bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/20">
       <h3 className="text-2xl font-bold mb-6 text-white">Get Free Quote</h3>
       <form onSubmit={handleSubmit} className="space-y-4" aria-live="polite">
         {/* Honeypot — visually hidden and skipped by assistive tech and
@@ -358,9 +237,6 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Hidden CSRF token */}
-        <input type="hidden" name="csrf_token" value={csrfToken} />
-        
         <div>
           <label htmlFor="name" className="sr-only">Name *</label>
           <input
@@ -371,10 +247,10 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.name ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            className={`min-w-0 max-w-full w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.name ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
             disabled={status.submitting}
             placeholder="Sally Fields"
-            maxLength="50"
+            maxLength="100"
             autoComplete="name"
           />
           {errors.name && (
@@ -395,10 +271,11 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.email ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            className={`min-w-0 max-w-full w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.email ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
             disabled={status.submitting}
             placeholder="needAclean@gmail.com"
             autoComplete="email"
+            maxLength="254"
           />
           {errors.email && (
             <div className="mt-1 text-red-200 text-sm flex items-center">
@@ -417,10 +294,10 @@ export default function ContactForm() {
             value={formData.phone}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.phone ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            className={`min-w-0 max-w-full w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.phone ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
             disabled={status.submitting}
             placeholder="555-303-8899"
-            maxLength="20"
+            maxLength="40"
             autoComplete="tel"
           />
           {errors.phone && (
@@ -439,7 +316,7 @@ export default function ContactForm() {
             required
             value={formData.serviceType}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="min-w-0 max-w-full w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-pink-400"
             disabled={status.submitting}
           >
             <option value="vacationTurnover">Vacation rental turnover</option>
@@ -459,7 +336,7 @@ export default function ContactForm() {
             onChange={handleChange}
             onBlur={handleBlur}
             rows="4"
-            className={`w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.message ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
+            className={`min-w-0 max-w-full w-full px-4 py-3 rounded-lg bg-white/20 border ${errors.message ? 'border-red-400/60' : 'border-white/30'} text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400`}
             disabled={status.submitting}
             placeholder="Property details, special requests..."
             maxLength="1000"
@@ -475,6 +352,10 @@ export default function ContactForm() {
           )}
         </div>
 
+        {siteKey && <>
+          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" onReady={() => setChallengeReady(true)} onError={() => setStatus(prev => ({ ...prev, error: 'Verification could not load. Please retry or call (386) 301-5775.' }))} />
+          <div ref={widget} />
+        </>}
         <button
           type="submit"
           disabled={status.submitting}
@@ -503,6 +384,7 @@ export default function ContactForm() {
           </div>
         )}
 
+        <p className="text-sm text-white mt-4 text-center">You can also call <a href="tel:+13863015775" className="underline">(386) 301-5775</a>.</p>
         <p className="text-xs text-white/70 mt-4 text-center">Will respond within 24 hours</p>
       </form>
     </div>
