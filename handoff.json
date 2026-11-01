@@ -1,7 +1,7 @@
 {
   "handoff": {
-    "version": "1.2",
-    "generatedAt": "2026-10-31",
+    "version": "1.3",
+    "generatedAt": "2026-11-01",
     "generatedBy": "Astra coordinating Sol 6.1 medium implementation agents",
     "audience": "Next engineering/SEO team taking over site enhancements",
     "companionDocs": {
@@ -13,7 +13,7 @@
       "gotchas — three of these cost real debugging time in the last pass",
       "nextActions — prioritized, with the reasoning behind the ordering"
     ],
-    "oneLineSummary": "Phases 1–3 deployed September 2026; all 27 sitemap pages live on 2026-10-31. Local Next 16.4.3/React 19.3.1 upgrade, server quote protection/delivery, and targeted mobile repairs completed and tested 2026-10-31. Prepared on fix/secure-quotes-next16 for review; not deployed to production. Turnstile keys and server-delivery account setup require verification before deployment. Owner confirms existing marketing claims third-party verified. Phase 4 on hold."
+    "oneLineSummary": "Phases 1–3 live since September 2026. PR #3 (Next 16.4.3 / React 19.3.1, server-side quote delivery with honeypot/validation/rate limiting, mobile fixes) merged and deployed to production 2026-11-01; all 27 sitemap pages verified 200. Owner updated EmailJS and the Google Business Profile 2026-11-01. Turnstile is optional and not yet enabled. Phase 4 on hold until the owner resumes it."
   },
   "project": {
     "name": "Dazzle Divas Cleaning",
@@ -22,12 +22,12 @@
     "positioning": "Vacation-rental turnover specialist, not a general house cleaner. This is the strongest decision on the site — defend it.",
     "primaryCustomer": "Airbnb/VRBO hosts and property managers in Volusia County",
     "stack": {
-      "framework": "Next.js 16.4.3 + React/React DOM 19.3.1 in local working tree; production last recorded at Next 14.2.35",
+      "framework": "Next.js 16.4.3 + React/React DOM 19.3.1 (production since 2026-11-01)",
       "language": "JavaScript (no TypeScript despite tsconfig.json being present)",
       "styling": "Tailwind CSS 3.4 with custom brand colors",
       "animation": "framer-motion 11",
       "icons": "lucide-react",
-      "email": "EmailJS REST API server dispatch (or configured lead webhook); no browser notification dispatch in pending changes",
+      "email": "EmailJS REST API dispatched from the server (/api/quote), or LEAD_WEBHOOK_URL when set; the browser never calls EmailJS",
       "hosting": "Vercel",
       "cdn": "Cloudflare (in front of Vercel)"
     },
@@ -40,18 +40,18 @@
     }
   },
   "currentState": {
-    "lastDeployedCommit": "master HEAD (git log -1); Phase 2/3 + pricing + cleanup deployed as 256bf8f, then the Next.js 14.2.35 patch",
-    "lastDeployedDate": "2026-09-28",
-    "branchInProgress": "fix/secure-quotes-next16 — maintenance changes prepared for draft PR; production master unchanged.",
+    "lastDeployedCommit": "d464f24 — merge of PR #3 (secure quote delivery + Next 16)",
+    "lastDeployedDate": "2026-11-01",
+    "branchInProgress": "none — fix/secure-quotes-next16 merged via PR #3",
     "buildStatus": "Local Next 16.4.3 Webpack production build passes on Node 24.21.0; ESLint clean; 12 contact regression tests pass. Rebuilt local server: all 27 sitemap pages return 200 with one h1, canonical and raw JSON-LD; invalid/honeypot quote requests rejected without dispatch; 404 works.",
-    "securityAdvisory": "Local upgraded production dependencies audited clean (0 vulnerabilities). Earlier Next 14 production deployment still needs replacement; no production deployment has occurred in this task. Development-only advisories are tracked separately.",
+    "securityAdvisory": "Production now runs Next 16.4.3; production dependencies audited clean (0 vulnerabilities) at merge. 16 moderate development-tool findings remain (not shipped).",
     "phase1": "complete, merged, live, verified against production",
     "measurement": "fully live — GA4, Vercel Web Analytics, Vercel Speed Insights all confirmed firing in production 2026-09-02",
-    "googleBusinessProfile": "live — 5.0 rating on 3 reviews as of 2026-09-26; place ID ChIJI7fTrsScs64RTY0NoDuFenI; direct review link https://g.page/r/CU2NDaA7hXpyEBM/review",
+    "googleBusinessProfile": "live — place ID ChIJI7fTrsScs64RTY0NoDuFenI; direct review link https://g.page/r/CU2NDaA7hXpyEBM/review. Owner reports 2026-11-01 that the flagged fixes are done (primary category, 8 AM hours, Website button to www).",
     "searchIndexing": "Site was absent from Google and Bing indexes on 2026-09-26 (site: query returned nothing; 0 of 12 target terms). Owner verified Google Search Console and Bing Webmaster Tools and submitted the sitemap that day; both report indexed. Re-submit the sitemap after the branch deploys.",
     "pendingChanges": {
-      "status": "Implemented and validated; prepared on fix/secure-quotes-next16 for draft PR. Production service configuration and authorized delivery test remain.",
-      "contact": "Server-only dispatch, honeypot enforcement, bounded validation, rate limit, duplicate suppression, optional Turnstile. Deployment service settings still need verification.",
+      "status": "DEPLOYED 2026-11-01 via PR #3. Kept for the record.",
+      "contact": "Server-only dispatch, honeypot, bounded validation, rate limit, duplicate suppression, optional Turnstile. Owner updated EmailJS settings 2026-11-01. Production check 2026-11-01: invalid request -> 422, honeypot -> 202 ignored, neither dispatched. A real end-to-end test lead from the owner is still the final confirmation.",
       "documentation": "Existing claims recorded as owner-confirmed third-party verified; Phase 4 on hold.",
       "mobile": "Compact mobile hero/badges/CTAs; shrinkable contact grid and controls; section clips horizontal entrance animation overflow. Homepage copy/claims verified unchanged by source comparison; rendered verification pending.",
       "framework": "Next 16.4.3, React 19.3.1, ESLint 9 flat config, TypeScript 5.9.3. Explicit Webpack builds for existing favicon compatibility. No deployment yet.",
@@ -63,7 +63,8 @@
         "localSmoke": "27 sitemap pages + quote validation/honeypot + 404",
         "productionDependencyAudit": "0 vulnerabilities",
         "developmentDependencyAudit": "16 moderate development-tool findings",
-        "browser": "No rendered browser verification of this implementation; mobile constraints reviewed in source."
+        "browser": "2026-11-01: local production build rendered in headless Chromium at 375px and 1366px on 5 templates — no horizontal overflow; mobile hero, form and sticky bar fit. One React #418 hydration warning seen once on a cold first load and not reproducible in 7 further runs; watch for it.",
+        "production": "2026-11-01: 27/27 sitemap URLs 200, 7 JSON-LD blocks and one h1 in home HTML, robots.txt has no Disallow, 404 page works."
       }
     }
   },
@@ -189,7 +190,7 @@
       "items": [
         {
           "task": "Google Business Profile fully populated",
-          "status": "live 2026-09-26 with 3 five-star reviews. Seen on the profile that day and still on the owner: primary category is the generic 'Cleaners' (change to 'House cleaning service'); hours show 'Opens 7 AM' vs the site's 8 AM; the Website button points at the apex domain, not www. Unchecked: service list, service area, 20+ photos, seeded Q&A. Checklist in docs/review-engine.md.",
+          "status": "Owner fixed category, hours (8 AM) and Website button (www) — reported 2026-11-01. Confirm service list, service area, 20+ photos and seeded Q&A against docs/review-engine.md.",
           "owner": "business"
         },
         {
@@ -583,14 +584,14 @@
   "nextActions": [
     {
       "priority": 1,
-      "action": "Configure and verify protected server delivery and Turnstile, then deploy the reviewed Next 16 update",
-      "detail": "Local changes are not deployed. Verify EmailJS permits server sends and requires appropriate private authorization (or use a durable webhook). Add Turnstile keys, hostname allowlist and explicit enablement. Use a preview and an owner-authorized delivery test before deploying. See docs/contact-delivery.md.",
-      "owner": "engineering + business"
+      "action": "Send one real test quote from the live site and confirm it arrives",
+      "detail": "Owner submits the form at www.dazzledivascleaning.com and checks the business inbox. If it shows 'We could not confirm delivery', check EmailJS 'Allow API requests from non-browser applications' and, if EmailJS private-key mode is on, set EMAILJS_PRIVATE_KEY in Vercel and redeploy. Optional: enable Turnstile per docs/contact-delivery.md.",
+      "owner": "business"
     },
     {
       "priority": 2,
-      "action": "Finish the GBP and start the review trickle",
-      "detail": "Change the primary category from 'Cleaners' to 'House cleaning service'; fix hours (7 vs 8 AM); point the Website button at www; add 20+ photos and Q&A. Then run the docs/review-engine.md flow after every job.",
+      "action": "Run the review trickle and keep the GBP current",
+      "detail": "Profile fixes done by the owner 2026-11-01. Still worth checking: service list, service area, 20+ photos, seeded Q&A. Run the docs/review-engine.md flow after every job.",
       "why": "Map-pack ranking is a GBP-and-reviews game; 0 of 12 target terms show the business today.",
       "effort": "an hour for the profile, then ongoing",
       "owner": "business"

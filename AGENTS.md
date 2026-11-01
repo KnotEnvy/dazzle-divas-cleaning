@@ -93,7 +93,7 @@ Routes:
 ## Deployment
 - Vercel auto-build on push to GitHub.
 - `next.config.js` is the single source of truth — image optimization (WebP/AVIF, deviceSizes, imageSizes, 30-day cache TTL), `poweredByHeader: false`, `compress: true`.
-- Scripts (`package.json`): `dev`, `build`, `start`, `lint`. (The old `export` and gh-pages `deploy` scripts were removed; `next export` no longer exists in Next 14 and Vercel deploys on push.)
+- Scripts (`package.json`): `dev`, `build`, `start`, `lint`. (The old `export` and gh-pages `deploy` scripts were removed; `next export` no longer exists since Next 14 and Vercel deploys on push.)
 
 ## Linting & Safety Rules
 - `npm run lint` runs ESLint 9 using `eslint.config.mjs`; Next 16 removed `next lint`.

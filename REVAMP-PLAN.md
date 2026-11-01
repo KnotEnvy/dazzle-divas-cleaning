@@ -1,12 +1,13 @@
 # Dazzle Divas — Revamp Plan
 
-**Status reconciled 31 Oct 2026:** Phases 1, 2 engineering, and 3 content are deployed
-(as of 28 Sep). All 27 sitemap pages were checked live on 31 Oct and returned HTTP 200.
+**Status reconciled 1 Nov 2026:** Phases 1, 2 engineering, and 3 content are live. PR #3 —
+server-side quote delivery and spam protection, Next.js 16 / React 19, mobile fixes — merged and
+deployed 1 Nov; all 27 sitemap pages verified 200 in production. The owner updated EmailJS and
+fixed the Google Business Profile items (category, 8 AM hours, www Website button) on 1 Nov.
 Phase 0 instrumentation is live; Lighthouse and dashboard baselines remain incomplete.
 Phase 2 business activities continue. **Phase 4 is on hold at the owner's request.**
-Targeted contact protection, delivery, framework security and mobile fixes are being prepared
-locally; consult `handoff.json` for implementation/deployment status. Existing marketing claims
-are third-party verified for this market, reaffirmed by the owner 31 Oct; preserve them.
+Existing marketing claims are third-party verified for this market, reaffirmed by the owner
+31 Oct; preserve them.
 
 The phase checklists and baseline tables below retain historical measurements; references to
 Phase 2/3 awaiting deployment are historical, superseded by this status.
@@ -25,7 +26,7 @@ Start with `handoff.json` if you are picking this up cold.
 
 ## Start here (new to this project?)
 
-1. Next.js 14 App Router on Vercel. `master` auto-deploys to production.
+1. Next.js 16 App Router (React 19, Webpack builds) on Vercel. `master` auto-deploys to production.
 2. On-page SEO is already strong — schema on every page, `llms.txt`, an AI-crawler robots policy,
    and 7 purpose-built landing pages. **Don't rebuild it. Extend it.**
 3. The single biggest lever on traffic is *not* the website. See "Strategic framing".
@@ -127,7 +128,8 @@ progress. This is where the traffic actually is.
 - [x] Google Business Profile set up (owner, 2 Sep 2026). Live 26 Sep 2026 with a 5.0 rating on 3
       reviews. Place ID `ChIJI7fTrsScs64RTY0NoDuFenI`; direct review link
       `https://g.page/r/CU2NDaA7hXpyEBM/review`.
-- [ ] Confirm the profile is *fully populated* ← **owner**. Seen on 26 Sep 2026: primary category
+- [x] Category, hours and Website button fixed (owner, 1 Nov 2026). Still worth confirming:
+      service list, service area, 20+ photos, seeded Q&A. Original finding — seen on 26 Sep 2026: primary category
       is the generic **"Cleaners"** (change to "House cleaning service" and add a vacation-rental
       secondary if offered); hours show **"Opens 7 AM"** while the site says 8 AM (reconcile); the
       Website button points at the apex domain (set it to `https://www.dazzledivascleaning.com/`).
