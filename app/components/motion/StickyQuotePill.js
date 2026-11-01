@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import Link from 'next/link';
 import { ArrowRight, Phone } from 'lucide-react';
 
 export default function StickyQuotePill() {
@@ -13,13 +14,13 @@ export default function StickyQuotePill() {
   if (prefersReduced) {
     return (
       <div className="fixed bottom-6 right-6 z-40 hidden md:flex flex-col gap-2 items-end">
-        <a
+        <Link
           href="/#contact"
           className="inline-flex items-center gap-2 bg-gradient-to-r from-diva-pink-500 to-diva-pink-600 text-white px-5 py-3 rounded-full font-semibold shadow-glow-pink"
         >
           Get a Free Quote
           <ArrowRight size={16} aria-hidden />
-        </a>
+        </Link>
       </div>
     );
   }
@@ -29,13 +30,13 @@ export default function StickyQuotePill() {
       style={{ opacity, y, pointerEvents }}
       className="fixed bottom-6 right-6 z-40 flex flex-col gap-2 items-end"
     >
-      <a
+      <Link
         href="/#contact"
         className="hidden md:inline-flex items-center gap-2 bg-gradient-to-r from-diva-pink-500 to-diva-pink-600 text-white px-5 py-3 rounded-full font-semibold shadow-glow-pink hover:shadow-2xl transition-shadow"
       >
         Get a Free Quote
         <ArrowRight size={16} aria-hidden />
-      </a>
+      </Link>
       <a
         href="tel:+13863015775"
         aria-label="Call (386) 301-5775"

@@ -1,8 +1,8 @@
 {
   "handoff": {
-    "version": "1.1",
-    "generatedAt": "2026-09-26",
-    "generatedBy": "Claude Fable 5.1 lead + six Opus 5.5 subagents (Claude Code session)",
+    "version": "1.2",
+    "generatedAt": "2026-10-31",
+    "generatedBy": "Astra coordinating Sol 6.1 medium implementation agents",
     "audience": "Next engineering/SEO team taking over site enhancements",
     "companionDocs": {
       "REVAMP-PLAN.md": "What and when — phases, status, open questions",
@@ -13,9 +13,8 @@
       "gotchas — three of these cost real debugging time in the last pass",
       "nextActions — prioritized, with the reasoning behind the ordering"
     ],
-    "oneLineSummary": "Phase 1 live. The site was found NOT INDEXED by Google or Bing on 2026-09-26; the owner verified Search Console and Bing the same day and both now report it indexed. Phase 2 engineering (GBP schema, review engine), Phase 3 content (17 new pages), the owner's pricing policy, Node 24 and Next 14.2.35 are all LIVE as of 2026-09-28. Top next action is a Next.js 15/16 upgrade for security. Phase 4 not started."
+    "oneLineSummary": "Phases 1–3 deployed September 2026; all 27 sitemap pages live on 2026-10-31. Local Next 16.4.3/React 19.3.1 upgrade, server quote protection/delivery, and targeted mobile repairs completed and tested 2026-10-31. Prepared on fix/secure-quotes-next16 for review; not deployed to production. Turnstile keys and server-delivery account setup require verification before deployment. Owner confirms existing marketing claims third-party verified. Phase 4 on hold."
   },
-
   "project": {
     "name": "Dazzle Divas Cleaning",
     "legalName": "Dazzle Divas Cleaning LLC",
@@ -23,12 +22,12 @@
     "positioning": "Vacation-rental turnover specialist, not a general house cleaner. This is the strongest decision on the site — defend it.",
     "primaryCustomer": "Airbnb/VRBO hosts and property managers in Volusia County",
     "stack": {
-      "framework": "Next.js 14.2.35 (App Router) — the 14.x line is end-of-life; see nextActions priority 1",
+      "framework": "Next.js 16.4.3 + React/React DOM 19.3.1 in local working tree; production last recorded at Next 14.2.35",
       "language": "JavaScript (no TypeScript despite tsconfig.json being present)",
       "styling": "Tailwind CSS 3.4 with custom brand colors",
       "animation": "framer-motion 11",
       "icons": "lucide-react",
-      "email": "EmailJS (client-side send, behind a server capture route)",
+      "email": "EmailJS REST API server dispatch (or configured lead webhook); no browser notification dispatch in pending changes",
       "hosting": "Vercel",
       "cdn": "Cloudflare (in front of Vercel)"
     },
@@ -40,24 +39,39 @@
       "canonicalHost": "www (apex 308-redirects to www)"
     }
   },
-
   "currentState": {
     "lastDeployedCommit": "master HEAD (git log -1); Phase 2/3 + pricing + cleanup deployed as 256bf8f, then the Next.js 14.2.35 patch",
     "lastDeployedDate": "2026-09-28",
-    "branchInProgress": "none — phase2-3/local-seo-and-content was merged, deployed and deleted 2026-09-28",
-    "buildStatus": "clean on Node 24.14.0 + Next 14.2.35: 38 static routes, ESLint clean. A 27-page production audit (status, one h1, JSON-LD, title/description budgets, banned pricing phrases, redirects, sitemap, llms.txt, Terms) passed against the live site 2026-09-28.",
-    "securityAdvisory": "npm audit (production deps) on 2026-09-28 still reports 1 critical + 2 high, all fixed only in Next 15.5.24+/16.x: the whole 14.x line is end-of-life. The two criticals are an RCE on Windows-hosted servers (not applicable: Vercel runs Linux) and an RCE in the self-hosted Image Optimization API with AVIF (Vercel serves /_next/image from its own platform optimizer, which reduces but has not been verified to remove exposure). Remaining highs are DoS/SSRF classes around Server Actions, rewrites, middleware and WebSocket upgrades; this site uses none of Server Actions, rewrites or middleware. Plan the 15/16 upgrade as its own project.",
+    "branchInProgress": "fix/secure-quotes-next16 — maintenance changes prepared for draft PR; production master unchanged.",
+    "buildStatus": "Local Next 16.4.3 Webpack production build passes on Node 24.21.0; ESLint clean; 12 contact regression tests pass. Rebuilt local server: all 27 sitemap pages return 200 with one h1, canonical and raw JSON-LD; invalid/honeypot quote requests rejected without dispatch; 404 works.",
+    "securityAdvisory": "Local upgraded production dependencies audited clean (0 vulnerabilities). Earlier Next 14 production deployment still needs replacement; no production deployment has occurred in this task. Development-only advisories are tracked separately.",
     "phase1": "complete, merged, live, verified against production",
     "measurement": "fully live — GA4, Vercel Web Analytics, Vercel Speed Insights all confirmed firing in production 2026-09-02",
     "googleBusinessProfile": "live — 5.0 rating on 3 reviews as of 2026-09-26; place ID ChIJI7fTrsScs64RTY0NoDuFenI; direct review link https://g.page/r/CU2NDaA7hXpyEBM/review",
-    "searchIndexing": "Site was absent from Google and Bing indexes on 2026-09-26 (site: query returned nothing; 0 of 12 target terms). Owner verified Google Search Console and Bing Webmaster Tools and submitted the sitemap that day; both report indexed. Re-submit the sitemap after the branch deploys."
+    "searchIndexing": "Site was absent from Google and Bing indexes on 2026-09-26 (site: query returned nothing; 0 of 12 target terms). Owner verified Google Search Console and Bing Webmaster Tools and submitted the sitemap that day; both report indexed. Re-submit the sitemap after the branch deploys.",
+    "pendingChanges": {
+      "status": "Implemented and validated; prepared on fix/secure-quotes-next16 for draft PR. Production service configuration and authorized delivery test remain.",
+      "contact": "Server-only dispatch, honeypot enforcement, bounded validation, rate limit, duplicate suppression, optional Turnstile. Deployment service settings still need verification.",
+      "documentation": "Existing claims recorded as owner-confirmed third-party verified; Phase 4 on hold.",
+      "mobile": "Compact mobile hero/badges/CTAs; shrinkable contact grid and controls; section clips horizontal entrance animation overflow. Homepage copy/claims verified unchanged by source comparison; rendered verification pending.",
+      "framework": "Next 16.4.3, React 19.3.1, ESLint 9 flat config, TypeScript 5.9.3. Explicit Webpack builds for existing favicon compatibility. No deployment yet.",
+      "lint": "Clean after deterministic decorative sparkle values, Next Link internal navigation and removal of obsolete lint suppressions.",
+      "validation": {
+        "lint": "pass",
+        "build": "pass",
+        "contactTests": "12 passed, external destinations mocked",
+        "localSmoke": "27 sitemap pages + quote validation/honeypot + 404",
+        "productionDependencyAudit": "0 vulnerabilities",
+        "developmentDependencyAudit": "16 moderate development-tool findings",
+        "browser": "No rendered browser verification of this implementation; mobile constraints reviewed in source."
+      }
+    }
   },
-
   "environment": {
     "required": [
       {
-        "name": "NEXT_PUBLIC_EMAILJS_PUBLIC_KEY",
-        "purpose": "EmailJS client init"
+        "name": "EmailJS server configuration OR LEAD_WEBHOOK_URL",
+        "purpose": "Destination must accept submissions; logs alone never count as successful delivery. See docs/contact-delivery.md."
       }
     ],
     "configured": [
@@ -82,11 +96,11 @@
     "optionalNotSet": [
       {
         "name": "LEAD_WEBHOOK_URL",
-        "purpose": "Forwards every quote submission to a durable destination (Zapier / Make / Sheets / CRM). Without it, leads exist only in Vercel runtime logs. Worth setting — see openQuestions.leadDestination."
+        "purpose": "Optional sole delivery destination instead of EmailJS. Configure a durable receiver and its own owner notification. Not configured locally."
       }
-    ]
+    ],
+    "contactSetup": "docs/contact-delivery.md is authoritative for server-only EmailJS names, legacy fallbacks, webhook precedence, private-key account settings and Turnstile configuration. Turnstile credentials are absent locally and not activated."
   },
-
   "analytics": {
     "ga4": {
       "status": "live",
@@ -120,7 +134,6 @@
       "criticalNote": "Phone, email and review-link clicks are captured by ONE delegated listener in app/components/Analytics.js. Do NOT add per-link onClick handlers — you will double-count. review_click fires for anchors to /review, /reviews, or a g.page host."
     }
   },
-
   "phases": [
     {
       "id": 0,
@@ -170,7 +183,7 @@
     {
       "id": 2,
       "name": "Local SEO",
-      "status": "engineering complete on branch; business items ongoing",
+      "status": "Engineering live since 2026-09-28; business items ongoing",
       "priority": "HIGHEST — this is where the traffic is",
       "rationale": "Map-pack ranking is won on Google Business Profile signals and review volume, not site design. For a local cleaning company this outweighs everything else in this plan. It also has the longest lead time, so it compounds only if started early.",
       "items": [
@@ -188,7 +201,13 @@
         {
           "task": "Citations with identical NAP",
           "status": "not started",
-          "targets": ["Bing Places", "Apple Business Connect", "Yelp", "Nextdoor", "Thumbtack"],
+          "targets": [
+            "Bing Places",
+            "Apple Business Connect",
+            "Yelp",
+            "Nextdoor",
+            "Thumbtack"
+          ],
           "owner": "business"
         },
         {
@@ -214,7 +233,7 @@
     {
       "id": 3,
       "name": "Content and GEO expansion",
-      "status": "LIVE 2026-09-28 — 17 new page routes (3 services, 4 cities, /pricing, /about, /guides + 7 guides), built 2026-09-26. Remaining: owner supplies team names/photos for /about, resolves the pricing contradictions listed in REVAMP-PLAN.md open question 7, and confirms the service claims in open question 8.",
+      "status": "LIVE 2026-09-28 — 17 added pages. Pricing resolved 2026-09-28. Team names/photos remain optional follow-up; owner reaffirmed existing market claims verified 2026-10-31.",
       "estimate": "review + deploy, then content upkeep",
       "rationale": "10 pages is a small surface. Every page is a separate chance to rank, and for AI search, depth and specificity are what get you cited rather than skimmed.",
       "items": [
@@ -230,7 +249,7 @@
     {
       "id": 4,
       "name": "Visual revamp",
-      "status": "not_started",
+      "status": "on_hold_by_owner_2026-10-31",
       "estimate": "2-3 weeks; design exploration can start any time",
       "blockedBy": "Phase 0 baseline must be captured first, or the revamp is unmeasurable",
       "items": [
@@ -244,8 +263,17 @@
       "doneWhen": "Live, and GA4 shows a higher call+form conversion rate than the Phase 0 baseline"
     }
   ],
-
   "invariants": [
+    {
+      "rule": "Existing marketing claims are third-party verified for this market",
+      "detail": "Owner reaffirmed 2026-10-31: preserve existing claims and do not ask to justify them again each session. Verification report itself has not been inspected in this session; do not invent third-party names or citations.",
+      "severity": "do-not-undo"
+    },
+    {
+      "rule": "Phase 4 visual revamp is on hold",
+      "detail": "Owner 2026-10-31 authorized contact protection/reliability, framework security upgrade and targeted mobile repairs only.",
+      "severity": "scope"
+    },
     {
       "rule": "The office phone line is voice-only",
       "detail": "Never write 'call or text' anywhere on the site. (386) 301-5775 does not accept incoming SMS.",
@@ -329,7 +357,6 @@
       "severity": "do-not-undo"
     }
   ],
-
   "architecture": {
     "entryPoints": {
       "home": "app/page.js -> app/components/Main.js -> app/components/testSite.js (wrapped in Layout)",
@@ -343,7 +370,7 @@
       "app/components/Analytics.js": "GA4 + Vercel Analytics + Speed Insights + delegated click tracking",
       "app/lib/analytics.js": "track() helper and EVENTS map",
       "app/api/quote/route.js": "Server-side lead capture — validation, honeypot, IP rate limit, logging, optional webhook",
-      "app/components/ContactForm.js": "Posts to /api/quote FIRST, then attempts the EmailJS notification",
+      "app/components/ContactForm.js": "Posts exclusively to /api/quote; optional Turnstile widget; preserves input on failure. Server dispatch lives in app/lib/quote-handler.mjs.",
       "app/robots.js": "Explicitly allows AI/LLM crawlers",
       "app/sitemap.js": "Enumerates all page routes; imports the guides registry so guides self-register",
       "app/components/guides/guides.js": "Single source of truth for /guides — slug, title, description, lastReviewed, readingMinutes. Add a guide here + a page.jsx + an llms.txt line.",
@@ -385,30 +412,83 @@
       "/review (redirect route handler, not in sitemap)",
       "/reviews (redirect route handler, not in sitemap)"
     ],
-    "leadFlow": "Form -> POST /api/quote (validate, honeypot, rate limit, log '[LEAD]' as structured JSON, optional LEAD_WEBHOOK_URL) -> then EmailJS notification from the client. The lead is recorded BEFORE delivery is attempted, so a failed send no longer loses it silently. An email failure is tracked as quote_submit_failed but not shown to the visitor as a failure."
+    "leadFlow": "Form -> POST /api/quote -> bounded validation, honeypot, rate limit, optional Turnstile -> configured webhook OR server EmailJS REST. Success requires HTTP acceptance. No browser sending or full lead logs. No durable outbox; see docs/contact-delivery.md."
   },
-
   "metrics": {
     "note": "All figures measured against the live site, before and after Phase 1.",
     "beforeAfter": {
-      "heroSrcsetCandidateAt1600px": { "before": "w=640 (528x396 delivered)", "after": "w=1920 (2560x1920 AVIF)" },
-      "faqAnswersInCrawlableHtml": { "before": "0 of 20", "after": "20 of 20" },
-      "faqVisibleWords": { "before": 355, "after": 1117 },
-      "homeVisibleWords": { "before": 964, "after": 1208 },
-      "servicePageVisibleWords": { "before": "712-778", "after": "871-927" },
-      "cityPageVisibleWords": { "before": "605-633", "after": "745-800" },
-      "jsonLdBlocksInRawHtmlHome": { "before": 1, "after": 4 },
-      "businessSchemaInRawHtml": { "before": "0 blocks (JS-injected)", "after": "3 blocks on every page" },
-      "titlesOver70Chars": { "before": "7 of 10", "after": "0 of 10" },
-      "descriptionsOver160Chars": { "before": "6 of 10", "after": "0 of 10" },
-      "h1OnHome": { "before": 2, "after": 1 },
-      "headingsWithMissingWordSpaces": { "before": 6, "after": 0 },
-      "buttonsWithNoAccessibleName": { "before": 4, "after": 0 },
-      "mobileTapTargetsUnder44px": { "before": 25, "after": 0 },
-      "publicImagesSize": { "before": "85 MB", "after": "14 MB" },
-      "favicon": { "before": "147 KB JPEG named .ico", "after": "8.6 KB multi-size ICO + PNG set" },
-      "webManifest": { "before": "404", "after": "served" },
-      "eslint": { "before": "3 warnings", "after": "clean" }
+      "heroSrcsetCandidateAt1600px": {
+        "before": "w=640 (528x396 delivered)",
+        "after": "w=1920 (2560x1920 AVIF)"
+      },
+      "faqAnswersInCrawlableHtml": {
+        "before": "0 of 20",
+        "after": "20 of 20"
+      },
+      "faqVisibleWords": {
+        "before": 355,
+        "after": 1117
+      },
+      "homeVisibleWords": {
+        "before": 964,
+        "after": 1208
+      },
+      "servicePageVisibleWords": {
+        "before": "712-778",
+        "after": "871-927"
+      },
+      "cityPageVisibleWords": {
+        "before": "605-633",
+        "after": "745-800"
+      },
+      "jsonLdBlocksInRawHtmlHome": {
+        "before": 1,
+        "after": 4
+      },
+      "businessSchemaInRawHtml": {
+        "before": "0 blocks (JS-injected)",
+        "after": "3 blocks on every page"
+      },
+      "titlesOver70Chars": {
+        "before": "7 of 10",
+        "after": "0 of 10"
+      },
+      "descriptionsOver160Chars": {
+        "before": "6 of 10",
+        "after": "0 of 10"
+      },
+      "h1OnHome": {
+        "before": 2,
+        "after": 1
+      },
+      "headingsWithMissingWordSpaces": {
+        "before": 6,
+        "after": 0
+      },
+      "buttonsWithNoAccessibleName": {
+        "before": 4,
+        "after": 0
+      },
+      "mobileTapTargetsUnder44px": {
+        "before": 25,
+        "after": 0
+      },
+      "publicImagesSize": {
+        "before": "85 MB",
+        "after": "14 MB"
+      },
+      "favicon": {
+        "before": "147 KB JPEG named .ico",
+        "after": "8.6 KB multi-size ICO + PNG set"
+      },
+      "webManifest": {
+        "before": "404",
+        "after": "served"
+      },
+      "eslint": {
+        "before": "3 warnings",
+        "after": "clean"
+      }
     },
     "deliberatelyNotImproved": {
       "navContrastOnWhite": "2.65:1 — below WCAG AA. Owner decision after testing three header treatments. See invariants."
@@ -420,7 +500,6 @@
       "GA4 conversion-rate baseline (needs 7+ days of clean data)"
     ]
   },
-
   "gotchas": [
     {
       "issue": "The Claude Code Browser pane does not composite frames when hidden",
@@ -453,7 +532,6 @@
       "workaround": "taskkill //F //IM node.exe before rebuilding, and confirm the CSS hash changed."
     }
   ],
-
   "openQuestions": [
     {
       "id": "jobPhotos",
@@ -487,7 +565,7 @@
       "id": "leadDestination",
       "question": "Where should leads land — CRM, spreadsheet, or inbox?",
       "blocks": "Whether to set LEAD_WEBHOOK_URL",
-      "why": "Today leads are in Vercel runtime logs plus an EmailJS notification. Logs are not a lead pipeline."
+      "why": "Local changes use server EmailJS acceptance or a sole configured webhook; a permanent CRM destination remains optional. Logs are not a lead pipeline."
     },
     {
       "id": "contentCadence",
@@ -502,15 +580,12 @@
       "blocks": "GSC impressions/position and GA4 conversion-rate baseline rows"
     }
   ],
-
   "nextActions": [
     {
       "priority": 1,
-      "action": "Upgrade Next.js from 14.2.35 to 15.5.24+ (or 16.x) on a branch, with a Vercel preview before merging",
-      "detail": "The 14.x line is end-of-life and carries advisories fixed only in 15.5.24+ (see currentState.securityAdvisory). Expect React 19, async request APIs (headers/cookies/params), next/image and caching default changes, and eslint-config-next alignment. Rebuild, rerun the 27-page audit and a CSS selector diff against production, then merge. Owner: re-submit the sitemap in GSC and Bing now that the 17 new pages are live (owner said they would, 2026-09-28).",
-      "why": "Security. Every remaining npm audit finding in production dependencies is fixed by this and nothing else.",
-      "effort": "half a day to a day, including verification",
-      "owner": "next team"
+      "action": "Configure and verify protected server delivery and Turnstile, then deploy the reviewed Next 16 update",
+      "detail": "Local changes are not deployed. Verify EmailJS permits server sends and requires appropriate private authorization (or use a durable webhook). Add Turnstile keys, hostname allowlist and explicit enablement. Use a preview and an owner-authorized delivery test before deploying. See docs/contact-delivery.md.",
+      "owner": "engineering + business"
     },
     {
       "priority": 2,
@@ -551,7 +626,7 @@
       "why": "Multiplies conversion on the traffic Phases 2 and 3 bring in. Deliberately last.",
       "effort": "2-3 weeks",
       "owner": "next team",
-      "gate": "Do not start until the Phase 0 baseline exists."
+      "gate": "On hold by explicit owner instruction 2026-10-31. Do not start until owner resumes, even if baseline exists."
     }
   ]
 }

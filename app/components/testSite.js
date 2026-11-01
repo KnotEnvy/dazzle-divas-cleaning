@@ -330,7 +330,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
         </div>
         
-        <div className="relative z-10 container mx-auto px-6 pt-20">
+        <div className="relative z-10 container mx-auto px-4 pt-28 pb-24 sm:px-6 sm:pt-20 sm:pb-0">
           <div className="max-w-4xl">
             
             {/* Trust badges */}
@@ -338,21 +338,21 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex flex-wrap gap-4 mb-8"
+              className="grid grid-cols-2 gap-2 mb-5 sm:flex sm:flex-wrap sm:gap-4 sm:mb-8"
             >
-              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30">
-                <Shield className="w-4 h-4 text-green-400" />
-                <span className="text-white text-sm font-semibold">Licensed & Insured</span>
+              <div className="flex items-center justify-center space-x-2 bg-white/20 backdrop-blur-sm px-2 py-2 sm:px-4 rounded-full border border-white/30">
+                <Shield className="w-4 h-4 shrink-0 text-green-400" />
+                <span className="text-white text-xs sm:text-sm font-semibold">Licensed & Insured</span>
               </div>
-              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30">
-                <Award className="w-4 h-4 text-yellow-400" />
-                <span className="text-white text-sm font-semibold">Vacation Rental Experts</span>
+              <div className="flex items-center justify-center space-x-2 bg-white/20 backdrop-blur-sm px-2 py-2 sm:px-4 rounded-full border border-white/30">
+                <Award className="w-4 h-4 shrink-0 text-yellow-400" />
+                <span className="text-white text-xs sm:text-sm font-semibold">Vacation Rental Experts</span>
               </div>
-              <div className="flex items-center space-x-1 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30">
+              <div className="col-span-2 justify-self-start flex items-center space-x-1 bg-white/20 backdrop-blur-sm px-3 py-2 sm:px-4 rounded-full border border-white/30">
                 {[1,2,3,4,5].map((i) => (
                   <Star key={i} className="w-3 h-3 text-yellow-400 fill-current" />
                 ))}
-                <span className="text-white text-sm font-semibold ml-2">5.0 Stars</span>
+                <span className="text-white text-xs sm:text-sm font-semibold ml-2">5.0 Stars</span>
               </div>
             </motion.div>
 
@@ -361,9 +361,9 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="mb-8"
+              className="mb-5 sm:mb-8"
             >
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 sm:mb-6">
                 Volusia County&apos;s{' '}
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
                   #1 Vacation Rental{' '}
@@ -372,18 +372,18 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
               </h1>
               
               <div className="space-y-4">
-                <p className="text-xl md:text-2xl text-white/90 leading-relaxed max-w-3xl">
+                <p className="text-base sm:text-xl md:text-2xl text-white/90 leading-relaxed max-w-3xl">
                   <strong>Guaranteed guest-ready properties in 2-4 hours.</strong> We don&apos;t just clean - we create 5-star guest experiences that protect your reviews and increase your bookings.
                 </p>
                 
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 max-w-2xl">
-                  <div className="flex items-center space-x-4 mb-3">
-                    <div className="flex -space-x-1">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20 max-w-2xl">
+                  <div className="flex items-center space-x-2 sm:space-x-4 mb-3">
+                    <div className="flex shrink-0 -space-x-1">
                       {[1,2,3,4,5].map((i) => (
                         <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                       ))}
                     </div>
-                    <span className="text-white font-semibold">550+ Properties Cleaned a Year</span>
+                    <span className="text-white text-sm sm:text-base font-semibold">550+ Properties Cleaned a Year</span>
                   </div>
                   <p className="text-white/90 text-sm">
                     &ldquo;The only cleaning service that truly understands vacation rentals. My guest reviews improved dramatically!&rdquo; - Sarah M., Airbnb Superhost
@@ -397,11 +397,11 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 mb-8"
+              className="flex flex-col sm:flex-row gap-3 mb-5 sm:gap-4 sm:mb-8"
             >
               <button 
                 onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-                className="group bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="group bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white min-h-[48px] px-4 py-3 sm:px-8 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 Get Free Quote (24 Hours)
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
@@ -409,7 +409,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
               
               <a
                 href="tel:+13863015775"
-                className="group bg-white/20 backdrop-blur-sm border-2 border-white/30 hover:bg-white/30 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center"
+                className="group bg-white/20 backdrop-blur-sm border-2 border-white/30 hover:bg-white/30 text-white min-h-[48px] px-4 py-3 sm:px-8 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center"
               >
                 <Phone className="w-5 h-5 mr-2" />
                 Call: (386) 301-5775
@@ -442,7 +442,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
+          className="hidden sm:block absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
         >
           <div className="flex flex-col items-center space-y-2">
             <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
@@ -982,7 +982,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
       <FAQ />
 
       {/* Contact Section - Using master_divas.jpg background */}
-      <section id="contact" className="relative py-20">
+      <section id="contact" className="relative overflow-x-clip py-20">
         <div className="absolute inset-0">
           <Image
             src="/images/master_divas.jpg"
@@ -1015,33 +1015,33 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
               {/* Contact methods */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="space-y-6"
+                className="min-w-0 space-y-6"
               >
                 <h3 className="text-2xl font-bold mb-6">Get In Touch</h3>
                 
                 <a href="tel:+13863015775" className="flex items-center space-x-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300">
-                  <div className="p-3 bg-green-500 rounded-lg">
+                  <div className="shrink-0 p-3 bg-green-500 rounded-lg">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-left">
+                  <div className="min-w-0 text-left">
                     <p className="font-semibold">Call for Immediate Service</p>
-                    <p className="text-2xl font-bold">(386) 301-5775</p>
+                    <p className="text-xl sm:text-2xl font-bold">(386) 301-5775</p>
                     <p className="text-sm text-white/80">Available 7 days a week</p>
                   </div>
                 </a>
 
                 <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <div className="p-3 bg-blue-500 rounded-lg">
+                  <div className="shrink-0 p-3 bg-blue-500 rounded-lg">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-left">
+                  <div className="min-w-0 text-left">
                     <p className="font-semibold">Service Area</p>
                     <p className="text-lg font-medium">All of Volusia County</p>
                     <p className="text-sm text-white/80">Daytona Beach • Ormond Beach • New Smyrna Beach • Port Orange • Ormond-by-the-Sea • Plus More!</p>
@@ -1049,10 +1049,10 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
                 </div>
 
                 <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <div className="p-3 bg-purple-500 rounded-lg">
+                  <div className="shrink-0 p-3 bg-purple-500 rounded-lg">
                     <Clock className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-left">
+                  <div className="min-w-0 text-left">
                     <p className="font-semibold">Response Time</p>
                     <p className="text-lg font-medium">Same Day Service</p>
                     <p className="text-sm text-white/80">Emergency turnovers in 2-4 hours</p>
@@ -1062,6 +1062,7 @@ const ModernDazzleDivasWebsite = ({ lastYear }) => {
 
               {/* Quick contact form -> replaced with fully implemented form */}
               <motion.div
+                className="min-w-0"
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}

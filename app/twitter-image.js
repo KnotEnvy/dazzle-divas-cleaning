@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element -- ImageResponse (Satori) renders raw <img>; next/image is not available in this runtime. */
 // app/twitter-image.js
 // Same white + navy social-share card, served as the Twitter/X summary_large_image.
 

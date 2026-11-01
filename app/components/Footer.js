@@ -178,8 +178,8 @@ export default function Footer() {
               key={i}
               className="absolute text-diva-pink opacity-20"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${(i * 37 + 11) % 100}%`,
+                top: `${(i * 53 + 17) % 100}%`,
               }}
               animate={{
                 scale: [0.5, 1, 0.5],
@@ -187,9 +187,9 @@ export default function Footer() {
                 opacity: [0.1, 0.3, 0.1],
               }}
               transition={{
-                duration: 4 + Math.random() * 2,
+                duration: 4 + (i * 7 % 20) / 10,
                 repeat: Infinity,
-                delay: Math.random() * 2,
+                delay: (i * 3 % 20) / 10,
               }}
             >
               <Sparkles className="w-6 h-6" />
