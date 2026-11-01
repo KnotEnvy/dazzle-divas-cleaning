@@ -155,7 +155,7 @@
         {
           "task": "Record the pre-Phase-4 baseline",
           "owner": "next team",
-          "status": "PARTIAL — rank snapshot captured 2026-09-26 (0 of 12 organic, 0 of 12 map pack, because the site was not indexed). Lighthouse NOT captured: the keyless PageSpeed API has a quota of 0; needs an API key or a manual pagespeed.web.dev run. GA4 and GSC numbers pending dashboard access. Tables are in REVAMP-PLAN.md → Baseline.",
+          "status": "PARTIAL — rank snapshot 2026-09-26; Lighthouse captured 2026-11-01 (median of 3, local Lighthouse 12; mobile perf 63 home / 73 service / 83 city / 84 FAQ, desktop 95–99). GA4 and GSC numbers pending dashboard access. Tables in REVAMP-PLAN.md → Baseline.",
           "why": "Lighthouse on the four templates, GSC impressions and average position, and current rank for ~12 target terms. Without this, the Phase 4 redesign cannot be shown to have worked. Capture Lighthouse before the branch deploys if at all possible — it changes the shared header and footer on every template."
         }
       ]
@@ -499,7 +499,12 @@
       "GSC impressions and average position baseline",
       "Rank for ~12 target terms",
       "GA4 conversion-rate baseline (needs 7+ days of clean data)"
-    ]
+    ],
+    "lighthouseBaseline": {
+      "capturedAt": "2026-11-01",
+      "method": "Lighthouse 12 CLI, simulated throttling, median of 3, production",
+      "mobileLCPNote": "Home mobile LCP 6.7 s is 93% render delay on the hero paragraph (opacity-0 entrance animation waiting on hydration), not image load."
+    }
   },
   "gotchas": [
     {
@@ -598,8 +603,8 @@
     },
     {
       "priority": 3,
-      "action": "Capture Lighthouse before deploy if possible, and the GSC/GA4 rows once data lands",
-      "detail": "Get a PageSpeed Insights API key (or run pagespeed.web.dev by hand) for the 4 template URLs; rerun scratch/psi/run.sh with &key=. Pull GSC impressions/position and the GA4 60-day call+form rate ~48 h after verification.",
+      "action": "Capture the GSC/GA4 baseline rows",
+      "detail": "Lighthouse done 2026-11-01. Pull GSC impressions/average position and the GA4 60-day call+form conversion rate.",
       "why": "The rank snapshot exists; Lighthouse and the dashboard rows are the missing baseline pieces.",
       "effort": "an hour",
       "owner": "next team"

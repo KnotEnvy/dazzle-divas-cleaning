@@ -79,8 +79,8 @@ only the owner can do.
 - [x] Bing Webmaster Tools verified, sitemap submitted (owner, 26 Sep 2026)
 - [~] Record the baseline: Lighthouse on the four templates, GSC impressions and average position,
       current rank for ~12 target terms. **Do this before Phase 4 or the revamp is unmeasurable.**
-      **Partially done 26 Sep 2026** — rank snapshot captured; Lighthouse (PSI API quota), GSC and
-      GA4 still pending. See **Baseline (captured 26 Sep 2026)** at the bottom of this file.
+      **Partially done** — rank snapshot 26 Sep 2026, Lighthouse 1 Nov 2026; GSC and GA4 still
+      pending. See **Baseline (captured 26 Sep 2026)** at the bottom of this file.
 
 **On GA4's "install the Google tag" prompt:** skip it. `Analytics.js` already loads `gtag.js` and
 calls `config`. Take the Measurement ID (`G-XXXXXXXXXX`) only, then confirm via Realtime.
@@ -314,25 +314,32 @@ gated on account setup.
 The pre-revamp snapshot Phases 2–4 are measured against. Taken against the live site, before the
 `phase2-3/local-seo-and-content` branch deploys.
 
-**Lighthouse — not captured.** The keyless PageSpeed Insights API returned `429 RESOURCE_EXHAUSTED`
-(daily quota of **0** for anonymous callers) on all 8 calls and on each retry after 60 s; the
-pagespeed.web.dev UI never rendered a result in the automated browser. No numbers were estimated.
+**Lighthouse — captured 1 Nov 2026** (after the Next 16 deploy, before any Phase 4 work). Lighthouse 12
+CLI with its default simulated throttling, run from a local machine against production, **median of 3
+runs** per cell. Mobile scores swing ±10 between runs; compare medians, not single runs. CrUX field
+data is not shown (not enough traffic for a public CrUX record).
 
-| Template | Path | Strategy | Perf / A11y / BP / SEO | LCP / CLS / TBT / SI | Page weight | CrUX p75 (LCP / INP / CLS) |
-|---|---|---|---|---|---|---|
-| Home | `/` | Mobile | not captured | not captured | not captured | not captured |
-| Home | `/` | Desktop | not captured | not captured | not captured | not captured |
-| Service | `/services/vacation-rental-turnover` | Mobile | not captured | not captured | not captured | not captured |
-| Service | `/services/vacation-rental-turnover` | Desktop | not captured | not captured | not captured | not captured |
-| City | `/cleaning/ormond-beach` | Mobile | not captured | not captured | not captured | not captured |
-| City | `/cleaning/ormond-beach` | Desktop | not captured | not captured | not captured | not captured |
-| FAQ | `/faq` | Mobile | not captured | not captured | not captured | not captured |
-| FAQ | `/faq` | Desktop | not captured | not captured | not captured | not captured |
+| Template | Path | Strategy | Perf / A11y / BP / SEO | LCP / CLS / TBT / SI | Page weight |
+|---|---|---|---|---|---|
+| Home | `/` | Mobile | 63 / 98 / 79 / 100 | 6.7 s / 0 / 341 ms / 3.7 s | 643 KB |
+| Home | `/` | Desktop | 95 / 98 / 78 / 100 | 1.6 s / 0 / 3 ms / 0.6 s | 753 KB |
+| Service | `/services/vacation-rental-turnover` | Mobile | 73 / 95 / 79 / 100 | 5.6 s / 0 / 275 ms / 2.3 s | 670 KB |
+| Service | `/services/vacation-rental-turnover` | Desktop | 98 / 95 / 78 / 100 | 1.1 s / 0 / 4 ms / 0.7 s | 927 KB |
+| City | `/cleaning/ormond-beach` | Mobile | 83 / 100 / 79 / 100 | 3.8 s / 0 / 258 ms / 1.9 s | 652 KB |
+| City | `/cleaning/ormond-beach` | Desktop | 99 / 100 / 78 / 100 | 0.9 s / 0 / 3 ms / 0.6 s | 736 KB |
+| FAQ | `/faq` | Mobile | 84 / 100 / 79 / 100 | 3.8 s / 0 / 250 ms / 1.8 s | 646 KB |
+| FAQ | `/faq` | Desktop | 99 / 100 / 78 / 100 | 1.0 s / 0 / 0 ms / 0.6 s | 733 KB |
 
-To fill it: enable the PageSpeed Insights API in a Google Cloud project, create a key, and append
-`&key=…` to `runPagespeed?url=<URL>&strategy=<mobile|desktop>&category=performance&category=accessibility&category=best-practices&category=seo`
-— or run each URL at pagespeed.web.dev in an ordinary browser. Do it **before** the Phase 2–3
-branch deploys; it changes the shared header and footer on every template.
+What the numbers say:
+- **Mobile LCP is the problem, and it is not the image.** On home the LCP element is the hero
+  paragraph, and 93% of its 6.7 s is *render delay*: the hero text starts at opacity 0 and waits for
+  JavaScript to hydrate and run its entrance animation. Phase 4 should render hero text visible in the
+  server HTML and animate only decoration.
+- **Best Practices 78–79 is not the site's code.** It is Cloudflare's bot-challenge script
+  (`/cdn-cgi/challenge-platform/…`, deprecated-API warning) plus one console resource error.
+- CLS is 0 everywhere; desktop is healthy across the board.
+- Raw reports were not committed; rerun with
+  `npx lighthouse@12 <url> [--preset=desktop] --output=json` three times and take the median.
 
 **Google rank — 12 target terms.** Signed-out, `hl=en`, page 1 only. Google localised to
 **"32114, Daytona Beach, FL — From your IP address"**. No CAPTCHA was hit.
@@ -372,4 +379,4 @@ Google showed; Broom In Hand in 6.
       dashboard access.** GA4 has been live since 21 Aug 2026, so the first full 60-day window
       closes ~20 Oct 2026.
 - [ ] Search Console impressions and average position — **pending owner dashboard access.**
-- [ ] Lighthouse, all 8 cells above — needs a PSI API key or a manual pagespeed.web.dev run.
+- [x] Lighthouse, all 8 cells above — captured 1 Nov 2026 (median of 3, local Lighthouse 12).
